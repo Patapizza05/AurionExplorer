@@ -36,7 +36,8 @@ public class MainActivity extends AppCompatActivity {
 
         //if you want to update the items at a later time it is recommended to keep it in a variable
         PrimaryDrawerItem item1 = new PrimaryDrawerItem().withName("Mes Notes");
-        SecondaryDrawerItem item2 = new SecondaryDrawerItem().withName("Mon Planning");
+        PrimaryDrawerItem item2 = new PrimaryDrawerItem().withName("Mon Planning");
+        PrimaryDrawerItem item3 = new PrimaryDrawerItem().withName("Mes Absences");
 
         // Create the AccountHeader
         AccountHeader headerResult = new AccountHeaderBuilder()
@@ -63,9 +64,9 @@ public class MainActivity extends AppCompatActivity {
                 .withAccountHeader(headerResult)
                 .addDrawerItems(
                         item1,
-                        new DividerDrawerItem(),
+                        //new DividerDrawerItem(),
                         item2,
-                        new SecondaryDrawerItem().withName("Mes absences")
+                        item3
                 )
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
