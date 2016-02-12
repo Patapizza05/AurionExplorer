@@ -6,6 +6,7 @@ import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
+import com.mikepenz.materialdrawer.model.DividerDrawerItem;
 import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
@@ -25,8 +26,8 @@ public class HamburgerMenuManager {
     private String name = "Clément Duployez";
     private String id = "p58095";
 
-    private String[] titles = {"Mes Notes", "Mes Absences", "Mon Planning"};
-    private ArrayList<PrimaryDrawerItem> items = new ArrayList<>(3);
+    private String[] titles = {"Mes Notes", "Mes Absences", "Mon Planning",null,"Annuaire",null,"Fortinet"};
+    private ArrayList<IDrawerItem> items = new ArrayList<>(3);
 
     public HamburgerMenuManager(MainActivity activity) {
         this.activity = activity;
@@ -36,9 +37,14 @@ public class HamburgerMenuManager {
     }
 
     private void initDrawerItems() {
-        int size = titles.length;
-        for (int i = 0; i < size; i++) {
-            items.add(new PrimaryDrawerItem().withName(titles[i]));
+        for(String title : titles) {
+            if (title != null) {
+                items.add(new PrimaryDrawerItem().withName(title));
+            }
+            else {
+                items.add(new DividerDrawerItem());
+            }
+
         }
     }
 
@@ -70,18 +76,20 @@ public class HamburgerMenuManager {
         //create the drawer and remember the `Drawer` result object
         Drawer result = new DrawerBuilder()
                 .withActivity(this.activity)
+                .withRootView(R.id.drawer_container)
                 .withToolbar(activity.getToolbar())
                 .withTranslucentStatusBar(false)
                 .withActionBarDrawerToggle(true)
                 .withActionBarDrawerToggleAnimated(true)
                 .withAccountHeader(header)
                 .withCloseOnClick(true)
-                .addDrawerItems(items.toArray(new PrimaryDrawerItem[items.size()]))
+                .addDrawerItems(items.toArray(new IDrawerItem[items.size()]))
                 .withSelectedItemByPosition(0)
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int i, IDrawerItem item) {
                         drawer.closeDrawer();
+                        activity.openFragmentWithName(getSelectedItemTitle());
                         //Do something
                         return true;
                     }
@@ -94,6 +102,6 @@ public class HamburgerMenuManager {
     }
 
     public String getSelectedItemTitle() {
-        return this.titles[this.drawer.getCurrentSelectedPosition()];
+        return this.titles[this.drawer.getCurrentSelectedPosition()-1];
     }
 }

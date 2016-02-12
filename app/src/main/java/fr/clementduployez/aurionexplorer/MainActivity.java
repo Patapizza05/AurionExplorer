@@ -24,13 +24,14 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         container = (FrameLayout)findViewById(R.id.frame_container);
 
         this.setSupportActionBar(toolbar);
         this.hamburgerMenuManager = new HamburgerMenuManager(this);
 
-        openFragment(MarksFragment.newInstance());
+        openFragmentWithName(this.hamburgerMenuManager.getSelectedItemTitle());
     }
 
     @Override
@@ -73,4 +74,21 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public void openFragmentWithName(String selectedItemTitle) {
+        switch(selectedItemTitle) {
+            case "Mes Notes":
+                openFragment(MarksFragment.newInstance());
+                break;
+            case "Mon Planning":
+                openFragment(CalendarFragment.newInstance());
+                break;
+            case "Mes Absences":
+                openFragment(AbsencesFragment.newInstance());
+                break;
+            case "Fortinet":
+                openFragment(TestFragment.newInstance());
+            default:
+                break;
+        }
+    }
 }
