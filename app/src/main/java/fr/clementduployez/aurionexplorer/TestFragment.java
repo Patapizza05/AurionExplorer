@@ -3,6 +3,7 @@ package fr.clementduployez.aurionexplorer;
 import android.app.Fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +11,7 @@ import android.widget.TextView;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
+import org.jsoup.nodes.DataNode;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -58,19 +60,38 @@ public class TestFragment extends Fragment {
                     for (Element element : elements) {
                         map.put(element.attr("name"),element.attr("value"));
                     }
-                    map.put("username","FIXME");
-                    map.put("password","FIXME");
+                    this.elements = null;
+                    Log.i("Res1", "Done");
 
+                    map.put("username","user");
+                    map.put("password", "pass");
                     if (response.url().toString().startsWith("https://cas.isen.fr/login"))
                     {
                         Connection.Response res2 = Jsoup.connect(response.url().toString())
+                                .header("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8")
                                 .data(map)
                                 .method(Connection.Method.POST)
                                 .cookies(cookies)
                                 .execute();
                         this.response = res2;
+                        cookies.putAll(res2.cookies());
+                        Log.i("Res2", "Done");
+                        if (res2.statusCode() == 200)
+                        {
+                            Log.i("Res3","Starting");
+                            Connection.Response res3 = Jsoup.connect("https://aurion-lille.isen.fr/faces/LearnerNotationListPage.xhtml")
+                                    .header("Content-Type","application/x-www-form-urlencoded;charset=UTF-8")
+                                    .cookies(cookies)
+                                    .execute();
+
+                            this.response = res3;
+
+                            elements = res3.parse().getElementsByTag("script"); //Marks = AJAX Requests...
+                            Log.i("Res3", "Done");
+                        }
                     }
                 } catch (IOException e) {
+                    e.printStackTrace();
                 }
 
 
@@ -82,10 +103,15 @@ public class TestFragment extends Fragment {
                 log(response.url().toString());
                 log(response.statusMessage());
                 log(String.valueOf(response.statusCode()));
-                log(response.body());
-                /*for (Element element : elements) {
-                    log(element.toString());
-                }*/
+                if (elements != null)
+                    for (Element element : elements) {
+                        for(DataNode node : element.dataNodes())
+                        {
+                            log(node.getWholeData());
+                        }
+                    }
+                //log(response.body());
+
 
             }
         }.execute();
@@ -94,7 +120,10 @@ public class TestFragment extends Fragment {
     private Connection.Response connect() {
         Connection.Response result = null;
         try {
-            result = Jsoup.connect("https://aurion-lille.isen.fr").followRedirects(true).execute();
+            result = Jsoup.connect("https://aurion-lille.isen.fr")
+                    .followRedirects(true)
+                    .header("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8")
+                    .execute();
             //log(result.toString());
         } catch (IOException e) {
             e.printStackTrace();
