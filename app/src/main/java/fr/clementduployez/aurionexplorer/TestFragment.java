@@ -51,11 +51,11 @@ public class TestFragment extends Fragment {
         new AsyncTask<Void,Void,Void>() {
 
             private Connection.Response response;
-            private Elements elements;
+            /*private Elements elements;*/
 
             @Override
             protected Void doInBackground(Void... params) {
-                try {
+                /*try {
                     response = connect();
                     Map<String,String> cookies = response.cookies();
                     response = connect2(response, cookies);
@@ -63,11 +63,13 @@ public class TestFragment extends Fragment {
                     this.response = connect3(response,cookies);
                     this.elements = this.response.parse().getElementsByTag("table");
                     //this.response = annuaireConnect(cookies);
+
                 }
                 catch (Exception e) {
                     e.printStackTrace();
-                }
+                }*/
 
+                this.response = AurionBrowser.connectToPage("Mes notes");
 
 
                 return null;
