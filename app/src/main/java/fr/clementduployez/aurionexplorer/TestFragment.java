@@ -59,10 +59,8 @@ public class TestFragment extends Fragment {
                     response = connect();
                     Map<String,String> cookies = response.cookies();
                     response = connect2(response, cookies);
-                    Map<String, String> cookies2 = cookies; cookies.putAll(response.cookies());
-
-                    //cookies2.put("JSESSIONID",cookies.get("JSESSIONID"));
-                    this.response = connect3(response,cookies2);
+                    cookies.putAll(response.cookies());
+                    this.response = connect3(response,cookies);
                     this.elements = this.response.parse().getElementsByTag("table");
                     //this.response = annuaireConnect(cookies);
                 }
@@ -114,8 +112,8 @@ public class TestFragment extends Fragment {
 
         Log.i("Res1", "Done");
 
-        map.put("username", "password");
-        map.put("password", "username");
+        map.put("username", "username");
+        map.put("password", "password");
         if (response.url().toString().startsWith("https://cas.isen.fr/login"))
         {
             Connection.Response res2 = Jsoup.connect(response.url().toString())
@@ -200,14 +198,13 @@ public class TestFragment extends Fragment {
         if (res2.statusCode() == 200) {
             Log.i("Res3", "Starting");
 
-            Connection conn3 = Jsoup.connect("https://aurion-lille.isen.fr/faces/LearnerNotationListPage.xhtml") //
+            Connection conn3 = Jsoup.connect("https://aurion-lille.isen.fr/faces/MainMenuPage.xhtml") //
                     .header("Content-Type", "application/x-www-form-urlencoded;charset=UTF-8")
                     .userAgent("Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.109 Safari/537.36")
                     .referrer("https://aurion-lille.isen.fr/")
                     .cookies(cookies)
                     .data(map) //Les hidden inputs
                     .data("form:largeurDivCenter","1660")
-                    .data("largeurDivCenter", "1660")
                     .method(Connection.Method.POST);
 
             Connection.Response res3 = conn3.execute();
