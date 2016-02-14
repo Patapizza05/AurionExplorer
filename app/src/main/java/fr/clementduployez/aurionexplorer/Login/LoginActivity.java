@@ -1,4 +1,4 @@
-package fr.clementduployez.aurionexplorer;
+package fr.clementduployez.aurionexplorer.Login;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -14,6 +14,9 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+
+import fr.clementduployez.aurionexplorer.MainActivity;
+import fr.clementduployez.aurionexplorer.R;
 
 /**
  * Created by cdupl on 2/12/2016.

@@ -1,4 +1,4 @@
-package fr.clementduployez.aurionexplorer;
+package fr.clementduployez.aurionexplorer.Utils;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,6 +1,5 @@
 package fr.clementduployez.aurionexplorer;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
@@ -10,6 +9,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
+
+import fr.clementduployez.aurionexplorer.MesAbsences.AbsencesFragment;
+import fr.clementduployez.aurionexplorer.MesNotes.MarksFragment;
+import fr.clementduployez.aurionexplorer.MonPlanning.CalendarFragment;
 
 //Drawer Builder : http://android-arsenal.com/details/1/1526
 

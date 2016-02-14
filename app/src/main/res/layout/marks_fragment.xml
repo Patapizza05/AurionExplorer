@@ -1,15 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:weightSum="1">
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:id="@+id/marksFragment">
 
-    <TextView
+    <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Mes Notes \n\nNot Implemented yet"
-        android:id="@+id/textView2"
-        android:textColor="@android:color/black"
-        android:gravity="center_vertical|center_horizontal" />
-</LinearLayout>
+        android:id="@+id/swipe_refresh"
+        >
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/marksRecyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="visible"
+
+            />
+
+    </android.support.v4.widget.SwipeRefreshLayout>
+</RelativeLayout>

@@ -59,6 +59,7 @@ public class HamburgerMenuManager {
                                 .withEmail(id)
                                 .withIcon(R.drawable.user)
                 )
+                .withSelectionListEnabled(false)
                 .withSelectionListEnabledForSingleProfile(false)
                 .withOnAccountHeaderListener(new AccountHeader.OnAccountHeaderListener() {
                     @Override

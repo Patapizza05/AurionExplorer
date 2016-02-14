@@ -1,6 +1,4 @@
-package fr.clementduployez.aurionexplorer;
-
-import android.util.Log;
+package fr.clementduployez.aurionexplorer.Utils;
 
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
@@ -57,7 +55,7 @@ public class AurionBrowser {
         Map<String, String> data = JSoupUtils.getHiddenInputData(loginPageResponse);
 
         data.put(USERNAME_INPUT_NAME, "user");
-        data.put(PASSWORD_INPUT_NAME, "pass");
+        data.put(PASSWORD_INPUT_NAME, "pwd");
 
         try {
             result = Jsoup.connect(loginPageResponse.url().toString())

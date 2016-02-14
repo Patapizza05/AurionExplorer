@@ -1,4 +1,4 @@
-package fr.clementduployez.aurionexplorer;
+package fr.clementduployez.aurionexplorer.MonPlanning;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -6,7 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.Calendar;
+import fr.clementduployez.aurionexplorer.R;
 
 /**
  * Created by cdupl on 2/12/2016.

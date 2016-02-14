@@ -3,7 +3,6 @@ package fr.clementduployez.aurionexplorer;
 import android.app.Fragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.JsonReader;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,7 +12,6 @@ import android.widget.TextView;
 import org.json.JSONObject;
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
-import org.jsoup.nodes.DataNode;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
@@ -22,7 +20,8 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.regex.Pattern;
+
+import fr.clementduployez.aurionexplorer.Utils.AurionBrowser;
 
 /**
  * Created by cdupl on 2/12/2016.
@@ -114,8 +113,8 @@ public class TestFragment extends Fragment {
 
         Log.i("Res1", "Done");
 
-        map.put("username", "username");
-        map.put("password", "password");
+        map.put("username", "p58095");
+        map.put("password", "QL.cbgyX");
         if (response.url().toString().startsWith("https://cas.isen.fr/login"))
         {
             Connection.Response res2 = Jsoup.connect(response.url().toString())
