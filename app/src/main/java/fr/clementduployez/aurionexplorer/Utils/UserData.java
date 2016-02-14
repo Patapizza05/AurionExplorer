@@ -2,6 +2,7 @@ package fr.clementduployez.aurionexplorer.Utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.util.Log;
 
 import fr.clementduployez.aurionexplorer.AurionExplorerApplication;
 
@@ -13,11 +14,14 @@ public class UserData {
 
     private static final String USER_KEY = "username";
     private static final String PASSWORD_KEY = "password";
+    private static final String NAME_KEY = "name";
 
     private static String username;
     private static String password;
+    private static String name;
 
     private static boolean stayLoggedIn = false;
+
 
     public static SharedPreferences loadPreferences() {
         return AurionExplorerApplication.getContext().getSharedPreferences(SHARED_PREFERENCES_USER_DATA, Context.MODE_PRIVATE);
@@ -25,7 +29,7 @@ public class UserData {
 
     public static void saveUsername(String value) {
         if (isStayLoggedIn()) {
-            save("username",value);
+            save(USER_KEY,value);
         }
         username = value;
 
@@ -33,10 +37,17 @@ public class UserData {
 
     public static void savePassword(String value) {
         if (isStayLoggedIn()) {
-            save("password",value); //Password will be accessible to rooted phones...
+            save(PASSWORD_KEY,value); //Password will be accessible to rooted phones...
             //Encryption means we would need to store the encryption key : Can be accessed too on rooted phones.
         }
         password = value;
+    }
+
+    public static void saveName(String value) {
+        if (isStayLoggedIn()) {
+            save(NAME_KEY,value);
+        }
+        name = value;
     }
 
     public static String getUsername() {
@@ -53,6 +64,13 @@ public class UserData {
         return password;
     }
 
+    public static String getName() {
+        if (name == null) {
+            return loadName();
+        }
+        return name;
+    }
+
     private static String loadUsername() {
         username = loadPreferences().getString(USER_KEY, null);
         return username;
@@ -61,6 +79,11 @@ public class UserData {
     private static String loadPassword() {
         password = loadPreferences().getString(PASSWORD_KEY, null);
         return password;
+    }
+
+    private static String loadName() {
+        name = loadPreferences().getString(NAME_KEY, null);
+        return name;
     }
 
     public static void save(String key, String value) {
@@ -74,5 +97,14 @@ public class UserData {
 
     public static void setStayLoggedIn(boolean stayLoggedIn) {
         UserData.stayLoggedIn = stayLoggedIn;
+    }
+
+    public static void clear() {
+        save(USER_KEY,null);
+        save(PASSWORD_KEY,null);
+        save(NAME_KEY,null);
+        username = null;
+        password = null;
+        name = null;
     }
 }

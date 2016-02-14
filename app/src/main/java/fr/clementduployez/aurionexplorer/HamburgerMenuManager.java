@@ -14,6 +14,8 @@ import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 
 import java.util.ArrayList;
 
+import fr.clementduployez.aurionexplorer.Utils.UserData;
+
 /**
  * Created by cdupl on 2/12/2016.
  */
@@ -23,8 +25,8 @@ public class HamburgerMenuManager {
     private final AccountHeader header;
     private final Drawer drawer;
 
-    private String name = "Clément Duployez";
-    private String id = "p58095";
+    private String name = UserData.getName();
+    private String id = UserData.getUsername();
 
     private String[] titles = {"Mes Notes", "Mes Absences", "Mon Planning",null,"Annuaire",null,"Fortinet"};
     private ArrayList<IDrawerItem> items = new ArrayList<>(3);

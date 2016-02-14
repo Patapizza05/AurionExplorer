@@ -3,6 +3,7 @@ package fr.clementduployez.aurionexplorer;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -10,9 +11,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 
+import fr.clementduployez.aurionexplorer.Login.LoginActivity;
 import fr.clementduployez.aurionexplorer.MesAbsences.AbsencesFragment;
 import fr.clementduployez.aurionexplorer.MesNotes.MarksFragment;
 import fr.clementduployez.aurionexplorer.MonPlanning.CalendarFragment;
+import fr.clementduployez.aurionexplorer.Utils.UserData;
 
 //Drawer Builder : http://android-arsenal.com/details/1/1526
 
@@ -52,7 +55,11 @@ public class MainActivity extends AppCompatActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (id == R.id.menu_disconnect) {
+            UserData.clear();
+            Intent intent = new Intent(this, LoginActivity.class);
+            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(intent);
             return true;
         }
 

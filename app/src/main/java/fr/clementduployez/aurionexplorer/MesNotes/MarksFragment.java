@@ -58,13 +58,14 @@ public class MarksFragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
 
+        onRefresh();
+
         return rootView;
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        onRefresh();
     }
 
     public void showProgressBar() {
@@ -93,7 +94,12 @@ public class MarksFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     }
 
     public void inform(String text) {
-        Snackbar.make(rootView, text, Snackbar.LENGTH_SHORT).show();
+        try{
+            Snackbar.make(rootView, text, Snackbar.LENGTH_SHORT).show();
+        }
+        catch (NullPointerException e) {
+            //Do nothing. The app might have been closed for example.
+        }
     }
 
     public void onAsyncResult(ArrayList<MarksInfo> marksInfos) {

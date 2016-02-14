@@ -12,6 +12,7 @@
         android:layout_height="wrap_content"
         android:background="@color/colorPrimary"
         android:elevation="4dp"
+        style="@style/aurionToolbar"
         />
 
     <ImageView
@@ -23,6 +24,7 @@
         android:src="@drawable/isengroupe"/>
 
     <LinearLayout
+        android:id="@+id/loginLayout"
         android:orientation="vertical"
         android:background="@android:color/white"
         android:elevation="4dp"
@@ -31,6 +33,7 @@
         android:padding="10dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:visibility="visible"
         >
 
         <EditText
@@ -48,6 +51,7 @@
             android:hint="Mot de passe"
             android:textColor="@android:color/black"
             android:ems="10"
+            android:fontFamily="sans-serif"
             android:id="@+id/password" />
 
         <CheckBox
@@ -63,7 +67,42 @@
             android:text="Connexion"
             android:background="@color/colorPrimary"
             android:id="@+id/confirm_button"
+            android:textColor="@android:color/white"
             android:layout_gravity="right" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/loadingLayout"
+        android:orientation="vertical"
+        android:background="@android:color/white"
+        android:elevation="4dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="30dp"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:weightSum="1">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:text="#AllIsLoading"
+            android:layout_margin="10dp"
+            android:id="@+id/textView3"
+            android:textColor="@color/colorPrimary"
+            android:layout_gravity="center_horizontal" />
+
+        <ProgressBar
+            style="?android:attr/progressBarStyleLarge"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/progressBar"
+            android:layout_margin="10dp"
+            android:layout_gravity="center_horizontal" />
+
+
     </LinearLayout>
 
 </LinearLayout>
