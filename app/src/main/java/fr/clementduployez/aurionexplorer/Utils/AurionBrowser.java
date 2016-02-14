@@ -37,11 +37,19 @@ public class AurionBrowser {
         return result;
     }
 
-    private static Connection.Response login() {
-        return login(homePage());
+    public static Connection.Response login() {
+        return login(UserData.getUsername(),UserData.getPassword());
     }
 
-    private static Connection.Response login(Connection.Response loginPageResponse) {
+    public static Connection.Response login(String username, String password) {
+        return login(homePage(),username,password);
+    }
+
+    public static Connection.Response login(Connection.Response loginPageResponse) {
+        return login(loginPageResponse,UserData.getUsername(),UserData.getPassword());
+    }
+
+    private static Connection.Response login(Connection.Response loginPageResponse,String username, String password) {
         if (loginPageResponse == null) {
             return null;
         }
@@ -51,11 +59,11 @@ public class AurionBrowser {
             return null;
         }
 
-        Connection.Response result = null;
+        Connection.Response result;
         Map<String, String> data = JSoupUtils.getHiddenInputData(loginPageResponse);
 
-        data.put(USERNAME_INPUT_NAME, "user");
-        data.put(PASSWORD_INPUT_NAME, "pwd");
+        data.put(USERNAME_INPUT_NAME, username);
+        data.put(PASSWORD_INPUT_NAME, password);
 
         try {
             result = Jsoup.connect(loginPageResponse.url().toString())
@@ -86,7 +94,7 @@ public class AurionBrowser {
 
     private static Connection.Response connectToPage(String title, Connection.Response loggedInPageResponse)
     {
-        Document aurionDocument = null;
+        Document aurionDocument;
         try {
             aurionDocument = loggedInPageResponse.parse();
         } catch (IOException e) {
@@ -104,7 +112,6 @@ public class AurionBrowser {
                     .referrer(AURION_URL)
                     .cookies(AurionCookies.cookies)
                     .data(data)
-                    //.data("form:largeurDivCenter","1660")
                     .method(Connection.Method.POST)
                     .execute();
 

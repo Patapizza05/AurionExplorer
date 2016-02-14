@@ -14,30 +14,65 @@ public class UserData {
     private static final String USER_KEY = "username";
     private static final String PASSWORD_KEY = "password";
 
+    private static String username;
+    private static String password;
+
+    private static boolean stayLoggedIn = false;
+
     public static SharedPreferences loadPreferences() {
         return AurionExplorerApplication.getContext().getSharedPreferences(SHARED_PREFERENCES_USER_DATA, Context.MODE_PRIVATE);
     }
 
-    public void saveUsername(String value) {
-        save("username",value);
+    public static void saveUsername(String value) {
+        if (isStayLoggedIn()) {
+            save("username",value);
+        }
+        username = value;
+
     }
 
-    public void savePassword(String password) {
-        save("password",password); //Password will be accessible to rooted phones...
-        //Encryption means we would need to store the encryption key : Can be accessed too on rooted phones.
+    public static void savePassword(String value) {
+        if (isStayLoggedIn()) {
+            save("password",value); //Password will be accessible to rooted phones...
+            //Encryption means we would need to store the encryption key : Can be accessed too on rooted phones.
+        }
+        password = value;
     }
 
-    public static String loadUsername() {
-        return loadPreferences().getString(USER_KEY, null);
+    public static String getUsername() {
+        if (username == null) {
+            return loadUsername();
+        }
+        return username;
     }
 
-    public static String loadPassword() {
-        return loadPreferences().getString(PASSWORD_KEY, null);
+    public static String getPassword() {
+        if (password == null) {
+            return loadPassword();
+        }
+        return password;
     }
 
-    public void save(String key, String value) {
+    private static String loadUsername() {
+        username = loadPreferences().getString(USER_KEY, null);
+        return username;
+    }
+
+    private static String loadPassword() {
+        password = loadPreferences().getString(PASSWORD_KEY, null);
+        return password;
+    }
+
+    public static void save(String key, String value) {
         SharedPreferences prefs = loadPreferences();
         prefs.edit().putString(key, value).apply();
     }
 
+    public static boolean isStayLoggedIn() {
+        return stayLoggedIn;
+    }
+
+    public static void setStayLoggedIn(boolean stayLoggedIn) {
+        UserData.stayLoggedIn = stayLoggedIn;
+    }
 }

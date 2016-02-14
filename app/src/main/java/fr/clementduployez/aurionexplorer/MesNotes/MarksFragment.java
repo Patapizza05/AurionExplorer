@@ -53,7 +53,8 @@ public class MarksFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         swipeRefreshLayout.setOnRefreshListener(this);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        recyclerView.setAdapter(null);
+        adapter = new MarksAdapter(new ArrayList<MarksInfo>());
+        recyclerView.setAdapter(adapter);
 
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
 
@@ -111,6 +112,9 @@ public class MarksFragment extends Fragment implements SwipeRefreshLayout.OnRefr
                 adapter.setData(marksInfos);
                 adapter.notifyDataSetChanged();
             }
+        }
+        else {
+            onRefresh();
         }
     }
 }
