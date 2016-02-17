@@ -29,6 +29,16 @@ public class HamburgerMenuManager {
     private String id = UserData.getUsername();
 
     private String[] titles = {"Mes Notes", "Mes Absences", "Mon Planning",null,"Annuaire",null,"Fortinet"};
+    private Integer[] titlesImages =
+            {R.drawable.ic_school_red_500_18dp,
+            R.drawable.ic_alarm_off_red_500_18dp,
+            R.drawable.ic_today_red_500_18dp,
+            null,
+            R.drawable.ic_contact_phone_red_500_18dp,
+            null,
+            R.drawable.ic_wifi_lock_red_500_18dp
+    };
+
     private ArrayList<IDrawerItem> items = new ArrayList<>(3);
 
     public HamburgerMenuManager(MainActivity activity) {
@@ -39,14 +49,18 @@ public class HamburgerMenuManager {
     }
 
     private void initDrawerItems() {
-        for(String title : titles) {
-            if (title != null) {
-                items.add(new PrimaryDrawerItem().withName(title));
+        for (int i = 0; i < titles.length; i++) {
+            if (titles[i] != null) {
+                if (titlesImages[i] != null) {
+                    items.add(new PrimaryDrawerItem().withName(titles[i]).withIcon(titlesImages[i]));
+                }
+                else {
+                    items.add(new PrimaryDrawerItem().withName(titles[i]));
+                }
             }
             else {
                 items.add(new DividerDrawerItem());
             }
-
         }
     }
 

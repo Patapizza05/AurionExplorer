@@ -1,5 +1,6 @@
 package fr.clementduployez.aurionexplorer.MesNotes;
 
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,17 +21,28 @@ import fr.clementduployez.aurionexplorer.R;
  */
 public class MarksAdapter extends RecyclerView.Adapter<MarksHolder> {
 
+    private final MarksFragment marksFragment;
     private ArrayList<MarksInfo> marksInfos;
 
-    public MarksAdapter(ArrayList<MarksInfo> marksInfos) {
+    public MarksAdapter(ArrayList<MarksInfo> marksInfos, MarksFragment marksFragment) {
         setArrayList(marksInfos);
+        this.marksFragment = marksFragment;
     }
 
     private void setArrayList(ArrayList<MarksInfo> marksInfo) {
         this.marksInfos = marksInfo;
         Collections.sort(this.marksInfos, new DateComparator());
+        updateSubtitle();
         notifyDataSetChanged();
-        Log.i("MarksAdapter",""+this.marksInfos.size());
+    }
+
+    private void updateSubtitle() {
+        try {
+            ((AppCompatActivity) (this.marksFragment.getActivity())).getSupportActionBar().setSubtitle(getItemCount() + " Notes");
+        }
+        catch (NullPointerException ex) {
+            //No toolbar
+        }
     }
 
     /**

@@ -4,12 +4,13 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 
@@ -25,6 +26,9 @@ public class MarksFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     private SwipeRefreshLayout swipeRefreshLayout;
     private LoadMarksListAsync loadMarksListAsync;
     private MarksAdapter adapter;
+    private LinearLayout loadingLayout;
+
+    private boolean notLoadedYet = true;
 
     public static MarksFragment newInstance() {
         final MarksFragment marksFragment = new MarksFragment();
@@ -49,11 +53,12 @@ public class MarksFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         rootView = inflater.inflate(R.layout.marks_fragment, container, false);
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.marksRecyclerView);
+        loadingLayout = (LinearLayout) rootView.findViewById(R.id.loadingLayout);
 
         swipeRefreshLayout.setOnRefreshListener(this);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new MarksAdapter(new ArrayList<MarksInfo>());
+        adapter = new MarksAdapter(new ArrayList<MarksInfo>(), this);
         recyclerView.setAdapter(adapter);
 
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
@@ -76,9 +81,14 @@ public class MarksFragment extends Fragment implements SwipeRefreshLayout.OnRefr
                 swipeRefreshLayout.setRefreshing(true);
             }
         });
+        if (notLoadedYet) loadingLayout.setVisibility(View.VISIBLE);
     }
     public void hideProgressBar() {
         swipeRefreshLayout.setRefreshing(false);
+        if (notLoadedYet){
+            loadingLayout.setVisibility(View.GONE);
+            notLoadedYet = false;
+        }
     }
 
     @Override
@@ -111,9 +121,8 @@ public class MarksFragment extends Fragment implements SwipeRefreshLayout.OnRefr
     public void setAdapter(ArrayList<MarksInfo> marksInfos) {
         if (marksInfos != null && marksInfos.size() > 0) {
             if (adapter == null) {
-                adapter = new MarksAdapter(marksInfos);
+                adapter = new MarksAdapter(marksInfos, this);
                 recyclerView.setAdapter(adapter);
-
             }
             else {
                 adapter.setData(marksInfos);
