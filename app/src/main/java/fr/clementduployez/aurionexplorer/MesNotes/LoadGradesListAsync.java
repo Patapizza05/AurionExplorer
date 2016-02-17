@@ -10,6 +10,7 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import fr.clementduployez.aurionexplorer.Informer;
 import fr.clementduployez.aurionexplorer.Utils.AurionBrowser;
 
 /**
@@ -25,11 +26,9 @@ public class LoadGradesListAsync extends AsyncTask<String,String,ArrayList<Grade
 
     @Override
     protected ArrayList<GradesInfo> doInBackground(String... params) {
-        publishProgress("Récupération des notes...");
         Connection.Response response = AurionBrowser.connectToPage("Mes notes");
         ArrayList<GradesInfo> gradesInfos = null;
         if (response != null && response.statusCode() == 200) {
-            publishProgress("Traitement des données...");
             try {
                 gradesInfos = parseMarks(response);
             } catch (IOException e) {
@@ -65,7 +64,7 @@ public class LoadGradesListAsync extends AsyncTask<String,String,ArrayList<Grade
     @Override
     protected void onProgressUpdate(String... values) {
         super.onProgressUpdate(values);
-        this.gradesFragment.inform(values[0]);
+        Informer.inform(values[0]);
     }
 
 
@@ -73,7 +72,7 @@ public class LoadGradesListAsync extends AsyncTask<String,String,ArrayList<Grade
     @Override
     protected void onPostExecute(ArrayList<GradesInfo> gradesInfos) {
         super.onPostExecute(gradesInfos);
-        this.gradesFragment.inform("Récupération des notes terminée.");
+        Informer.inform("Récupération des notes terminée.");
         this.gradesFragment.onAsyncResult(gradesInfos);
     }
 }

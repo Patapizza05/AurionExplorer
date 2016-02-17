@@ -101,7 +101,7 @@ public class HamburgerMenuManager {
                 .withAccountHeader(header)
                 .withCloseOnClick(true)
                 .addDrawerItems(items.toArray(new IDrawerItem[items.size()]))
-                .withSelectedItemByPosition(0)
+                .withSelectedItemByPosition(3)
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int i, IDrawerItem item) {

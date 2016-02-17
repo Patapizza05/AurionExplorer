@@ -32,7 +32,7 @@ public class CalendarHolder extends RecyclerView.ViewHolder {
         this.beginHour.setText(calendarInfo.getBeginHour());
         this.endHour.setText(calendarInfo.getEndHour());
         this.lessonType.setText(calendarInfo.getLessonType());
-        this.lessonTitle.setText(calendarInfo.getLessonTitle());
+        this.lessonTitle.setText(calendarInfo.getLessonTitle() + " - " + calendarInfo.getTeacher());
         this.lessonRoom.setText(calendarInfo.getLessonRoom());
         this.lessonId.setText(calendarInfo.getLessonId());
     }

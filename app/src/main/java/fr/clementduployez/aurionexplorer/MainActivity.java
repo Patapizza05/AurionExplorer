@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
 
 import fr.clementduployez.aurionexplorer.Login.LoginActivity;
 import fr.clementduployez.aurionexplorer.MesAbsences.AbsencesFragment;
@@ -25,14 +26,19 @@ public class MainActivity extends AppCompatActivity {
     private HamburgerMenuManager hamburgerMenuManager;
     private FrameLayout container;
     private Fragment currentFragment;
+    private RelativeLayout rootView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        rootView = (RelativeLayout) findViewById(R.id.mainActivityContainer);
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         container = (FrameLayout)findViewById(R.id.frame_container);
+
+        Informer.rootView = this.rootView;
+        Informer.inform("test");
 
         this.setSupportActionBar(toolbar);
         this.hamburgerMenuManager = new HamburgerMenuManager(this);

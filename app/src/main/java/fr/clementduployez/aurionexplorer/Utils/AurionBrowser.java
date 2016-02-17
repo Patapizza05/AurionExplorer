@@ -5,7 +5,10 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.Map;
+
+import fr.clementduployez.aurionexplorer.Informer;
 
 /**
  * Created by cdupl on 2/13/2016.
@@ -21,6 +24,7 @@ public class AurionBrowser {
     public static final String PASSWORD_INPUT_NAME = "password";
 
     private static Connection.Response homePage() {
+        Informer.inform("Chargement de la page d'accueil en cours");
         Connection.Response result = null;
         try {
             result = Jsoup.connect(AURION_URL)
@@ -31,6 +35,7 @@ public class AurionBrowser {
                     .execute();
             AurionCookies.cookies.putAll(result.cookies());
         } catch (IOException e) {
+            Informer.inform("Erreur pendant le chargement de la page d'accueil");
             e.printStackTrace();
         }
 
@@ -53,6 +58,8 @@ public class AurionBrowser {
         if (loginPageResponse == null) {
             return null;
         }
+
+        Informer.inform("Identification en cours");
 
         if (!loginPageResponse.url().toString().startsWith(LOGIN_URL))
         {
@@ -78,21 +85,29 @@ public class AurionBrowser {
             return result;
         } catch (IOException e) {
             e.printStackTrace();
+            Informer.inform("Erreur pendant la phase d'identification");
         }
         return null;
     }
 
     public static Connection.Response connectToPage(String title) {
-        Connection.Response pageResponse = homePage();
-        String url = pageResponse.url().toString();
-        if (url.startsWith(LOGIN_URL))
-        {
-            return connectToPage(title,login(pageResponse));
-        }
-        return connectToPage(title,pageResponse);
+        return connectToPage(title, (HashMap<String, String>)null);
     }
 
-    private static Connection.Response connectToPage(String title, Connection.Response loggedInPageResponse)
+    public static Connection.Response connectToPage(String title, HashMap<String, String> data) {
+        Connection.Response pageResponse = homePage();
+        if (pageResponse != null) {
+            String url = pageResponse.url().toString();
+            if (url.startsWith(LOGIN_URL))
+            {
+                return connectToPage(title,login(pageResponse), data);
+            }
+            return connectToPage(title,pageResponse, data);
+        }
+        return null;
+    }
+
+    private static Connection.Response connectToPage(String title, Connection.Response loggedInPageResponse, HashMap<String, String> customData)
     {
         Document aurionDocument;
         try {
@@ -102,7 +117,13 @@ public class AurionBrowser {
             return null;
         }
 
+        Informer.inform("Connexion à la page \""+title+"\" en cours");
+
         Map<String,String> data = JSoupUtils.getHiddenInputData(loggedInPageResponse);
+        if (customData != null) {
+            data.putAll(customData);
+        }
+
         JSoupUtils.addLinkValueToData(title, aurionDocument, data);
 
         try {
@@ -119,6 +140,7 @@ public class AurionBrowser {
             return result;
         } catch (IOException e) {
             e.printStackTrace();
+            Informer.inform("Erreur pendant la connexion à la page \""+title+"\"");
         }
         return null;
     }
