@@ -29,7 +29,7 @@ public class AurionBrowser {
                     .header("Content-Type", CONTENT_TYPE)
                     .cookies(AurionCookies.cookies)
                     .execute();
-            AurionCookies.cookies = result.cookies();
+            AurionCookies.cookies.putAll(result.cookies());
         } catch (IOException e) {
             e.printStackTrace();
         }
