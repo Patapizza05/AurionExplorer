@@ -15,36 +15,36 @@ import fr.clementduployez.aurionexplorer.Utils.AurionBrowser;
 /**
  * Created by cdupl on 2/14/2016.
  */
-public class LoadMarksListAsync extends AsyncTask<String,String,ArrayList<MarksInfo>> {
+public class LoadGradesListAsync extends AsyncTask<String,String,ArrayList<GradesInfo>> {
 
-    private final MarksFragment marksFragment;
+    private final GradesFragment gradesFragment;
 
-    public LoadMarksListAsync(MarksFragment marksFragment) {
-        this.marksFragment = marksFragment;
+    public LoadGradesListAsync(GradesFragment gradesFragment) {
+        this.gradesFragment = gradesFragment;
     }
 
     @Override
-    protected ArrayList<MarksInfo> doInBackground(String... params) {
+    protected ArrayList<GradesInfo> doInBackground(String... params) {
         publishProgress("Récupération des notes...");
         Connection.Response response = AurionBrowser.connectToPage("Mes notes");
-        ArrayList<MarksInfo> marksInfos = null;
+        ArrayList<GradesInfo> gradesInfos = null;
         if (response != null && response.statusCode() == 200) {
             publishProgress("Traitement des données...");
             try {
-                marksInfos = parseMarks(response);
+                gradesInfos = parseMarks(response);
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
 
-        if (marksInfos == null) {
-            marksInfos = new ArrayList<>();
+        if (gradesInfos == null) {
+            gradesInfos = new ArrayList<>();
         }
-        return marksInfos;
+        return gradesInfos;
     }
 
-    private ArrayList<MarksInfo> parseMarks(Connection.Response response) throws IOException {
-        ArrayList<MarksInfo> marksInfos = new ArrayList<>();
+    private ArrayList<GradesInfo> parseMarks(Connection.Response response) throws IOException {
+        ArrayList<GradesInfo> gradesInfos = new ArrayList<>();
         Document document = response.parse();
         Elements tableRows = document.getElementsByTag("tr");
         for (Element tr : tableRows)
@@ -54,26 +54,26 @@ public class LoadMarksListAsync extends AsyncTask<String,String,ArrayList<MarksI
             {
                 Elements tableColumns = tr.getElementsByTag("td");
                 if (tableColumns.size() >= 6) {
-                    MarksInfo info = new MarksInfo(tableColumns.get(2).html(),tableColumns.get(1).html(),tableColumns.get(3).html(),tableColumns.get(0).html());
-                    marksInfos.add(info);
+                    GradesInfo info = new GradesInfo(tableColumns.get(2).html(),tableColumns.get(1).html(),tableColumns.get(3).html(),tableColumns.get(0).html());
+                    gradesInfos.add(info);
                 }
             }
         }
-        return marksInfos;
+        return gradesInfos;
     }
 
     @Override
     protected void onProgressUpdate(String... values) {
         super.onProgressUpdate(values);
-        this.marksFragment.inform(values[0]);
+        this.gradesFragment.inform(values[0]);
     }
 
 
 
     @Override
-    protected void onPostExecute(ArrayList<MarksInfo> marksInfos) {
-        super.onPostExecute(marksInfos);
-        this.marksFragment.inform("Récupération des notes terminée.");
-        this.marksFragment.onAsyncResult(marksInfos);
+    protected void onPostExecute(ArrayList<GradesInfo> gradesInfos) {
+        super.onPostExecute(gradesInfos);
+        this.gradesFragment.inform("Récupération des notes terminée.");
+        this.gradesFragment.onAsyncResult(gradesInfos);
     }
 }

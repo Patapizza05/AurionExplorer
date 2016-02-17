@@ -4,7 +4,6 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -19,23 +18,23 @@ import fr.clementduployez.aurionexplorer.R;
 /**
  * Created by cdupl on 2/12/2016.
  */
-public class MarksFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class GradesFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     private View rootView;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private LoadMarksListAsync loadMarksListAsync;
-    private MarksAdapter adapter;
+    private LoadGradesListAsync loadGradesListAsync;
+    private GradesAdapter adapter;
     private LinearLayout loadingLayout;
 
     private boolean notLoadedYet = true;
 
-    public static MarksFragment newInstance() {
-        final MarksFragment marksFragment = new MarksFragment();
+    public static GradesFragment newInstance() {
+        final GradesFragment gradesFragment = new GradesFragment();
         //final Bundle arguments = new Bundle();
         //arguments.putParcelable(tweetKey, tweet);
         //tweetFragment.setArguments(arguments);
-        return marksFragment;
+        return gradesFragment;
     }
 
     /*@Override
@@ -50,7 +49,7 @@ public class MarksFragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.marks_fragment, container, false);
+        rootView = inflater.inflate(R.layout.fragment_grades, container, false);
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.marksRecyclerView);
         loadingLayout = (LinearLayout) rootView.findViewById(R.id.loadingLayout);
@@ -58,7 +57,7 @@ public class MarksFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         swipeRefreshLayout.setOnRefreshListener(this);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new MarksAdapter(new ArrayList<MarksInfo>(), this);
+        adapter = new GradesAdapter(new ArrayList<GradesInfo>(), this);
         recyclerView.setAdapter(adapter);
 
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
@@ -93,9 +92,9 @@ public class MarksFragment extends Fragment implements SwipeRefreshLayout.OnRefr
 
     @Override
     public void onRefresh() {
-        if (loadMarksListAsync == null) {
-            loadMarksListAsync = new LoadMarksListAsync(this);
-            loadMarksListAsync.execute();
+        if (loadGradesListAsync == null) {
+            loadGradesListAsync = new LoadGradesListAsync(this);
+            loadGradesListAsync.execute();
             showProgressBar();
         } else {
             hideProgressBar();
@@ -112,20 +111,20 @@ public class MarksFragment extends Fragment implements SwipeRefreshLayout.OnRefr
         }
     }
 
-    public void onAsyncResult(ArrayList<MarksInfo> marksInfos) {
-        loadMarksListAsync = null;
+    public void onAsyncResult(ArrayList<GradesInfo> gradesInfos) {
+        loadGradesListAsync = null;
         hideProgressBar();
-        setAdapter(marksInfos);
+        setAdapter(gradesInfos);
     }
 
-    public void setAdapter(ArrayList<MarksInfo> marksInfos) {
-        if (marksInfos != null && marksInfos.size() > 0) {
+    public void setAdapter(ArrayList<GradesInfo> gradesInfos) {
+        if (gradesInfos != null && gradesInfos.size() > 0) {
             if (adapter == null) {
-                adapter = new MarksAdapter(marksInfos, this);
+                adapter = new GradesAdapter(gradesInfos, this);
                 recyclerView.setAdapter(adapter);
             }
             else {
-                adapter.setData(marksInfos);
+                adapter.setData(gradesInfos);
             }
         }
         else {

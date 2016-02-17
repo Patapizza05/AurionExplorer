@@ -15,9 +15,8 @@ import com.github.androflo.sectionedrecyclerviewadapter.SectionedRecyclerViewAda
 
 import java.util.ArrayList;
 
-import fr.clementduployez.aurionexplorer.MesNotes.LoadMarksListAsync;
-import fr.clementduployez.aurionexplorer.MesNotes.MarksAdapter;
-import fr.clementduployez.aurionexplorer.MesNotes.MarksInfo;
+import fr.clementduployez.aurionexplorer.MesNotes.LoadGradesListAsync;
+import fr.clementduployez.aurionexplorer.MesNotes.GradesInfo;
 import fr.clementduployez.aurionexplorer.R;
 
 /**
@@ -27,7 +26,7 @@ public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnR
     private View rootView;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
-    private LoadMarksListAsync loadMarksListAsync;
+    private LoadGradesListAsync loadGradesListAsync;
     private CalendarAdapter adapter;
     private LinearLayout loadingLayout;
 
@@ -40,7 +39,7 @@ public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.calendar_fragment, container, false);
+        rootView = inflater.inflate(R.layout.fragment_calendar, container, false);
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.calendarRecyclerView);
         loadingLayout = (LinearLayout) rootView.findViewById(R.id.loadingLayout);
@@ -58,7 +57,7 @@ public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnR
         //create an adapter
         adapter = new CalendarAdapter(testArray);
 
-        SectionedRecyclerViewAdapter mSectionedAdapter  = new    SectionedRecyclerViewAdapter(this.getActivity(),R.layout.calendar_recycler_section_item,R.id.calendar_section_title, adapter, adapter);
+        SectionedRecyclerViewAdapter mSectionedAdapter  = new    SectionedRecyclerViewAdapter(this.getActivity(),R.layout.fragment_calendar_recycler_section_item,R.id.calendar_section_title, adapter, adapter);
         mSectionedAdapter.setSections(testArray);//the list object do you use
 
         recyclerView.setAdapter(mSectionedAdapter);
@@ -92,9 +91,9 @@ public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     @Override
     public void onRefresh() {
-        /*if (loadMarksListAsync == null) {
-            loadMarksListAsync = new LoadMarksListAsync(this);
-            loadMarksListAsync.execute();
+        /*if (loadGradesListAsync == null) {
+            loadGradesListAsync = new LoadGradesListAsync(this);
+            loadGradesListAsync.execute();
             showProgressBar();
         } else {
             hideProgressBar();
@@ -111,20 +110,20 @@ public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnR
         }
     }
 
-    public void onAsyncResult(ArrayList<MarksInfo> marksInfos) {
-        loadMarksListAsync = null;
+    public void onAsyncResult(ArrayList<GradesInfo> gradesInfos) {
+        loadGradesListAsync = null;
         hideProgressBar();
-        setAdapter(marksInfos);
+        setAdapter(gradesInfos);
     }
 
-    public void setAdapter(ArrayList<MarksInfo> marksInfos) {
-        /*if (marksInfos != null && marksInfos.size() > 0) {
+    public void setAdapter(ArrayList<GradesInfo> gradesInfos) {
+        /*if (gradesInfos != null && gradesInfos.size() > 0) {
             if (adapter == null) {
-                adapter = new MarksAdapter(marksInfos, this);
+                adapter = new GradesAdapter(gradesInfos, this);
                 recyclerView.setAdapter(adapter);
             }
             else {
-                adapter.setData(marksInfos);
+                adapter.setData(gradesInfos);
             }
         }
         else {

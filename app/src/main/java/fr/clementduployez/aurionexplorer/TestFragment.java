@@ -37,7 +37,7 @@ public class TestFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.calendar_fragment, container, false);
+        rootView = inflater.inflate(R.layout.fragment_calendar, container, false);
         this.text = (TextView) rootView.findViewById(R.id.textView2);
         this.text.setText("");
         log("log");

@@ -13,7 +13,7 @@ import android.widget.FrameLayout;
 
 import fr.clementduployez.aurionexplorer.Login.LoginActivity;
 import fr.clementduployez.aurionexplorer.MesAbsences.AbsencesFragment;
-import fr.clementduployez.aurionexplorer.MesNotes.MarksFragment;
+import fr.clementduployez.aurionexplorer.MesNotes.GradesFragment;
 import fr.clementduployez.aurionexplorer.MonPlanning.CalendarFragment;
 import fr.clementduployez.aurionexplorer.Utils.UserData;
 
@@ -88,7 +88,7 @@ public class MainActivity extends AppCompatActivity {
     public void openFragmentWithName(String selectedItemTitle) {
         switch(selectedItemTitle) {
             case "Mes Notes":
-                openFragment(MarksFragment.newInstance());
+                openFragment(GradesFragment.newInstance());
                 break;
             case "Mon Planning":
                 openFragment(CalendarFragment.newInstance());

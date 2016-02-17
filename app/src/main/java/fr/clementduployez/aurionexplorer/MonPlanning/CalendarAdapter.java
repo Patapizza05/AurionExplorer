@@ -24,7 +24,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarHolder> implem
 
     @Override
     public CalendarHolder onCreateViewHolder(ViewGroup parent, int i) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.calendar_recycler_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_calendar_recycler_item, parent, false);
         return new CalendarHolder(view);
     }
 
