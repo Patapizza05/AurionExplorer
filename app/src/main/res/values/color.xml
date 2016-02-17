@@ -2,6 +2,7 @@
 <resources>
     <color name="primary">@android:color/white</color>
     <color name="colorPrimary">#F44336</color>
+    <color name="lightRed">#FFCDD2</color>
     <color name="textColorPrimary">@android:color/white</color>
     <color name="colorPrimaryDark">#D32F2F</color>
 

@@ -3,6 +3,7 @@ package fr.clementduployez.aurionexplorer.MonPlanning;
 import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,16 +12,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.fourmob.datetimepicker.date.DatePickerDialog;
 import com.github.androflo.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
+import fr.clementduployez.aurionexplorer.Informer;
 import fr.clementduployez.aurionexplorer.R;
-
+import android.support.v4.app.FragmentManager;
 /**
  * Created by cdupl on 2/12/2016.
  */
-public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
+public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, DatePickerDialog.OnDateSetListener {
     private View rootView;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -61,13 +65,20 @@ public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnR
 
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
 
-        onRefresh();
+        //onRefresh();
+
+        final Calendar calendar = Calendar.getInstance();
+        final DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), false);
+        datePickerDialog.setVibrate(false);
+        datePickerDialog.setYearRange(2000, 2030);
+        datePickerDialog.setCloseOnSingleTapDay(false);
+        datePickerDialog.show(((AppCompatActivity)getActivity()).getSupportFragmentManager(), "datepicker");
 
         return rootView;
     }
 
     public void showProgressBar() {
-        //Needs a runnable to be able to display the progress bar (in case the user launched the refreshTweets via the menu settings
+        //Needs a runnable to be able to display the progress bar (tin case the user launched the refreshTweets via the menu settings
         swipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
@@ -109,6 +120,11 @@ public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnR
         mSectionedAdapter.setSections(calendarData);
         mAdapter.notifyDataSetChanged();
         mSectionedAdapter.notifyDataSetChanged();
+    }
+
+    @Override
+    public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
+        Informer.inform("new date:" + year + "-" + month + "-" + day);
     }
 }
 
