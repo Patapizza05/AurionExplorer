@@ -43,8 +43,12 @@ public class LoadCalendarListAsync  extends AsyncTask<String,String,ArrayList<Ca
         try {
             this.beginDate = f.parse(beginDate);
             this.endDate = f.parse(endDate);
-            Log.i("debut",dateFormat.format(this.beginDate));
-            Log.i("current",currentDateFormat.format(this.beginDate));
+            if (this.beginDate.compareTo(this.endDate)>0)
+            { //beginDate is after endDate
+                Date swap = this.endDate;
+                this.endDate = this.beginDate;
+                this.beginDate = swap;
+            }
         } catch (ParseException e) {
             e.printStackTrace();
             Informer.inform("Les dates fournies sont non valides");

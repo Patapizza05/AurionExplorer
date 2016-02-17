@@ -10,13 +10,16 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.LinearLayout;
 
 import com.fourmob.datetimepicker.date.DatePickerDialog;
 import com.github.androflo.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import fr.clementduployez.aurionexplorer.Informer;
 import fr.clementduployez.aurionexplorer.R;
@@ -24,7 +27,7 @@ import android.support.v4.app.FragmentManager;
 /**
  * Created by cdupl on 2/12/2016.
  */
-public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, DatePickerDialog.OnDateSetListener {
+public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, DatePickerDialog.OnDateSetListener, View.OnClickListener {
     private View rootView;
     private RecyclerView recyclerView;
     private SwipeRefreshLayout swipeRefreshLayout;
@@ -34,6 +37,13 @@ public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     private boolean notLoadedYet = true;
     private SectionedRecyclerViewAdapter mSectionedAdapter;
+    private Button confirmDateButton;
+    private Button beginDateButton;
+    private Button endDateButton;
+    private DatePickerDialog datePickerDialog = initDatePicker();
+    private SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+
+    private Button currentDateButton;
 
     public static CalendarFragment newInstance() {
         final CalendarFragment calendarFragment= new CalendarFragment();
@@ -46,8 +56,20 @@ public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnR
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.calendarRecyclerView);
         loadingLayout = (LinearLayout) rootView.findViewById(R.id.loadingLayout);
+        beginDateButton = (Button) rootView.findViewById(R.id.fragment_calendar_begin_date_button);
+        endDateButton = (Button) rootView.findViewById(R.id.fragment_calendar_end_date_button);
+        confirmDateButton = (Button) rootView.findViewById(R.id.fragment_calendar_confirm_date_button);
+
+        final Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy");
+        beginDateButton.setText(date.format(calendar.getTime()));
+        calendar.add(Calendar.DATE, 6);
+        endDateButton.setText(date.format(calendar.getTime()));
 
         swipeRefreshLayout.setOnRefreshListener(this);
+        beginDateButton.setOnClickListener(this);
+        endDateButton.setOnClickListener(this);
+        confirmDateButton.setOnClickListener(this);
         ((AppCompatActivity) (this.getActivity())).getSupportActionBar().setSubtitle(null);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -67,14 +89,16 @@ public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnR
 
         //onRefresh();
 
-        final Calendar calendar = Calendar.getInstance();
-        final DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), false);
-        datePickerDialog.setVibrate(false);
-        datePickerDialog.setYearRange(2000, 2030);
-        datePickerDialog.setCloseOnSingleTapDay(false);
-        datePickerDialog.show(((AppCompatActivity)getActivity()).getSupportFragmentManager(), "datepicker");
-
         return rootView;
+    }
+
+    public DatePickerDialog initDatePicker() {
+        final Calendar calendar = Calendar.getInstance();
+        DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(this, calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH), false);
+        datePickerDialog.setVibrate(false);
+        datePickerDialog.setYearRange(calendar.get(Calendar.YEAR) - 1, calendar.get(Calendar.YEAR) + 5);
+        datePickerDialog.setCloseOnSingleTapDay(false);
+        return datePickerDialog;
     }
 
     public void showProgressBar() {
@@ -100,7 +124,7 @@ public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnR
     @Override
     public void onRefresh() {
         if (loadCalendarAsync == null) {
-            loadCalendarAsync = new LoadCalendarListAsync(this,"22/02/2016","29/02/2016");
+            loadCalendarAsync = new LoadCalendarListAsync(this,this.beginDateButton.getText().toString(),this.endDateButton.getText().toString());
             loadCalendarAsync.execute();
             showProgressBar();
         } else {
@@ -124,7 +148,37 @@ public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     @Override
     public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
-        Informer.inform("new date:" + year + "-" + month + "-" + day);
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR,year);
+        calendar.set(Calendar.MONTH,month);
+        calendar.set(Calendar.DAY_OF_MONTH,day);
+        this.currentDateButton.setText(sdf.format(calendar.getTime()));
+    }
+
+
+
+    private void showDatePicker() {
+        datePickerDialog.show(((AppCompatActivity) getActivity()).getSupportFragmentManager(), "datepicker");
+    }
+
+    @Override
+    public void onClick(View v) {
+            if (v.equals(beginDateButton))
+            {
+                this.currentDateButton = beginDateButton;
+                showDatePicker();
+            }
+            else if (v.equals(endDateButton))
+            {
+                this.currentDateButton = endDateButton;
+                showDatePicker();
+            }
+            else if (v.equals(confirmDateButton))
+            {
+                onRefresh();
+            }
+
     }
 }
 
