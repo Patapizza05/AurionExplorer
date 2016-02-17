@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
+import fr.clementduployez.aurionexplorer.Annuaire.Staff.StaffDirectoryFragment;
 import fr.clementduployez.aurionexplorer.Login.LoginActivity;
 import fr.clementduployez.aurionexplorer.MesAbsences.AbsencesFragment;
 import fr.clementduployez.aurionexplorer.MesNotes.GradesFragment;
@@ -102,8 +103,8 @@ public class MainActivity extends AppCompatActivity {
             case "Mes Absences":
                 openFragment(AbsencesFragment.newInstance());
                 break;
-            case "Fortinet":
-                openFragment(TestFragment.newInstance());
+            case "Annuaire du Staff":
+                openFragment(StaffDirectoryFragment.newInstance());
             default:
                 break;
         }

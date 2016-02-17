@@ -80,7 +80,7 @@ public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnR
         testArray.add(new CalendarInfo("mar. 23/2","13:30","15:15","Cours","Module d'ouverture GRH","B802","M1"));
         testArray.add(new CalendarInfo("mer. 24/2","13:30","15:15","Cours","Module de Network Programming","B802","M1"));*/
 
-        mAdapter = new CalendarAdapter(emptyArray);
+        mAdapter = new CalendarAdapter(emptyArray,this);
         mSectionedAdapter  = new SectionedRecyclerViewAdapter(this.getActivity(),R.layout.fragment_calendar_recycler_section_item,R.id.calendar_section_title, mAdapter, mAdapter);
         mSectionedAdapter.setSections(emptyArray);
         recyclerView.setAdapter(mSectionedAdapter);

@@ -23,7 +23,7 @@ public class AurionBrowser {
     public static final String USERNAME_INPUT_NAME = "username";
     public static final String PASSWORD_INPUT_NAME = "password";
 
-    private static Connection.Response homePage() {
+    protected static Connection.Response homePage() {
         Informer.inform("Chargement de la page d'accueil en cours");
         Connection.Response result = null;
         try {
