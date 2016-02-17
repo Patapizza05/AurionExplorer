@@ -1,11 +1,17 @@
 package fr.clementduployez.aurionexplorer.MesNotes;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 import fr.clementduployez.aurionexplorer.R;
 
@@ -17,7 +23,14 @@ public class MarksAdapter extends RecyclerView.Adapter<MarksHolder> {
     private ArrayList<MarksInfo> marksInfos;
 
     public MarksAdapter(ArrayList<MarksInfo> marksInfos) {
-        this.marksInfos = marksInfos;
+        setArrayList(marksInfos);
+    }
+
+    private void setArrayList(ArrayList<MarksInfo> marksInfo) {
+        this.marksInfos = marksInfo;
+        Collections.sort(this.marksInfos, new DateComparator());
+        notifyDataSetChanged();
+        Log.i("MarksAdapter",""+this.marksInfos.size());
     }
 
     /**
@@ -43,6 +56,6 @@ public class MarksAdapter extends RecyclerView.Adapter<MarksHolder> {
     }
 
     public void setData(ArrayList<MarksInfo> data) {
-        this.marksInfos = data;
+        setArrayList(data);
     }
 }

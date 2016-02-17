@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
         this.hamburgerMenuManager = new HamburgerMenuManager(this);
 
         openFragmentWithName(this.hamburgerMenuManager.getSelectedItemTitle());
+
     }
 
     @Override

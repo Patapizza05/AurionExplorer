@@ -113,10 +113,10 @@ public class MarksFragment extends Fragment implements SwipeRefreshLayout.OnRefr
             if (adapter == null) {
                 adapter = new MarksAdapter(marksInfos);
                 recyclerView.setAdapter(adapter);
+
             }
             else {
                 adapter.setData(marksInfos);
-                adapter.notifyDataSetChanged();
             }
         }
         else {

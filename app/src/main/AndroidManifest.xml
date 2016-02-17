@@ -13,6 +13,7 @@
 
         <activity
             android:name=".Login.LoginActivity"
+            android:noHistory="true"
             android:label="Aurion Explorer" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
