@@ -61,4 +61,8 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarHolder> implem
     public String getSectionTitle(CalendarInfo s) {
         return s.getDay();
     }
+
+    public ArrayList<CalendarInfo> getData() {
+        return data;
+    }
 }

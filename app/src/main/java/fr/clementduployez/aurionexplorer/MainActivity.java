@@ -29,6 +29,11 @@ public class MainActivity extends AppCompatActivity {
     private Fragment currentFragment;
     private RelativeLayout rootView;
 
+    private GradesFragment mGradesFragment;
+    private CalendarFragment mCalendarFragment;
+    private StaffDirectoryFragment mStaffDirectoryFragment;
+    private AbsencesFragment mNotImplementedFragment;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,7 +44,6 @@ public class MainActivity extends AppCompatActivity {
         container = (FrameLayout)findViewById(R.id.frame_container);
 
         Informer.rootView = this.rootView;
-        Informer.inform("test");
 
         this.setSupportActionBar(toolbar);
         this.hamburgerMenuManager = new HamburgerMenuManager(this);
@@ -79,6 +83,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void openFragment(Fragment fragment) {
+        if (this.currentFragment == fragment) {
+            return;
+        }
+
         FragmentManager manager = getFragmentManager();
         FragmentTransaction transaction = manager.beginTransaction();
         if (fragment != null) {
@@ -95,17 +103,27 @@ public class MainActivity extends AppCompatActivity {
     public void openFragmentWithName(String selectedItemTitle) {
         switch(selectedItemTitle) {
             case "Mes Notes":
-                openFragment(GradesFragment.newInstance());
+                if (mGradesFragment == null) {
+                    mGradesFragment = GradesFragment.newInstance();
+                }
+                openFragment(mGradesFragment);
                 break;
             case "Mon Planning":
-                openFragment(CalendarFragment.newInstance());
-                break;
-            case "Mes Absences":
-                openFragment(AbsencesFragment.newInstance());
+                if (mCalendarFragment == null) {
+                    mCalendarFragment = CalendarFragment.newInstance();
+                }
+                openFragment(mCalendarFragment);
                 break;
             case "Annuaire du Staff":
-                openFragment(StaffDirectoryFragment.newInstance());
+                if (mStaffDirectoryFragment == null) {
+                    mStaffDirectoryFragment = StaffDirectoryFragment.newInstance();
+                }
+                openFragment(mStaffDirectoryFragment);
             default:
+                if (mNotImplementedFragment == null) {
+                    mNotImplementedFragment = AbsencesFragment.newInstance();
+                }
+                openFragment(mNotImplementedFragment);
                 break;
         }
     }

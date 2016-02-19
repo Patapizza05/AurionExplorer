@@ -7,6 +7,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -51,6 +52,7 @@ public class GradesFragment extends Fragment implements SwipeRefreshLayout.OnRef
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_grades, container, false);
+
         swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.marksRecyclerView);
         loadingLayout = (LinearLayout) rootView.findViewById(R.id.loadingLayout);
@@ -59,19 +61,18 @@ public class GradesFragment extends Fragment implements SwipeRefreshLayout.OnRef
         swipeRefreshLayout.setOnRefreshListener(this);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        adapter = new GradesAdapter(new ArrayList<GradesInfo>(), this);
+        if (adapter == null) {
+            adapter = new GradesAdapter(new ArrayList<GradesInfo>(), this);
+        }
         recyclerView.setAdapter(adapter);
 
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
 
-        onRefresh();
+        if (adapter.getItemCount() == 0) {
+            onRefresh();
+        }
 
         return rootView;
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
     }
 
     public void showProgressBar() {

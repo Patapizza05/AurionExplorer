@@ -80,14 +80,18 @@ public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnR
         testArray.add(new CalendarInfo("mar. 23/2","13:30","15:15","Cours","Module d'ouverture GRH","B802","M1"));
         testArray.add(new CalendarInfo("mer. 24/2","13:30","15:15","Cours","Module de Network Programming","B802","M1"));*/
 
-        mAdapter = new CalendarAdapter(emptyArray,this);
-        mSectionedAdapter  = new SectionedRecyclerViewAdapter(this.getActivity(),R.layout.fragment_calendar_recycler_section_item,R.id.calendar_section_title, mAdapter, mAdapter);
-        mSectionedAdapter.setSections(emptyArray);
-        recyclerView.setAdapter(mSectionedAdapter);
+        if (mAdapter == null || mSectionedAdapter == null || mAdapter.getItemCount() == 0) {
+            mAdapter = new CalendarAdapter(emptyArray,this);
+            mSectionedAdapter  = new SectionedRecyclerViewAdapter(this.getActivity(),R.layout.fragment_calendar_recycler_section_item,R.id.calendar_section_title, mAdapter, mAdapter);
+            mSectionedAdapter.setSections(emptyArray);
+            recyclerView.setAdapter(mSectionedAdapter);
+        }
+        else {
+            mSectionedAdapter.setSections(mAdapter.getData());
+            recyclerView.setAdapter(mSectionedAdapter);
+        }
 
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
-
-        //onRefresh();
 
         return rootView;
     }

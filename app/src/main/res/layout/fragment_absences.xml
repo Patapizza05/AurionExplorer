@@ -8,7 +8,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Mes Absences \n\nNot Implemented yet"
+        android:text="Pas encore implémenté.\n\nNos ingénieurs sont sur le coup!\n\n#AllIsErreur404"
         android:id="@+id/textView2"
         android:textColor="@android:color/black"
         android:gravity="center_vertical|center_horizontal" />
