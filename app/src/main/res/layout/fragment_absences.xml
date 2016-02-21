@@ -1,15 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_gravity="center_vertical"
     android:layout_height="match_parent"
+    android:background="@color/white"
     android:weightSum="1">
 
     <TextView
+        android:layout_margin="30dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="Pas encore implémenté.\n\nNos ingénieurs sont sur le coup!\n\n#AllIsErreur404"
+        android:text="Pas encore implémenté.\n\nNos ingénieurs sont sur le coup !"
         android:id="@+id/textView2"
         android:textColor="@android:color/black"
-        android:gravity="center_vertical|center_horizontal" />
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_gravity="center" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageView2"
+        android:layout_gravity="center"
+        android:src="@drawable/error" />
+
+    <TextView
+        android:layout_margin="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="#AllIsErreur404"
+        android:id="@+id/textView3"
+        android:textColor="@color/colorPrimary"
+        android:gravity="center_vertical|center_horizontal"
+        android:layout_gravity="center" />
 </LinearLayout>

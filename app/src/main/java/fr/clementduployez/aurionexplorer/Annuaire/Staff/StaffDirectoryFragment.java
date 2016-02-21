@@ -56,11 +56,14 @@ public class StaffDirectoryFragment extends Fragment implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        searchStaffAsync = new SearchStaffAsync(this,lastName.getText().toString(), this.firstName.getText().toString(), this.code.getText().toString());
-        searchStaffAsync.execute();
+        if (searchStaffAsync == null) {
+            searchStaffAsync = new SearchStaffAsync(this,lastName.getText().toString(), this.firstName.getText().toString(), this.code.getText().toString());
+            searchStaffAsync.execute();
+        }
     }
 
     public void onAsyncResult(ArrayList<StaffInfo> staffData) {
+        searchStaffAsync = null;
         if (staffData != null) {
             mAdapter.setData(staffData);
         }

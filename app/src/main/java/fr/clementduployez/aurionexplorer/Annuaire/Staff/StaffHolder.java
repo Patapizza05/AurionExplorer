@@ -32,6 +32,7 @@ public class StaffHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(StaffInfo staffInfo) {
+
         title.setText(staffInfo.getName());
         code.setText(staffInfo.getCode());
         email.setText(staffInfo.getEmail());

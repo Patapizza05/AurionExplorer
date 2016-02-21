@@ -16,9 +16,11 @@ import fr.clementduployez.aurionexplorer.R;
 public class StaffAdapter extends RecyclerView.Adapter<StaffHolder> {
 
     private ArrayList<StaffInfo> staffData;
+    private StaffDirectoryFragment staffDirectoryFragment;
 
     public StaffAdapter(ArrayList<StaffInfo> staffInfoArrayList, StaffDirectoryFragment staffDirectoryFragment) {
         this.staffData = staffInfoArrayList;
+        this.staffDirectoryFragment = staffDirectoryFragment;
     }
 
     @Override
