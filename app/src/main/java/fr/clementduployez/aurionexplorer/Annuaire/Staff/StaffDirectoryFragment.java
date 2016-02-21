@@ -39,7 +39,7 @@ public class StaffDirectoryFragment extends Fragment {
         }
 
         recyclerView.setAdapter(mAdapter);
-        ((AppCompatActivity) (this.getActivity())).getSupportActionBar().setSubtitle(mAdapter.getItemCount() - 1 + " Résultats");
+        mAdapter.updateSubtitle();
 
         return rootView;
     }

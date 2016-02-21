@@ -1,5 +1,6 @@
 package fr.clementduployez.aurionexplorer.Annuaire.Staff;
 
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -70,5 +71,26 @@ public class StaffAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private boolean isPositionHeader(int position)
     {
         return position == 0;
+    }
+
+    public void updateSubtitle() {
+        int size = getItemCount();
+        if (size > 1) {
+            try {
+                ((AppCompatActivity) (this.staffDirectoryFragment.getActivity())).getSupportActionBar().setSubtitle(size - 1 + " Résultats");
+            }
+            catch (NullPointerException ex) {
+                //No Toolbar
+            }
+        }
+        else {
+            try {
+                ((AppCompatActivity) (this.staffDirectoryFragment.getActivity())).getSupportActionBar().setSubtitle(size - 1 + " Résultat");
+            }
+            catch (NullPointerException ex) {
+                //No Toolbar
+            }
+        }
+
     }
 }

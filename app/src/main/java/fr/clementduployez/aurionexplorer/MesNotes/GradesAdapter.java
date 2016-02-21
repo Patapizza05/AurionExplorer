@@ -31,12 +31,23 @@ public class GradesAdapter extends RecyclerView.Adapter<GradesHolder> {
         notifyDataSetChanged();
     }
 
-    private void updateSubtitle() {
-        try {
-            ((AppCompatActivity) (this.gradesFragment.getActivity())).getSupportActionBar().setSubtitle(getItemCount() + " Notes");
+    public void updateSubtitle() {
+        int size = getItemCount();
+        if (size > 1) {
+            try {
+                ((AppCompatActivity) (this.gradesFragment.getActivity())).getSupportActionBar().setSubtitle(getItemCount() + " Notes");
+            }
+            catch (NullPointerException ex) {
+                //No toolbar
+            }
         }
-        catch (NullPointerException ex) {
-            //No toolbar
+        else {
+            try {
+                ((AppCompatActivity) (this.gradesFragment.getActivity())).getSupportActionBar().setSubtitle(size + " Note");
+            }
+            catch (NullPointerException ex) {
+                //No toolbar
+            }
         }
     }
 

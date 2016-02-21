@@ -57,7 +57,6 @@ public class GradesFragment extends Fragment implements SwipeRefreshLayout.OnRef
         recyclerView = (RecyclerView) rootView.findViewById(R.id.marksRecyclerView);
         loadingLayout = (LinearLayout) rootView.findViewById(R.id.loadingLayout);
 
-        ((AppCompatActivity) (this.getActivity())).getSupportActionBar().setSubtitle(null);
         swipeRefreshLayout.setOnRefreshListener(this);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -65,6 +64,7 @@ public class GradesFragment extends Fragment implements SwipeRefreshLayout.OnRef
             adapter = new GradesAdapter(new ArrayList<GradesInfo>(), this);
         }
         recyclerView.setAdapter(adapter);
+        adapter.updateSubtitle();
 
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
 

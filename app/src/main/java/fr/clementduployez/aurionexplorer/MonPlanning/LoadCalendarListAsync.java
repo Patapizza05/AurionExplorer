@@ -99,10 +99,6 @@ public class LoadCalendarListAsync  extends AsyncTask<String,String,ArrayList<Ca
         customData.put("form:largeurDivCenter","1600");
         data.putAll(customData);
 
-        for (String key : data.keySet()) {
-            Log.i(key,data.get(key));
-        }
-
         try {
             Connection.Response result = Jsoup.connect("https://aurion-lille.isen.fr/faces/Planning.xhtml") //
                     .header("Content-Type", AurionBrowser.CONTENT_TYPE)

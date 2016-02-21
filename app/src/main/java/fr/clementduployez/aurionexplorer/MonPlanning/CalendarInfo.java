@@ -31,7 +31,7 @@ public class CalendarInfo {
         /*
         Sentence : 17:30 - 19:15 - Cours - - Module d'Ouverture Nature of Sound - M1 - VAN HALTEREN - B305
          */
-        this.day = date;
+        this.day = date.substring(0, 1).toUpperCase() + date.substring(1);
 
         String words[] = sentence.split("-");
         this.beginHour = words[0].trim();

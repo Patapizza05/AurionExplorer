@@ -70,7 +70,6 @@ public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnR
         beginDateButton.setOnClickListener(this);
         endDateButton.setOnClickListener(this);
         confirmDateButton.setOnClickListener(this);
-        ((AppCompatActivity) (this.getActivity())).getSupportActionBar().setSubtitle(null);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
@@ -90,6 +89,8 @@ public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnR
             mSectionedAdapter.setSections(mAdapter.getData());
             recyclerView.setAdapter(mSectionedAdapter);
         }
+
+        mAdapter.updateSubtitle();
 
         swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
 

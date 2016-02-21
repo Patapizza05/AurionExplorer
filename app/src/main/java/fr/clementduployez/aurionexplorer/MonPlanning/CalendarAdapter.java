@@ -48,13 +48,25 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarHolder> implem
         this.notifyDataSetChanged();
     }
 
-    private void updateSubtitle() {
-        try {
-            ((AppCompatActivity) (this.calendarFragment.getActivity())).getSupportActionBar().setSubtitle(getItemCount() + " Évènements");
+    public void updateSubtitle() {
+        int size = getItemCount();
+        if (size > 1) {
+            try {
+                ((AppCompatActivity) (this.calendarFragment.getActivity())).getSupportActionBar().setSubtitle(size + " Évènements");
+            }
+            catch (NullPointerException ex) {
+                //No toolbar
+            }
         }
-        catch (NullPointerException ex) {
-            //No toolbar
+        else {
+            try {
+                ((AppCompatActivity) (this.calendarFragment.getActivity())).getSupportActionBar().setSubtitle(size + " Évènement");
+            }
+            catch (NullPointerException ex) {
+
+            }
         }
+
     }
 
     @Override
