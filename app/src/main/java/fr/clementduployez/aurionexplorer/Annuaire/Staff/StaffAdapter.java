@@ -13,7 +13,10 @@ import fr.clementduployez.aurionexplorer.R;
 /**
  * Created by cdupl on 2/17/2016.
  */
-public class StaffAdapter extends RecyclerView.Adapter<StaffHolder> {
+public class StaffAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+    private static final int TYPE_HEADER = 0;
+    private static final int TYPE_ITEM = 1;
 
     private ArrayList<StaffInfo> staffData;
     private StaffDirectoryFragment staffDirectoryFragment;
@@ -24,14 +27,26 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffHolder> {
     }
 
     @Override
-    public StaffHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_directory_staff_recycler_item, parent, false);
-        return new StaffHolder(view);
+    public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        if (viewType == TYPE_HEADER) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_directory_staff_form, parent, false);
+            return new StaffHeader(view,this.staffDirectoryFragment);
+        }
+        else {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_directory_staff_recycler_item, parent, false);
+            return new StaffHolder(view);
+        }
     }
 
     @Override
-    public void onBindViewHolder(StaffHolder holder, int position) {
-        holder.bind(this.staffData.get(position));
+    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+        if (holder instanceof StaffHeader)
+        {
+            ((StaffHeader)holder).bind();
+        }
+        else {
+            ((StaffHolder)holder).bind(this.staffData.get(position-1));
+        }
     }
 
     public void setData(ArrayList<StaffInfo> staffInfoArrayList) {
@@ -41,6 +56,19 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffHolder> {
 
     @Override
     public int getItemCount() {
-        return this.staffData.size();
+        return this.staffData.size()+1;
+    }
+
+    //    need to override this method
+    @Override
+    public int getItemViewType(int position) {
+        if(isPositionHeader(position))
+            return TYPE_HEADER;
+        return TYPE_ITEM;
+    }
+
+    private boolean isPositionHeader(int position)
+    {
+        return position == 0;
     }
 }

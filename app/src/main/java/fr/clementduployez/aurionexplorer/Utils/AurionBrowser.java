@@ -28,6 +28,7 @@ public class AurionBrowser {
         Connection.Response result = null;
         try {
             result = Jsoup.connect(AURION_URL)
+                    .timeout(Settings.CONNECTION_TIMEOUT)
                     .userAgent(USER_AGENT)
                     .followRedirects(true)
                     .header("Content-Type", CONTENT_TYPE)
@@ -75,7 +76,7 @@ public class AurionBrowser {
         try {
             result = Jsoup.connect(loginPageResponse.url().toString())
                     .header("Content-Type", CONTENT_TYPE)
-                    .timeout(10000)
+                    .timeout(Settings.CONNECTION_TIMEOUT)
                     .userAgent(USER_AGENT)
                     .data(data)
                     .method(Connection.Method.POST)
@@ -128,8 +129,9 @@ public class AurionBrowser {
         JSoupUtils.addLinkValueToData(title, aurionDocument, data);
 
         try {
-            Connection.Response result = Jsoup.connect(MAIN_MENU_PAGE_URL) //
+            Connection.Response result = Jsoup.connect(MAIN_MENU_PAGE_URL)
                     .header("Content-Type", CONTENT_TYPE)
+                    .timeout(Settings.CONNECTION_TIMEOUT)
                     .userAgent(USER_AGENT)
                     .referrer(AURION_URL)
                     .cookies(AurionCookies.cookies)

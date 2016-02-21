@@ -11,7 +11,7 @@
 
         />
 
-    <com.bartoszlipinski.recyclerviewheader.RecyclerViewHeader
+    <!--<com.bartoszlipinski.recyclerviewheader.RecyclerViewHeader
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -68,7 +68,7 @@
                 android:layout_gravity="right" />
         </LinearLayout>
 
-    </com.bartoszlipinski.recyclerviewheader.RecyclerViewHeader>
+    </com.bartoszlipinski.recyclerviewheader.RecyclerViewHeader>-->
 
 
 </FrameLayout>

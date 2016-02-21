@@ -30,6 +30,7 @@ public class CasBrowser {
         try {
             Connection.Response response = Jsoup.connect("https://cas.isen.fr/home/annuaire/staff.html")
                     .userAgent(AurionBrowser.USER_AGENT)
+                    .timeout(Settings.CONNECTION_TIMEOUT)
                     .followRedirects(true)
                     .header("Content-Type", AurionBrowser.CONTENT_TYPE)
                     .cookies(AurionCookies.cookies)
@@ -57,6 +58,7 @@ public class CasBrowser {
                 Connection.Response response = Jsoup.connect("https://cas.isen.fr/home/annuaire/infos-staff.html")
                         .userAgent(AurionBrowser.USER_AGENT)
                         .followRedirects(true)
+                        .timeout(Settings.CONNECTION_TIMEOUT)
                         .referrer("https://cas.isen.fr/home/annuaire/staff.html")
                         .header("Content-Type", AurionBrowser.CONTENT_TYPE)
                         .cookies(AurionCookies.cookies)
