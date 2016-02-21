@@ -4,9 +4,10 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_margin="5dp"
-    android:background="@color/white"
     android:elevation="4dp"
     android:paddingBottom="5dp"
+    android:clickable="true"
+    android:background="@drawable/ripple_background"
     android:layout_height="wrap_content">
 
 
@@ -19,7 +20,7 @@
         android:textColor="@color/white"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:text=""
-        android:id="@+id/textView4" />
+        android:id="@+id/staff_directory_title" />
 
     <LinearLayout
         android:orientation="horizontal"
@@ -45,7 +46,8 @@
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="PRI" />
+            android:text="PRI"
+            android:id="@+id/staff_directory_code" />
     </LinearLayout>
 
     <LinearLayout
@@ -61,7 +63,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:padding="5dp"
-            android:drawableLeft="@drawable/ic_code_red_500_18dp"
+            android:drawableLeft="@drawable/ic_email_red_500_18dp"
             android:drawablePadding="10dp"
             android:textColor="@color/colorPrimary"
             android:text="E-mail" />
@@ -72,7 +74,8 @@
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="" />
+            android:text=""
+            android:id="@+id/staff_directory_email" />
     </LinearLayout>
 
     <LinearLayout
@@ -88,7 +91,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:padding="5dp"
-            android:drawableLeft="@drawable/ic_code_red_500_18dp"
+            android:drawableLeft="@drawable/ic_phone_red_500_18dp"
             android:drawablePadding="10dp"
             android:textColor="@color/colorPrimary"
             android:text="Téléphone" />
@@ -99,7 +102,8 @@
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="" />
+            android:text=""
+            android:id="@+id/staff_directory_phone" />
     </LinearLayout>
 
     <LinearLayout
@@ -115,7 +119,7 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:padding="5dp"
-            android:drawableLeft="@drawable/ic_code_red_500_18dp"
+            android:drawableLeft="@drawable/ic_office_red_500_18dp"
             android:drawablePadding="10dp"
             android:textColor="@color/colorPrimary"
             android:text="Bureau" />
@@ -126,7 +130,8 @@
             android:layout_height="wrap_content"
             android:textColor="@android:color/black"
             android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="" />
+            android:text=""
+            android:id="@+id/staff_directory_office" />
     </LinearLayout>
 
     <TextView
@@ -134,15 +139,16 @@
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:padding="10dp"
-            android:drawableLeft="@drawable/ic_code_red_500_18dp"
+            android:drawableLeft="@drawable/ic_record_voice_over_red_500_18dp"
             android:drawablePadding="10dp"
             android:textColor="@color/colorPrimary"
-            android:text="Cours" />
+            android:text="Cours"
+        android:id="@+id/lessons_label" />
 
     <com.ms.square.android.expandabletextview.ExpandableTextView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:expandableTextView="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/expand_text_view"
+        android:id="@+id/staff_directory_lessons"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         expandableTextView:maxCollapsedLines="2"
@@ -160,8 +166,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="16dp"
-            android:layout_gravity="right|bottom"
-            android:background="@android:color/transparent"/>
+            android:background="@android:color/transparent"
+            android:layout_gravity="center_horizontal|bottom" />
     </com.ms.square.android.expandabletextview.ExpandableTextView>
 
 </LinearLayout>

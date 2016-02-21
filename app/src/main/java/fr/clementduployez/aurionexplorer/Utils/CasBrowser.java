@@ -6,6 +6,8 @@ import org.jsoup.Jsoup;
 import java.io.IOException;
 import java.util.HashMap;
 
+import fr.clementduployez.aurionexplorer.Informer;
+
 /**
  * Created by cdupl on 2/17/2016.
  */
@@ -23,8 +25,28 @@ public class CasBrowser {
         return false;
     }
 
+    private static Connection.Response connectToStaffFormPage() {
+        Informer.inform("Connexion à la page de l'annuaire du staff");
+        try {
+            Connection.Response response = Jsoup.connect("https://cas.isen.fr/home/annuaire/staff.html")
+                    .userAgent(AurionBrowser.USER_AGENT)
+                    .followRedirects(true)
+                    .header("Content-Type", AurionBrowser.CONTENT_TYPE)
+                    .cookies(AurionCookies.cookies)
+                    .execute();
+            AurionCookies.cookies.putAll(response.cookies());
+            Informer.inform("Fin du chargement de la page de l'annuaire du staff");
+            return response;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
     public static Connection.Response connectToStaffDirectory(String lastName, String firstName, String code) {
-        if (login())
+        Informer.inform("Envoi du formulaire de recherche dans l'annuaire");
+        login();
+        if (connectToStaffFormPage() != null)
         {
             HashMap<String,String> data = new HashMap<>();
             data.put("statut","Y");
@@ -35,16 +57,19 @@ public class CasBrowser {
                 Connection.Response response = Jsoup.connect("https://cas.isen.fr/home/annuaire/infos-staff.html")
                         .userAgent(AurionBrowser.USER_AGENT)
                         .followRedirects(true)
+                        .referrer("https://cas.isen.fr/home/annuaire/staff.html")
                         .header("Content-Type", AurionBrowser.CONTENT_TYPE)
                         .cookies(AurionCookies.cookies)
                         .data(data)
+                        .method(Connection.Method.POST)
                         .execute();
-
+                Informer.inform("Fin de la recherche dans l'annuaire");
                 return response;
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
+        Informer.inform("Erreur...");
         return null;
     }
 

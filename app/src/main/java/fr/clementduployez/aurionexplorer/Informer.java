@@ -12,6 +12,6 @@ public class Informer {
 
     public static void inform(String message) {
         if (rootView != null)
-        Snackbar.make(rootView, message, Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(rootView, message, Snackbar.LENGTH_LONG).show();
     }
 }

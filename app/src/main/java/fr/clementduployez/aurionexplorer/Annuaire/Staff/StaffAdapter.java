@@ -29,7 +29,7 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffHolder> {
 
     @Override
     public void onBindViewHolder(StaffHolder holder, int position) {
-        holder.bind(new StaffInfo("test","test","test","test","test",null));
+        holder.bind(this.staffData.get(position));
     }
 
     public void setData(ArrayList<StaffInfo> staffInfoArrayList) {
@@ -39,7 +39,6 @@ public class StaffAdapter extends RecyclerView.Adapter<StaffHolder> {
 
     @Override
     public int getItemCount() {
-        //return this.staffData.size();
-        return 3;
+        return this.staffData.size();
     }
 }

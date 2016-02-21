@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
@@ -83,7 +84,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void openFragment(Fragment fragment) {
-        if (this.currentFragment == fragment) {
+        if (this.currentFragment == fragment)
+        {
             return;
         }
 
@@ -119,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
                     mStaffDirectoryFragment = StaffDirectoryFragment.newInstance();
                 }
                 openFragment(mStaffDirectoryFragment);
+                break;
             default:
                 if (mNotImplementedFragment == null) {
                     mNotImplementedFragment = AbsencesFragment.newInstance();
