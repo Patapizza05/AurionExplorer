@@ -75,6 +75,7 @@ public class AurionBrowser {
         try {
             result = Jsoup.connect(loginPageResponse.url().toString())
                     .header("Content-Type", CONTENT_TYPE)
+                    .timeout(10000)
                     .userAgent(USER_AGENT)
                     .data(data)
                     .method(Connection.Method.POST)

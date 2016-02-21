@@ -16,15 +16,18 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 
 import org.jsoup.Connection;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
 
+import fr.clementduployez.aurionexplorer.Informer;
 import fr.clementduployez.aurionexplorer.MainActivity;
 import fr.clementduployez.aurionexplorer.R;
 import fr.clementduployez.aurionexplorer.Utils.AurionBrowser;
+import fr.clementduployez.aurionexplorer.Utils.AurionCookies;
 import fr.clementduployez.aurionexplorer.Utils.UserData;
 
 /**
@@ -40,6 +43,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private boolean wait = false;
     private View loginLayout;
     private View loadingLayout;
+    private LinearLayout container;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,12 +52,12 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         this.setSupportActionBar(toolbar);
-
+        this.container = (LinearLayout) findViewById(R.id.login_container);
         this.username = (EditText) findViewById(R.id.username);
         this.password = (EditText) findViewById(R.id.password);
         this.stayLoggedIn = (CheckBox) findViewById(R.id.stayLoggedIn_checkbox);
         this.confirmButton = (Button) findViewById(R.id.confirm_button);
-
+        Informer.rootView = container;
         loginLayout = findViewById(R.id.loginLayout);
         loadingLayout = findViewById(R.id.loadingLayout);
 
@@ -67,6 +71,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         String password = UserData.getPassword();
         if (username != null && password != null) {
             startActivity(new Intent(getApplicationContext(),MainActivity.class));
+        }
+        else {
+            AurionCookies.cookies.clear();
         }
     }
 
@@ -128,7 +135,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     public void rejectLogin() {
+        Informer.inform("Erreur de connexion");
         Log.i("Login","Wrong credentials");
+        AurionCookies.cookies.clear();
         setWait(false);
     }
 
