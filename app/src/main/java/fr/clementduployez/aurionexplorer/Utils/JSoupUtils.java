@@ -58,8 +58,28 @@ public class JSoupUtils {
         return null;
     }
 
-    public static void addLinkValueToData(String title, Document aurionDocument, Map<String,String> data) {
-        addLinkValueToData(getLinkWithTitle(title,aurionDocument),data);
+    public static Element getDivWithTitle(String title, Document document) {
+        Elements el = document.getElementsByClass("rf-ddm-itm-lbl");
+        for (Element e : el) {
+            if (e.ownText().toLowerCase().contains(title.toLowerCase()))
+            {
+                return e.parent();
+            }
+        }
+        return null;
+    }
+
+    public static void addValueToData(String title, Document aurionDocument, Map<String, String> data) {
+        Element el = getLinkWithTitle(title, aurionDocument);
+        if (el != null) {
+            addLinkValueToData(el,data);
+        }
+        else {
+            el = getDivWithTitle(title, aurionDocument);
+            if (el != null) {
+                addDivValueToData(el,data);
+            }
+        }
     }
 
     public static void addLinkValueToData(Element link, Map<String, String> data) {
@@ -78,6 +98,14 @@ public class JSoupUtils {
             }
         }
 
+    }
+
+    public static void addDivValueToData(Element div, Map<String,String> data) {
+        if (div == null) {
+            return;
+        }
+        String id = div.id();
+        data.put(id,id);
     }
 
     private static JSONObject getJSONObjectFromOnClickLinkScript(String script) {

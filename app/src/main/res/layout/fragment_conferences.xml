@@ -2,17 +2,17 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical" android:layout_width="match_parent"
+    android:id="@+id/conferencesFragment"
     android:layout_height="match_parent">
 
     <com.cjj.MaterialRefreshLayout
-        android:id="@+id/material_swipe_refresh"
         android:layout_width="match_parent"
-        android:visibility="visible"
+        android:layout_height="match_parent"
+        android:id="@+id/conferences_refresh_layout"
         app:overlay="false"
         app:wave_show="true"
         app:wave_color="@color/colorPrimary"
-        app:wave_height_type="normal"
-        android:layout_height="match_parent">
+        app:wave_height_type="normal">
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/conferencesRecyclerView"
@@ -23,7 +23,7 @@
 
     </com.cjj.MaterialRefreshLayout>
 
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    <LinearLayout
         android:id="@+id/loadingLayout"
         android:orientation="vertical"
         android:background="@android:color/white"

@@ -126,7 +126,7 @@ public class AurionBrowser {
             data.putAll(customData);
         }
 
-        JSoupUtils.addLinkValueToData(title, aurionDocument, data);
+        JSoupUtils.addValueToData(title, aurionDocument, data);
 
         try {
             Connection.Response result = Jsoup.connect(MAIN_MENU_PAGE_URL)

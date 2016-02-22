@@ -1,10 +1,12 @@
 package fr.clementduployez.aurionexplorer.MesConferences;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.jsoup.Connection;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -26,6 +28,7 @@ public class LoadConferencesListAsync extends AsyncTask<Void,Void,ArrayList<Conf
     protected ArrayList<ConferencesInfo> doInBackground(Void... params) {
         Connection.Response response = AurionBrowser.connectToPage("Mes conférences");
         ArrayList<ConferencesInfo> data = null;
+        Log.i("Response",""+response);
         if (response != null) {
             try {
                 data = parseConferences(response);
@@ -45,7 +48,18 @@ public class LoadConferencesListAsync extends AsyncTask<Void,Void,ArrayList<Conf
         Element e;
         int i = 0;
         while ( (e = document.getElementById("form:dataTableFavori:"+i)) != null) {
-            
+            Elements el = e.getElementsByTag("td");
+            String title = el.get(0).text();
+            String date = el.get(1).text();
             data.add(new ConferencesInfo(title,date));
+            i++;
         }
+        return data;
+}
+
+    @Override
+    protected void onPostExecute(ArrayList<ConferencesInfo> data) {
+        super.onPostExecute(data);
+        this.conferencesFragment.onAsyncResult(data);
+    }
 }

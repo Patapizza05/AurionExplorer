@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 import fr.clementduployez.aurionexplorer.Annuaire.Staff.StaffDirectoryFragment;
 import fr.clementduployez.aurionexplorer.Login.LoginActivity;
 import fr.clementduployez.aurionexplorer.MesAbsences.AbsencesFragment;
+import fr.clementduployez.aurionexplorer.MesConferences.ConferencesFragment;
 import fr.clementduployez.aurionexplorer.MesNotes.GradesFragment;
 import fr.clementduployez.aurionexplorer.MonPlanning.CalendarFragment;
 import fr.clementduployez.aurionexplorer.Utils.UserData;
@@ -34,6 +35,7 @@ public class MainActivity extends AppCompatActivity {
     private CalendarFragment mCalendarFragment;
     private StaffDirectoryFragment mStaffDirectoryFragment;
     private AbsencesFragment mNotImplementedFragment;
+    private ConferencesFragment mConferencesFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,6 +123,12 @@ public class MainActivity extends AppCompatActivity {
                     mStaffDirectoryFragment = StaffDirectoryFragment.newInstance();
                 }
                 openFragment(mStaffDirectoryFragment);
+                break;
+            case "Mes Conférences":
+                if (mConferencesFragment == null) {
+                    mConferencesFragment = ConferencesFragment.newInstance();
+                }
+                openFragment(mConferencesFragment);
                 break;
             default:
                 if (mNotImplementedFragment == null) {

@@ -1,6 +1,7 @@
 package fr.clementduployez.aurionexplorer.MesConferences;
 
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -21,6 +22,7 @@ public class ConferencesHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(ConferencesInfo conferencesInfo) {
+        Log.i(conferencesInfo.getDate(),conferencesInfo.getTitle());
         date.setText(conferencesInfo.getDate());
         title.setText(conferencesInfo.getTitle());
     }

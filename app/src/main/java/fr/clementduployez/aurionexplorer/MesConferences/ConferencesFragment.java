@@ -4,14 +4,17 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.cjj.MaterialHeadView;
 import com.cjj.MaterialRefreshLayout;
 import com.cjj.MaterialRefreshListener;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import fr.clementduployez.aurionexplorer.R;
@@ -36,10 +39,10 @@ public class ConferencesFragment extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        rootView = inflater.inflate(R.layout.fragment_grades, container, false);
+        rootView = inflater.inflate(R.layout.fragment_conferences, container, false);
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.conferencesRecyclerView);
-        materialRefreshLayout = (MaterialRefreshLayout) rootView.findViewById(R.id.material_swipe_refresh);
+        materialRefreshLayout = (MaterialRefreshLayout) rootView.findViewById(R.id.conferences_refresh_layout);
         loadingLayout = (LinearLayout) rootView.findViewById(R.id.loadingLayout);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -52,6 +55,7 @@ public class ConferencesFragment extends Fragment {
         materialRefreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
             @Override
             public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
+                Log.i("Conferences","Loading data");
                 loadData();
             }
         });
@@ -63,12 +67,29 @@ public class ConferencesFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        /*Hack to change the size of the refresh head view*/
+        Field field;
+        try {
+            field = materialRefreshLayout.getClass().getDeclaredField("materialHeadView");
+            field.setAccessible(true);
+            MaterialHeadView head = (MaterialHeadView) field.get(materialRefreshLayout);
+            head.setProgressSize(35);
+            head.setProgressStokeWidth(2);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
     private void loadData() {
         if (this.loadConferencesListAsync == null) {
             this.loadConferencesListAsync = new LoadConferencesListAsync(this);
             this.loadConferencesListAsync.execute();
+            showProgressBar();
         }
-        hideProgressBar();
     }
 
     public void showProgressBar() {
