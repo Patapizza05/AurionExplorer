@@ -8,6 +8,8 @@
 
     <color name="green">#804CAF50</color>
     <color name="red">#80F44336</color>
+    <color name="red100">#FFCDD2</color>
+    <color name="focus_red">#FFC107</color>
 
 
 

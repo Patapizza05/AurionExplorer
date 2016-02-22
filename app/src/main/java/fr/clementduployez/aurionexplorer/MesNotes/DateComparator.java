@@ -5,6 +5,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Comparator;
 
+import fr.clementduployez.aurionexplorer.MesConferences.ConferencesInfo;
+import fr.clementduployez.aurionexplorer.MesNotes.GradesInfo;
+
 /**
  * Created by cdupl on 2/17/2016.
  */
@@ -21,6 +24,7 @@ public class DateComparator implements Comparator<GradesInfo> {
             throw new IllegalArgumentException(e);
         }
     }
+
 }
 
 /*Comparator<GradesInfo>() {

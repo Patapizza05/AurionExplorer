@@ -28,9 +28,10 @@ public class ConferencesFragment extends Fragment {
     private RecyclerView recyclerView;
     private ConferencesAdapter adapter;
     private MaterialRefreshLayout materialRefreshLayout;
-    private boolean notLoadedYet;
+    private boolean notLoadedYet = true;
     private LinearLayout loadingLayout;
     private LoadConferencesListAsync loadConferencesListAsync;
+    private LinearLayout containerLayout;
 
     public static ConferencesFragment newInstance() {
         final ConferencesFragment conferencesFragment = new ConferencesFragment();
@@ -43,6 +44,7 @@ public class ConferencesFragment extends Fragment {
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.conferencesRecyclerView);
         materialRefreshLayout = (MaterialRefreshLayout) rootView.findViewById(R.id.conferences_refresh_layout);
+        containerLayout = (LinearLayout) rootView.findViewById(R.id.material_swipe_refresh_container);
         loadingLayout = (LinearLayout) rootView.findViewById(R.id.loadingLayout);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
@@ -55,7 +57,6 @@ public class ConferencesFragment extends Fragment {
         materialRefreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
             @Override
             public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
-                Log.i("Conferences","Loading data");
                 loadData();
             }
         });
@@ -90,25 +91,28 @@ public class ConferencesFragment extends Fragment {
             this.loadConferencesListAsync.execute();
             showProgressBar();
         }
+        else {
+            hideProgressBar();
+        }
     }
 
     public void showProgressBar() {
         if (notLoadedYet) {
-            materialRefreshLayout.setVisibility(View.GONE);
+            containerLayout.setVisibility(View.GONE);
             loadingLayout.setVisibility(View.VISIBLE);
-            notLoadedYet = false;
         }
     }
 
     public void onAsyncResult(ArrayList<ConferencesInfo> data) {
         hideProgressBar();
         adapter.setData(data);
+        this.loadConferencesListAsync = null;
     }
 
     public void hideProgressBar() {
         materialRefreshLayout.finishRefresh();
         if (notLoadedYet){
-            materialRefreshLayout.setVisibility(View.VISIBLE);
+            containerLayout.setVisibility(View.VISIBLE);
             loadingLayout.setVisibility(View.GONE);
             notLoadedYet = false;
         }

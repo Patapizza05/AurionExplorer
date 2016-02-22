@@ -5,6 +5,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import java.text.ParseException;
+import java.util.Calendar;
+
+import fr.clementduployez.aurionexplorer.AurionExplorerApplication;
 import fr.clementduployez.aurionexplorer.R;
 
 /**
@@ -22,8 +26,20 @@ public class ConferencesHolder extends RecyclerView.ViewHolder {
     }
 
     public void bind(ConferencesInfo conferencesInfo) {
-        Log.i(conferencesInfo.getDate(),conferencesInfo.getTitle());
+        Log.i(conferencesInfo.getDate(), conferencesInfo.getTitle());
         date.setText(conferencesInfo.getDate());
         title.setText(conferencesInfo.getTitle());
+
+        Calendar c = Calendar.getInstance();
+        try {
+            if (c.before(ConferencesDateComparator.toCalendar(conferencesInfo))) {
+                itemView.setBackgroundResource(R.drawable.focus_red_ripple_background);
+            }
+            else {
+                itemView.setBackgroundResource(R.drawable.ripple_background);
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
     }
 }
