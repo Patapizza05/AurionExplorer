@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import fr.clementduployez.aurionexplorer.R;
 
@@ -12,6 +13,8 @@ import fr.clementduployez.aurionexplorer.R;
  */
 public class StaffHeader extends RecyclerView.ViewHolder implements View.OnClickListener {
 
+    private final LinearLayout loadingLayout;
+    private final LinearLayout formLayout;
     private StaffDirectoryFragment fragment;
     private Button button;
     private EditText lastName;
@@ -26,6 +29,8 @@ public class StaffHeader extends RecyclerView.ViewHolder implements View.OnClick
         lastName = (EditText) itemView.findViewById(R.id.staff_directory_nom);
         firstName = (EditText) itemView.findViewById(R.id.staff_directory_prenom);
         code = (EditText) itemView.findViewById(R.id.staff_directory_code);
+        loadingLayout = (LinearLayout) itemView.findViewById(R.id.loadingLayout);
+        formLayout = (LinearLayout) itemView.findViewById(R.id.formLayout);
 
         button.setOnClickListener(this);
     }
@@ -36,6 +41,16 @@ public class StaffHeader extends RecyclerView.ViewHolder implements View.OnClick
 
     @Override
     public void onClick(View v) {
-        fragment.sendForm(this.lastName.getText().toString(),this.firstName.getText().toString(),this.code.getText().toString());
+        fragment.sendForm(this.lastName.getText().toString(), this.firstName.getText().toString(), this.code.getText().toString());
+    }
+
+    public void showProgressBar() {
+        formLayout.setVisibility(View.GONE);
+        loadingLayout.setVisibility(View.VISIBLE);
+    }
+
+    public void hideProgressBar() {
+        formLayout.setVisibility(View.VISIBLE);
+        loadingLayout.setVisibility(View.GONE);
     }
 }

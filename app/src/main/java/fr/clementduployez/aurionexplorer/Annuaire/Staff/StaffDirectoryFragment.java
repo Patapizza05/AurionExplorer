@@ -8,6 +8,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 
@@ -33,6 +34,7 @@ public class StaffDirectoryFragment extends Fragment {
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.directoryStaffRecyclerView);
 
+
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         if (mAdapter == null) {
             mAdapter = new StaffAdapter(new ArrayList<StaffInfo>(), this);
@@ -46,6 +48,7 @@ public class StaffDirectoryFragment extends Fragment {
 
     public void sendForm(String lastName, String firstName, String code) {
         if (searchStaffAsync == null) {
+            mAdapter.getHeader().showProgressBar();
             searchStaffAsync = new SearchStaffAsync(this, lastName, firstName, code);
             searchStaffAsync.execute();
         }
@@ -56,6 +59,9 @@ public class StaffDirectoryFragment extends Fragment {
         if (staffData != null) {
             mAdapter.setData(staffData);
             ((AppCompatActivity) (this.getActivity())).getSupportActionBar().setSubtitle(mAdapter.getItemCount()-1+" Résultats");
+            mAdapter.getHeader().hideProgressBar();
         }
     }
+
+
 }

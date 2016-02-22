@@ -21,6 +21,7 @@ public class StaffAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
 
     private ArrayList<StaffInfo> staffData;
     private StaffDirectoryFragment staffDirectoryFragment;
+    private StaffHeader mHeader;
 
     public StaffAdapter(ArrayList<StaffInfo> staffInfoArrayList, StaffDirectoryFragment staffDirectoryFragment) {
         this.staffData = staffInfoArrayList;
@@ -31,7 +32,8 @@ public class StaffAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_HEADER) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_directory_staff_form, parent, false);
-            return new StaffHeader(view,this.staffDirectoryFragment);
+            mHeader = new StaffHeader(view, this.staffDirectoryFragment);
+            return mHeader;
         }
         else {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_directory_staff_recycler_item, parent, false);
@@ -92,5 +94,9 @@ public class StaffAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
             }
         }
 
+    }
+
+    public StaffHeader getHeader() {
+        return mHeader;
     }
 }

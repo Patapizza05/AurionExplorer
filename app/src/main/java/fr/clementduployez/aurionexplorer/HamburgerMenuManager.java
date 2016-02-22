@@ -28,14 +28,16 @@ public class HamburgerMenuManager {
     private String name = UserData.getName();
     private String id = UserData.getUsername();
 
-    private String[] titles = {"Mes Notes", "Mes Absences", "Mon Planning",null,"Annuaire des Étudiants","Annuaire du Staff","Anniversaire",null,"Fortinet"};
+    private String[] titles = {"Mes Notes", "Mes Absences", "Mon Planning",null,"Mes Conférences", null,"Annuaire des Étudiants","Annuaire du Staff","Anniversaire",null,"Fortinet"};
     private Integer[] titlesImages =
             {R.drawable.ic_school_red_500_18dp,
             R.drawable.ic_alarm_off_red_500_18dp,
             R.drawable.ic_today_red_500_18dp,
             null,
-            R.drawable.ic_contact_phone_red_500_18dp,
-            R.drawable.ic_contact_phone_red_500_18dp,
+            R.drawable.ic_record_voice_over_red_500_18dp,
+            null,
+            R.drawable.ic_group_red_500_18dp,
+            R.drawable.ic_work_red_500_18dp,
             R.drawable.ic_cake_red_500_18dp,
             null,
             R.drawable.ic_wifi_lock_red_500_18dp
