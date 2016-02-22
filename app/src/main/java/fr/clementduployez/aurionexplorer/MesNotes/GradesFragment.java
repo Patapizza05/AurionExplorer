@@ -13,6 +13,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
+import com.cjj.MaterialHeadView;
+import com.cjj.MaterialRefreshLayout;
+import com.cjj.MaterialRefreshListener;
+
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import fr.clementduployez.aurionexplorer.R;
@@ -24,12 +29,13 @@ public class GradesFragment extends Fragment implements SwipeRefreshLayout.OnRef
 
     private View rootView;
     private RecyclerView recyclerView;
-    private SwipeRefreshLayout swipeRefreshLayout;
+    //private SwipeRefreshLayout swipeRefreshLayout;
     private LoadGradesListAsync loadGradesListAsync;
     private GradesAdapter adapter;
     private LinearLayout loadingLayout;
 
     private boolean notLoadedYet = true;
+    private MaterialRefreshLayout materialSwipeRefreshLayout;
 
     public static GradesFragment newInstance() {
         final GradesFragment gradesFragment = new GradesFragment();
@@ -53,11 +59,21 @@ public class GradesFragment extends Fragment implements SwipeRefreshLayout.OnRef
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_grades, container, false);
 
-        swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh);
+        //swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh);
+        materialSwipeRefreshLayout = (MaterialRefreshLayout) rootView.findViewById(R.id.material_swipe_refresh);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.marksRecyclerView);
         loadingLayout = (LinearLayout) rootView.findViewById(R.id.loadingLayout);
 
-        swipeRefreshLayout.setOnRefreshListener(this);
+        //swipeRefreshLayout.setOnRefreshListener(this);
+
+
+
+        materialSwipeRefreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
+            @Override
+            public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
+                onRefreshGrades();
+            }
+        });
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         if (adapter == null) {
@@ -66,7 +82,8 @@ public class GradesFragment extends Fragment implements SwipeRefreshLayout.OnRef
         recyclerView.setAdapter(adapter);
         adapter.updateSubtitle();
 
-        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
+
+        //swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
 
         if (adapter.getItemCount() == 0) {
             onRefresh();
@@ -75,18 +92,37 @@ public class GradesFragment extends Fragment implements SwipeRefreshLayout.OnRef
         return rootView;
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        /*Hack to change the size of the refresh head view*/
+        Field field;
+        try {
+            field = materialSwipeRefreshLayout.getClass().getDeclaredField("materialHeadView");
+            field.setAccessible(true);
+            MaterialHeadView head = (MaterialHeadView) field.get(materialSwipeRefreshLayout);
+            head.setProgressSize(35);
+            head.setProgressStokeWidth(2);
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
+    }
+
     public void showProgressBar() {
         //Needs a runnable to be able to display the progress bar (in case the user launched the refreshTweets via the menu settings
-        swipeRefreshLayout.post(new Runnable() {
+        /*swipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
                 swipeRefreshLayout.setRefreshing(true);
             }
-        });
+        });*/
         if (notLoadedYet) loadingLayout.setVisibility(View.VISIBLE);
     }
     public void hideProgressBar() {
-        swipeRefreshLayout.setRefreshing(false);
+        //swipeRefreshLayout.setRefreshing(false);
+        //materialSwipeRefreshLayout.setActivated(false);
+        materialSwipeRefreshLayout.finishRefresh();
         if (notLoadedYet){
             loadingLayout.setVisibility(View.GONE);
             notLoadedYet = false;
@@ -95,22 +131,16 @@ public class GradesFragment extends Fragment implements SwipeRefreshLayout.OnRef
 
     @Override
     public void onRefresh() {
+        onRefreshGrades();
+    }
+
+    public void onRefreshGrades() {
         if (loadGradesListAsync == null) {
             loadGradesListAsync = new LoadGradesListAsync(this);
             loadGradesListAsync.execute();
             showProgressBar();
         } else {
             hideProgressBar();
-        }
-
-    }
-
-    public void inform(String text) {
-        try{
-            Snackbar.make(rootView, text, Snackbar.LENGTH_SHORT).show();
-        }
-        catch (NullPointerException e) {
-            //Do nothing. The app might have been closed for example.
         }
     }
 
