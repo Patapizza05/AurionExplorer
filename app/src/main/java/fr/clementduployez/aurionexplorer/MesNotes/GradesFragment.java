@@ -120,8 +120,6 @@ public class GradesFragment extends Fragment implements SwipeRefreshLayout.OnRef
         if (notLoadedYet) loadingLayout.setVisibility(View.VISIBLE);
     }
     public void hideProgressBar() {
-        //swipeRefreshLayout.setRefreshing(false);
-        //materialSwipeRefreshLayout.setActivated(false);
         materialSwipeRefreshLayout.finishRefresh();
         if (notLoadedYet){
             loadingLayout.setVisibility(View.GONE);
