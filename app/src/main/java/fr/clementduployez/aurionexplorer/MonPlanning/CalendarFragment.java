@@ -7,15 +7,20 @@ import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
+import com.aspsine.swipetoloadlayout.OnLoadMoreListener;
+import com.aspsine.swipetoloadlayout.OnRefreshListener;
+import com.aspsine.swipetoloadlayout.SwipeToLoadLayout;
 import com.fourmob.datetimepicker.date.DatePickerDialog;
 import com.github.androflo.sectionedrecyclerviewadapter.SectionedRecyclerViewAdapter;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -27,13 +32,14 @@ import android.support.v4.app.FragmentManager;
 /**
  * Created by cdupl on 2/12/2016.
  */
-public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, DatePickerDialog.OnDateSetListener, View.OnClickListener {
+public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, DatePickerDialog.OnDateSetListener, View.OnClickListener, OnRefreshListener, OnLoadMoreListener {
     private View rootView;
     private RecyclerView recyclerView;
-    private SwipeRefreshLayout swipeRefreshLayout;
+    //private SwipeRefreshLayout swipeRefreshLayout;
     private LoadCalendarListAsync loadCalendarAsync;
     private CalendarAdapter mAdapter;
     private LinearLayout loadingLayout;
+    private SwipeToLoadLayout swipeToLoadLayout;
 
     private boolean notLoadedYet = true;
     private SectionedRecyclerViewAdapter mSectionedAdapter;
@@ -53,20 +59,21 @@ public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnR
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_calendar, container, false);
-        swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh);
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.calendarRecyclerView);
+        swipeToLoadLayout = (SwipeToLoadLayout) rootView.findViewById(R.id.swipeToLoadLayout);
+        //swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh);
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.swipe_target);
         loadingLayout = (LinearLayout) rootView.findViewById(R.id.loadingLayout);
         beginDateButton = (Button) rootView.findViewById(R.id.fragment_calendar_begin_date_button);
         endDateButton = (Button) rootView.findViewById(R.id.fragment_calendar_end_date_button);
         confirmDateButton = (Button) rootView.findViewById(R.id.fragment_calendar_confirm_date_button);
 
-        final Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy");
-        beginDateButton.setText(date.format(calendar.getTime()));
-        calendar.add(Calendar.DATE, 6);
-        endDateButton.setText(date.format(calendar.getTime()));
+        initDateButtons();
 
-        swipeRefreshLayout.setOnRefreshListener(this);
+        //swipeRefreshLayout.setOnRefreshListener(this);
+        swipeToLoadLayout.setOnRefreshListener(this);
+        swipeToLoadLayout.setOnLoadMoreListener(this);
+
+
         beginDateButton.setOnClickListener(this);
         endDateButton.setOnClickListener(this);
         confirmDateButton.setOnClickListener(this);
@@ -92,9 +99,17 @@ public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnR
 
         mAdapter.updateSubtitle();
 
-        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
+        //swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
 
         return rootView;
+    }
+
+    private void initDateButtons() {
+        final Calendar calendar = Calendar.getInstance();
+        SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy");
+        beginDateButton.setText(date.format(calendar.getTime()));
+        calendar.add(Calendar.DATE, 6);
+        endDateButton.setText(date.format(calendar.getTime()));
     }
 
     public DatePickerDialog initDatePicker() {
@@ -107,40 +122,54 @@ public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnR
     }
 
     public void showProgressBar() {
-        //Needs a runnable to be able to display the progress bar (tin case the user launched the refreshTweets via the menu settings
-        swipeRefreshLayout.post(new Runnable() {
+        //Needs a runnable to be able to display the progress bar (in case the user launched the refresh via the menu settings
+        /*swipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
                 swipeRefreshLayout.setRefreshing(true);
             }
-        });
+        });*/
+
+        /*swipeToLoadLayout.post(new Runnable() {
+            @Override
+            public void run() {
+                swipeToLoadLayout.setRefreshing(true);
+            }
+        });*/
+
         if (notLoadedYet) {
+            swipeToLoadLayout.setVisibility(View.GONE);
             loadingLayout.setVisibility(View.VISIBLE);
         }
     }
+
+    public void showFooterProgressBar() {
+
+    }
+
     public void hideProgressBar() {
-        swipeRefreshLayout.setRefreshing(false);
+        //swipeRefreshLayout.setRefreshing(false);
+        swipeToLoadLayout.setRefreshing(false);
         if (notLoadedYet){
+            swipeToLoadLayout.setVisibility(View.VISIBLE);
             loadingLayout.setVisibility(View.GONE);
             notLoadedYet = false;
         }
     }
 
-    @Override
-    public void onRefresh() {
-        if (loadCalendarAsync == null) {
-            loadCalendarAsync = new LoadCalendarListAsync(this,this.beginDateButton.getText().toString(),this.endDateButton.getText().toString());
-            loadCalendarAsync.execute();
-            showProgressBar();
-        } else {
-            hideProgressBar();
-        }
-        hideProgressBar();
+    public void hideFooterProgressBar() {
+        swipeToLoadLayout.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                swipeToLoadLayout.setLoadingMore(false);
+            }
+        }, 2000);
     }
 
     public void onAsyncResult(ArrayList<CalendarInfo> calendarData) {
         loadCalendarAsync = null;
         hideProgressBar();
+        hideFooterProgressBar();
         setAdapter(calendarData);
     }
 
@@ -151,13 +180,32 @@ public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnR
         mSectionedAdapter.notifyDataSetChanged();
     }
 
+    private void setBeginDate(int year, int month, int day)
+    {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.DAY_OF_MONTH, day);
+        this.beginDateButton.setText(sdf.format(calendar.getTime()));
+    }
+
+    private void setEndDate(int year, int month, int day) {
+        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.DAY_OF_MONTH, day);
+        this.endDateButton.setText(sdf.format(calendar.getTime()));
+    }
+
     @Override
     public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Calendar calendar = Calendar.getInstance();
-        calendar.set(Calendar.YEAR,year);
-        calendar.set(Calendar.MONTH,month);
-        calendar.set(Calendar.DAY_OF_MONTH,day);
+        calendar.set(Calendar.YEAR, year);
+        calendar.set(Calendar.MONTH, month);
+        calendar.set(Calendar.DAY_OF_MONTH, day);
         this.currentDateButton.setText(sdf.format(calendar.getTime()));
     }
 
@@ -181,9 +229,61 @@ public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnR
             }
             else if (v.equals(confirmDateButton))
             {
-                onRefresh();
+                loadCalendar();
             }
 
+    }
+
+    @Override
+    public void onLoadMore() {
+        addOneWeekAfter();
+        loadCalendar();
+    }
+
+    @Override
+    public void onRefresh() {
+        addOneWeekBefore();
+        loadCalendar();
+    }
+
+    public void loadCalendar() {
+        if (loadCalendarAsync == null) {
+            loadCalendarAsync = new LoadCalendarListAsync(this,this.beginDateButton.getText().toString(),this.endDateButton.getText().toString());
+            loadCalendarAsync.execute();
+        } else {
+            hideProgressBar();
+            hideFooterProgressBar();
+        }
+        hideProgressBar();
+        hideFooterProgressBar();
+    }
+
+    private void addOneWeekBefore() {
+        SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            Calendar begin = dateToCalendar(date.parse(beginDateButton.getText().toString()));
+            begin.add(Calendar.DATE, -7);
+            setBeginDate(begin.get(Calendar.YEAR), begin.get(Calendar.MONTH), begin.get(Calendar.DAY_OF_MONTH));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void addOneWeekAfter() {
+        SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy");
+        try {
+            Calendar end = dateToCalendar(date.parse(endDateButton.getText().toString()));
+            end.add(Calendar.DATE, 7);
+            setEndDate(end.get(Calendar.YEAR), end.get(Calendar.MONTH), end.get(Calendar.DAY_OF_MONTH));
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private static Calendar dateToCalendar(Date date){
+        Calendar cal = Calendar.getInstance();
+        cal.setTime(date);
+        return cal;
     }
 }
 

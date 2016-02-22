@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".MainActivity"
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/calendarFragment">
@@ -44,7 +46,7 @@
             android:textColor="@android:color/black" />
     </LinearLayout>
 
-    <android.support.v4.widget.SwipeRefreshLayout
+    <!--<android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/swipe_refresh"
@@ -58,7 +60,36 @@
 
             />
 
-    </android.support.v4.widget.SwipeRefreshLayout>
+    </android.support.v4.widget.SwipeRefreshLayout>-->
+
+    <com.aspsine.swipetoloadlayout.SwipeToLoadLayout
+        android:id="@+id/swipeToLoadLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        >
+
+        <fr.clementduployez.aurionexplorer.MonPlanning.SwipeToLoadLayoutUtils.RefreshHeaderView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@id/swipe_refresh_header"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="100dp"/>
+
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/swipe_target"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+
+            />
+
+        <fr.clementduployez.aurionexplorer.MonPlanning.SwipeToLoadLayoutUtils.LoadMoreFooterView
+            android:id="@id/swipe_load_more_footer"
+            android:layout_width="match_parent"
+            android:gravity="center"
+            android:layout_height="100dp" />
+
+    </com.aspsine.swipetoloadlayout.SwipeToLoadLayout>
 
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         android:id="@+id/loadingLayout"
