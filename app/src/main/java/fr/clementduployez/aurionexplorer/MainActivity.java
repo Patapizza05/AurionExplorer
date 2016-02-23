@@ -14,6 +14,7 @@ import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
 import fr.clementduployez.aurionexplorer.Annuaire.Staff.StaffDirectoryFragment;
+import fr.clementduployez.aurionexplorer.Fortinet.FortinetFragment;
 import fr.clementduployez.aurionexplorer.Login.LoginActivity;
 import fr.clementduployez.aurionexplorer.MesAbsences.AbsencesFragment;
 import fr.clementduployez.aurionexplorer.MesConferences.ConferencesFragment;
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
     private StaffDirectoryFragment mStaffDirectoryFragment;
     private AbsencesFragment mNotImplementedFragment;
     private ConferencesFragment mConferencesFragment;
+    private FortinetFragment mFortinetFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,6 +131,12 @@ public class MainActivity extends AppCompatActivity {
                     mConferencesFragment = ConferencesFragment.newInstance();
                 }
                 openFragment(mConferencesFragment);
+                break;
+            case "Fortinet":
+                if (mFortinetFragment == null) {
+                    mFortinetFragment = FortinetFragment.newInstance();
+                }
+                openFragment(mFortinetFragment);
                 break;
             default:
                 if (mNotImplementedFragment == null) {
