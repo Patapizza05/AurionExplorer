@@ -8,41 +8,30 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
+import fr.clementduployez.aurionexplorer.AurionAdapter;
+import fr.clementduployez.aurionexplorer.AurionPageFragment;
 import fr.clementduployez.aurionexplorer.R;
 import fr.clementduployez.aurionexplorer.Utils.AurionCacheUtils;
 
 /**
  * Created by cdupl on 2/14/2016.
  */
-public class GradesAdapter extends RecyclerView.Adapter<GradesHolder> {
+public class GradesAdapter extends AurionAdapter<GradesHolder,GradesInfo> {
 
-    private final GradesFragment gradesFragment;
-    private List<GradesInfo> gradesInfos;
-
-    public GradesAdapter(List<GradesInfo> gradesInfos, GradesFragment gradesFragment) {
-        setData(gradesInfos);
-        this.gradesFragment = gradesFragment;
+    public GradesAdapter(List<GradesInfo> data, AurionPageFragment fragment) {
+        super(data,fragment);
     }
 
     public void updateSubtitle() {
         int size = getItemCount();
-        if (size > 1) {
-            try {
-                ((AppCompatActivity) (this.gradesFragment.getActivity())).getSupportActionBar().setSubtitle(getItemCount() + " Notes");
-            }
-            catch (NullPointerException ex) {
-                //No toolbar
-            }
+        if (size == 1) {
+            updateSubtitle(getItemCount()+" Note");
         }
         else {
-            try {
-                ((AppCompatActivity) (this.gradesFragment.getActivity())).getSupportActionBar().setSubtitle(size + " Note");
-            }
-            catch (NullPointerException ex) {
-                //No toolbar
-            }
+            updateSubtitle(getItemCount()+" Notes");
         }
     }
 
@@ -59,24 +48,9 @@ public class GradesAdapter extends RecyclerView.Adapter<GradesHolder> {
     }
 
     @Override
-    public void onBindViewHolder(GradesHolder holder, int position) {
-        holder.bind(gradesInfos.get(position));
+    public Comparator getComparator() {
+        return new DateComparator();
     }
 
-    @Override
-    public int getItemCount() {
-        return gradesInfos.size();
-    }
 
-    public void setData(List<GradesInfo> data) {
-        if (data == null) {
-            return;
-        }
-
-        this.gradesInfos = data;
-        Collections.sort(this.gradesInfos, new DateComparator());
-        updateSubtitle();
-        notifyDataSetChanged();
-
-    }
 }

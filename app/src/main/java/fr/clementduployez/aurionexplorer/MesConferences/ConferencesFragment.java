@@ -1,10 +1,8 @@
 package fr.clementduployez.aurionexplorer.MesConferences;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,13 +14,15 @@ import com.cjj.MaterialRefreshListener;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.List;
 
+import fr.clementduployez.aurionexplorer.AurionPageFragment;
 import fr.clementduployez.aurionexplorer.R;
 
 /**
  * Created by cdupl on 2/22/2016.
  */
-public class ConferencesFragment extends Fragment {
+public class ConferencesFragment extends AurionPageFragment<ConferencesInfo> {
 
     private View rootView;
     private RecyclerView recyclerView;
@@ -41,12 +41,22 @@ public class ConferencesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_conferences, container, false);
+        initViews();
+        initAdapter();
+        initData();
+        return rootView;
+    }
 
+    @Override
+    public void initViews() {
         recyclerView = (RecyclerView) rootView.findViewById(R.id.conferencesRecyclerView);
         materialRefreshLayout = (MaterialRefreshLayout) rootView.findViewById(R.id.conferences_refresh_layout);
         containerLayout = (LinearLayout) rootView.findViewById(R.id.material_swipe_refresh_container);
         loadingLayout = (LinearLayout) rootView.findViewById(R.id.loadingLayout);
+    }
 
+    @Override
+    public void initAdapter() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         if (adapter == null) {
             adapter = new ConferencesAdapter(new ArrayList<ConferencesInfo>(), this);
@@ -57,15 +67,16 @@ public class ConferencesFragment extends Fragment {
         materialRefreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
             @Override
             public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
-                loadData();
+                onRefreshAsync();
             }
         });
+    }
 
+    @Override
+    public void initData() {
         if (adapter.getItemCount() == 0) {
-            loadData();
+            onRefreshAsync();
         }
-
-        return rootView;
     }
 
     @Override
@@ -85,7 +96,8 @@ public class ConferencesFragment extends Fragment {
         }
     }
 
-    private void loadData() {
+    @Override
+    public void onRefreshAsync() {
         if (this.loadConferencesListAsync == null) {
             this.loadConferencesListAsync = new LoadConferencesListAsync(this);
             this.loadConferencesListAsync.execute();
@@ -96,6 +108,7 @@ public class ConferencesFragment extends Fragment {
         }
     }
 
+    @Override
     public void showProgressBar() {
         if (notLoadedYet) {
             containerLayout.setVisibility(View.GONE);
@@ -103,12 +116,14 @@ public class ConferencesFragment extends Fragment {
         }
     }
 
-    public void onAsyncResult(ArrayList<ConferencesInfo> data) {
+    @Override
+    public void onAsyncResult(List<ConferencesInfo> data) {
         hideProgressBar();
-        adapter.setData(data);
+        setAdapter(data);
         this.loadConferencesListAsync = null;
     }
 
+    @Override
     public void hideProgressBar() {
         materialRefreshLayout.finishRefresh();
         if (notLoadedYet){
@@ -116,5 +131,10 @@ public class ConferencesFragment extends Fragment {
             loadingLayout.setVisibility(View.GONE);
             notLoadedYet = false;
         }
+    }
+
+    @Override
+    public void setAdapter(List<ConferencesInfo> data) {
+        adapter.setData(data);
     }
 }

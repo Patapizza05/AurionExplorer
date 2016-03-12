@@ -11,20 +11,19 @@ import com.github.androflo.sectionedrecyclerviewadapter.Sectionizer;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.clementduployez.aurionexplorer.AurionAdapter;
+import fr.clementduployez.aurionexplorer.AurionPageFragment;
 import fr.clementduployez.aurionexplorer.R;
 
 /**
  * Created by cdupl on 2/17/2016.
  */
-public class CalendarAdapter extends RecyclerView.Adapter<CalendarHolder> implements Sectionizer<CalendarInfo> {
+public class CalendarAdapter extends AurionAdapter<CalendarHolder,CalendarInfo> implements Sectionizer<CalendarInfo> {
 
-    private final CalendarFragment calendarFragment;
-    private List<CalendarInfo> data;
-
-    public CalendarAdapter(List<CalendarInfo> data,CalendarFragment calendarFragment) {
-        this.calendarFragment = calendarFragment;
-        setData(data);
+    public CalendarAdapter(List<CalendarInfo> data, AurionPageFragment<CalendarInfo> fragment) {
+        super(data, fragment);
     }
+
 
     @Override
     public CalendarHolder onCreateViewHolder(ViewGroup parent, int i) {
@@ -32,40 +31,13 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarHolder> implem
         return new CalendarHolder(view);
     }
 
-    @Override
-    public void onBindViewHolder(CalendarHolder holder, int i) {
-        //holder.bind(data.get(position));
-        holder.bind(data.get(i));
-    }
-
-    @Override
-    public int getItemCount() {
-        return data.size();
-    }
-
-    public void setData(List<CalendarInfo> data) {
-        this.data = data;
-        updateSubtitle();
-        this.notifyDataSetChanged();
-    }
-
     public void updateSubtitle() {
         int size = getItemCount();
-        if (size > 1) {
-            try {
-                ((AppCompatActivity) (this.calendarFragment.getActivity())).getSupportActionBar().setSubtitle(size + " Évènements");
-            }
-            catch (NullPointerException ex) {
-                //No toolbar
-            }
+        if (size == 1) {
+            updateSubtitle(size + " Évènement");
         }
         else {
-            try {
-                ((AppCompatActivity) (this.calendarFragment.getActivity())).getSupportActionBar().setSubtitle(size + " Évènement");
-            }
-            catch (NullPointerException ex) {
-
-            }
+            updateSubtitle(size + " Évènements");
         }
 
     }
@@ -73,9 +45,5 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarHolder> implem
     @Override
     public String getSectionTitle(CalendarInfo s) {
         return s.getDay();
-    }
-
-    public List<CalendarInfo> getData() {
-        return data;
     }
 }

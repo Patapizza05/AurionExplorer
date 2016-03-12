@@ -4,12 +4,13 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
+import fr.clementduployez.aurionexplorer.AurionHolder;
 import fr.clementduployez.aurionexplorer.R;
 
 /**
  * Created by cdupl on 2/17/2016.
  */
-public class CalendarHolder extends RecyclerView.ViewHolder {
+public class CalendarHolder extends AurionHolder<CalendarInfo> {
 
     private final TextView beginHour;
     private final TextView endHour;
@@ -28,6 +29,7 @@ public class CalendarHolder extends RecyclerView.ViewHolder {
         this.lessonId = (TextView) itemView.findViewById(R.id.calendar_lesson_id);
     }
 
+    @Override
     public void bind(CalendarInfo calendarInfo) {
         this.beginHour.setText(calendarInfo.getBeginHour());
         this.endHour.setText(calendarInfo.getEndHour());

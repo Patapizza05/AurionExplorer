@@ -8,6 +8,7 @@ import android.view.ViewGroup;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import fr.clementduployez.aurionexplorer.MesNotes.DateComparator;
 import fr.clementduployez.aurionexplorer.MesNotes.GradesHolder;
@@ -17,7 +18,7 @@ import fr.clementduployez.aurionexplorer.R;
  * Created by cdupl on 2/22/2016.
  */
 public class ConferencesAdapter extends RecyclerView.Adapter<ConferencesHolder> {
-    private ArrayList<ConferencesInfo> data;
+    private List<ConferencesInfo> data;
     private final ConferencesFragment conferencesFragment;
 
     public ConferencesAdapter(ArrayList<ConferencesInfo> conferencesInfos, ConferencesFragment conferencesFragment) {
@@ -61,7 +62,7 @@ public class ConferencesAdapter extends RecyclerView.Adapter<ConferencesHolder> 
             }
     }
 
-    public void setData(ArrayList<ConferencesInfo> data) {
+    public void setData(List<ConferencesInfo> data) {
         this.data = data;
         Collections.sort(this.data, new ConferencesDateComparator());
         updateSubtitle();

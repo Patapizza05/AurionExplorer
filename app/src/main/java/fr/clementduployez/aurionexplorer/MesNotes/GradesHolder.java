@@ -3,12 +3,14 @@ package fr.clementduployez.aurionexplorer.MesNotes;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
+
+import fr.clementduployez.aurionexplorer.AurionHolder;
 import fr.clementduployez.aurionexplorer.R;
 
 /**
  * Created by cdupl on 2/14/2016.
  */
-public class GradesHolder extends RecyclerView.ViewHolder {
+public class GradesHolder extends AurionHolder<GradesInfo> {
 
 
     private final TextView date;
