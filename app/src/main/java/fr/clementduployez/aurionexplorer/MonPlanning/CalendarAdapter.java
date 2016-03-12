@@ -31,13 +31,14 @@ public class CalendarAdapter extends AurionAdapter<CalendarHolder,CalendarInfo> 
         return new CalendarHolder(view);
     }
 
+    @Override
     public void updateSubtitle() {
         int size = getItemCount();
         if (size == 1) {
-            updateSubtitle(size + " Évènement");
+            setSubtitle(size + " Évènement");
         }
         else {
-            updateSubtitle(size + " Évènements");
+            setSubtitle(size + " Évènements");
         }
 
     }

@@ -25,13 +25,14 @@ public class GradesAdapter extends AurionAdapter<GradesHolder,GradesInfo> {
         super(data,fragment);
     }
 
+    @Override
     public void updateSubtitle() {
         int size = getItemCount();
         if (size == 1) {
-            updateSubtitle(getItemCount()+" Note");
+            setSubtitle(getItemCount() + " Note");
         }
         else {
-            updateSubtitle(getItemCount()+" Notes");
+            setSubtitle(getItemCount() + " Notes");
         }
     }
 

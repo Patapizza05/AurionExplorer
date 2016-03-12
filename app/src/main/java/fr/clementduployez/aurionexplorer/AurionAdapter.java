@@ -27,11 +27,19 @@ public abstract class AurionAdapter<Holder extends AurionHolder<Info>, Info exte
         setData(data);
     }
 
-    public void updateSubtitle(String text) {
-        ((AppCompatActivity) (this.getFragment().getActivity())).getSupportActionBar().setSubtitle(getItemCount() + " Notes");
+    public void setSubtitle(String text) {
+        ((AppCompatActivity) (this.getFragment().getActivity())).getSupportActionBar().setSubtitle(text);
     }
 
-    public abstract void updateSubtitle();
+    public void updateSubtitle() {
+        int size = getItemCount();
+        if (size == 1) {
+            setSubtitle(size + " Élément");
+        }
+        else {
+            setSubtitle(size + " Éléments");
+        }
+    }
 
     @Override
     public void onBindViewHolder(Holder holder, int position) {
