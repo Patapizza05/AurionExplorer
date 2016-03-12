@@ -1,13 +1,10 @@
 package fr.clementduployez.aurionexplorer.MonPlanning;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,23 +19,21 @@ import com.github.androflo.sectionedrecyclerviewadapter.SectionedRecyclerViewAda
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import fr.clementduployez.aurionexplorer.Informer;
+import fr.clementduployez.aurionexplorer.AurionPageFragment;
 import fr.clementduployez.aurionexplorer.R;
 import fr.clementduployez.aurionexplorer.Utils.SQL.SQLUtils;
+import fr.clementduployez.aurionexplorer.Utils.SectionedCalendarRecyclerViewAdapter;
 
-import android.support.v4.app.FragmentManager;
 /**
  * Created by cdupl on 2/12/2016.
  */
-public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnRefreshListener, DatePickerDialog.OnDateSetListener, View.OnClickListener, OnRefreshListener, OnLoadMoreListener {
+public class CalendarFragment extends AurionPageFragment<CalendarInfo> implements SwipeRefreshLayout.OnRefreshListener, DatePickerDialog.OnDateSetListener, View.OnClickListener, OnRefreshListener, OnLoadMoreListener {
     private View rootView;
     private RecyclerView recyclerView;
-    //private SwipeRefreshLayout swipeRefreshLayout;
     private LoadCalendarListAsync loadCalendarAsync;
     private CalendarAdapter mAdapter;
     private LinearLayout loadingLayout;
@@ -50,7 +45,7 @@ public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnR
     private Button beginDateButton;
     private Button endDateButton;
     private DatePickerDialog datePickerDialog = initDatePicker();
-    private SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
+    private SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd/MM/yyyy");
 
     private Button currentDateButton;
 
@@ -64,6 +59,14 @@ public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnR
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_calendar, container, false);
+        initViews();
+        initAdapter();
+        initData();
+        return rootView;
+    }
+
+    @Override
+    public void initViews() {
         swipeToLoadLayout = (SwipeToLoadLayout) rootView.findViewById(R.id.swipeToLoadLayout);
         //swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.swipe_target);
@@ -82,14 +85,18 @@ public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnR
         beginDateButton.setOnClickListener(this);
         endDateButton.setOnClickListener(this);
         confirmDateButton.setOnClickListener(this);
+        //swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
+    }
 
+    @Override
+    public void initAdapter() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        List<CalendarInfo> data = SQLUtils.getCalendar(DAY_OFFSET);
+        List<CalendarInfo> data = SQLUtils.getCalendarItems(DAY_OFFSET);
 
         if (mAdapter == null || mSectionedAdapter == null || mAdapter.getItemCount() == 0) {
             mAdapter = new CalendarAdapter(data,this);
-            mSectionedAdapter  = new SectionedRecyclerViewAdapter(this.getActivity(),R.layout.fragment_calendar_recycler_section_item,R.id.calendar_section_title, mAdapter, mAdapter);
+            mSectionedAdapter  = new SectionedCalendarRecyclerViewAdapter(this.getActivity(),R.layout.fragment_calendar_recycler_section_item,R.id.calendar_section_title, mAdapter, mAdapter);
             mSectionedAdapter.setSections(data);
             recyclerView.setAdapter(mSectionedAdapter);
         }
@@ -100,12 +107,11 @@ public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnR
 
 
         mAdapter.updateSubtitle();
+    }
 
-
-
-        //swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
-
-        return rootView;
+    @Override
+    public void initData() {
+        //Already done in initAdapter();
     }
 
     private void initDateButtons() {
@@ -125,6 +131,7 @@ public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnR
         return datePickerDialog;
     }
 
+    @Override
     public void showProgressBar() {
         //Needs a runnable to be able to display the progress bar (in case the user launched the refresh via the menu settings
         /*swipeRefreshLayout.post(new Runnable() {
@@ -147,10 +154,7 @@ public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnR
         }
     }
 
-    public void showFooterProgressBar() {
-
-    }
-
+    @Override
     public void hideProgressBar() {
         //swipeRefreshLayout.setRefreshing(false);
         swipeToLoadLayout.setRefreshing(false);
@@ -170,14 +174,15 @@ public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnR
         }, 2000);
     }
 
-    public void onAsyncResult(ArrayList<CalendarInfo> calendarData) {
+    public void onAsyncResult(List<CalendarInfo> calendarData) {
         loadCalendarAsync = null;
         hideProgressBar();
         hideFooterProgressBar();
         setAdapter(calendarData);
     }
 
-    public void setAdapter(ArrayList<CalendarInfo> calendarData) {
+    @Override
+    public void setAdapter(List<CalendarInfo> calendarData) {
         mAdapter.setData(calendarData);
         mSectionedAdapter.setSections(calendarData);
         mAdapter.notifyDataSetChanged();
@@ -187,31 +192,28 @@ public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnR
 
     private void setBeginDate(int year, int month, int day)
     {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.DAY_OF_MONTH, day);
-        this.beginDateButton.setText(sdf.format(calendar.getTime()));
+        this.beginDateButton.setText(simpleDateFormat.format(calendar.getTime()));
     }
 
     private void setEndDate(int year, int month, int day) {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.DAY_OF_MONTH, day);
-        this.endDateButton.setText(sdf.format(calendar.getTime()));
+        this.endDateButton.setText(simpleDateFormat.format(calendar.getTime()));
     }
 
     @Override
     public void onDateSet(DatePickerDialog datePickerDialog, int year, int month, int day) {
-        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         Calendar calendar = Calendar.getInstance();
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, month);
         calendar.set(Calendar.DAY_OF_MONTH, day);
-        this.currentDateButton.setText(sdf.format(calendar.getTime()));
+        this.currentDateButton.setText(simpleDateFormat.format(calendar.getTime()));
     }
 
 
@@ -234,7 +236,7 @@ public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnR
             }
             else if (v.equals(confirmDateButton))
             {
-                loadCalendar();
+                onRefreshAsync();
             }
 
     }
@@ -242,19 +244,25 @@ public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnR
     @Override
     public void onLoadMore() {
         addOneWeekAfter();
-        loadCalendar();
+        onRefreshAsync();
     }
 
     @Override
     public void onRefresh() {
         addOneWeekBefore();
-        loadCalendar();
+        onRefreshAsync();
     }
 
-    public void loadCalendar() {
+    @Override
+    public void onRefreshAsync() {
         if (loadCalendarAsync == null) {
             loadCalendarAsync = new LoadCalendarListAsync(this,this.beginDateButton.getText().toString(),this.endDateButton.getText().toString());
             loadCalendarAsync.execute();
+            List<CalendarInfo> data = SQLUtils.getCalendarItems(getBeginDate(),getEndDate());
+            if (data != null && data.size() > 0)
+            {
+                setAdapter(data);
+            }
         } else {
             hideProgressBar();
             hideFooterProgressBar();
@@ -264,9 +272,8 @@ public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnR
     }
 
     private void addOneWeekBefore() {
-        SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy");
         try {
-            Calendar begin = dateToCalendar(date.parse(beginDateButton.getText().toString()));
+            Calendar begin = dateToCalendar(simpleDateFormat.parse(beginDateButton.getText().toString()));
             begin.add(Calendar.DATE, -7);
             setBeginDate(begin.get(Calendar.YEAR), begin.get(Calendar.MONTH), begin.get(Calendar.DAY_OF_MONTH));
         } catch (ParseException e) {
@@ -275,9 +282,8 @@ public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnR
     }
 
     private void addOneWeekAfter() {
-        SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy");
         try {
-            Calendar end = dateToCalendar(date.parse(endDateButton.getText().toString()));
+            Calendar end = dateToCalendar(simpleDateFormat.parse(endDateButton.getText().toString()));
             end.add(Calendar.DATE, 7);
             setEndDate(end.get(Calendar.YEAR), end.get(Calendar.MONTH), end.get(Calendar.DAY_OF_MONTH));
         } catch (ParseException e) {
@@ -289,6 +295,41 @@ public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnR
         Calendar cal = Calendar.getInstance();
         cal.setTime(date);
         return cal;
+    }
+
+    private Calendar getCalendarFromText(String text)
+    {
+        try {
+            Calendar cal = dateToCalendar(simpleDateFormat.parse(text));
+            return cal;
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    private Calendar getBeginCalendar() {
+        return getCalendarFromText(beginDateButton.getText().toString());
+    }
+
+    private Calendar getEndCalendar() {
+        return getCalendarFromText(endDateButton.getText().toString());
+    }
+
+    private Date getBeginDate() {
+        Calendar cal = getBeginCalendar();
+        if (cal != null) {
+            return cal.getTime();
+        }
+        return null;
+    }
+
+    private Date getEndDate() {
+        Calendar cal = getEndCalendar();
+        if (cal != null) {
+            return cal.getTime();
+        }
+        return null;
     }
 }
 

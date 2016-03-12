@@ -107,6 +107,10 @@ public class CalendarInfo implements Identifiable {
     }
 
     public String getLessonTitle() {
+        if (lessonTitle == null || lessonTitle.isEmpty())
+        {
+            return getLessonType();
+        }
         return lessonTitle;
     }
 

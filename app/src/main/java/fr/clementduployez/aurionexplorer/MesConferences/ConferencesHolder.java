@@ -1,5 +1,6 @@
 package fr.clementduployez.aurionexplorer.MesConferences;
 
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
@@ -28,15 +29,20 @@ public class ConferencesHolder extends RecyclerView.ViewHolder {
     public void bind(ConferencesInfo conferencesInfo) {
         Log.i(conferencesInfo.getDate(), conferencesInfo.getTitle());
         date.setText(conferencesInfo.getDate());
+
         title.setText(conferencesInfo.getTitle());
 
         Calendar c = Calendar.getInstance();
         try {
             if (c.before(ConferencesDateComparator.toCalendar(conferencesInfo))) {
-                itemView.setBackgroundResource(R.drawable.focus_red_ripple_background);
+                //itemView.setBackgroundResource(R.drawable.focus_red_ripple_background);
+                date.setBackgroundResource(R.color.focus_red);
+                date.setTextColor(Color.BLACK);
             }
             else {
-                itemView.setBackgroundResource(R.drawable.ripple_background);
+                //itemView.setBackgroundResource(R.drawable.ripple_background);
+                date.setBackgroundResource(R.color.colorPrimary);
+                date.setTextColor(Color.WHITE);
             }
         } catch (ParseException e) {
             e.printStackTrace();

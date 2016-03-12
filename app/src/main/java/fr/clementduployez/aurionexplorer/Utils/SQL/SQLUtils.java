@@ -10,6 +10,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
@@ -23,9 +24,6 @@ public class SQLUtils {
 
     private static final Class<? extends Identifiable> GRADES_CLASS = GradesInfo.class;
     private static final Class<? extends Identifiable> CALENDAR_CLASS = CalendarInfo.class;
-
-
-    private static boolean isCalendarExpiredItemsCleaned = false;
 
 
     public static void removeAndSave(List<GradesInfo> data)
@@ -47,36 +45,58 @@ public class SQLUtils {
         WellSql.insert(data).asSingleTransaction(true).execute();
     }
 
-    public static List<CalendarInfo> getCalendar(int endDayOffset) {
+
+    public static List<CalendarInfo> getCalendarItems(int endDayOffset) {
 
         final Calendar calendar = Calendar.getInstance();
-        SimpleDateFormat date = new SimpleDateFormat("EEEE d MMMM yyyy", new Locale("FR","fr"));
+        return getCalendarItems(calendar,endDayOffset);
+    }
 
-        String customDate = date.format(calendar.getTime());
-        customDate = customDate.substring(0, 1).toUpperCase() + customDate.substring(1);
+    public static List<CalendarInfo> getCalendarItems(Date begin, Date end)
+    {
+        final Calendar calendar = Calendar.getInstance();
+        calendar.setTime(begin);
 
-        List<CalendarInfo> data = (List<CalendarInfo>) WellSql.select(CALENDAR_CLASS)
-                .where()
-                .equals(CalendarInfoTable.DAY, customDate)
-                .endWhere()
-                .getAsModel();
+        int endDayOffset = (int) (end.getTime() - begin.getTime()) / (1000 * 60 * 60 *24);
+        Log.i("EndDayOffset",""+endDayOffset);
+        return getCalendarItems(calendar,endDayOffset);
+    }
 
-        Log.i("Date test",customDate);
+    public static List<CalendarInfo> getCalendarItems(final Calendar begin, int endDayOffset)
+    {
+        List<CalendarInfo> data = addDayItemsToList(begin.getTime(),null);
 
         int day = 0;
         while (day < endDayOffset)
         {
-            calendar.add(Calendar.DATE, 1);
-            customDate = date.format(calendar.getTime());
-            customDate = customDate.substring(0, 1).toUpperCase() + customDate.substring(1);
+            begin.add(Calendar.DATE, 1);
+            data = addDayItemsToList(begin.getTime(),data);
+            day++;
+        }
+
+        return data;
+    }
+
+    private static List<CalendarInfo> addDayItemsToList(Date date, List<CalendarInfo> data) {
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("EEEE d MMMM yyyy", new Locale("FR","fr"));
+        String customDate = simpleDateFormat.format(date);
+        customDate = customDate.substring(0, 1).toUpperCase() + customDate.substring(1);
+
+        if (data == null) {
+            data = (List<CalendarInfo>) WellSql.select(CALENDAR_CLASS)
+                    .where()
+                    .equals(CalendarInfoTable.DAY, customDate)
+                    .endWhere()
+                    .getAsModel();
+        }
+        else
+        {
             data.addAll((List<CalendarInfo>) WellSql.select(CALENDAR_CLASS)
                     .where()
                     .equals(CalendarInfoTable.DAY, customDate)
                     .endWhere()
                     .getAsModel());
-            day++;
         }
-
 
         return data;
     }
