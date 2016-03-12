@@ -1,70 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:id="@+id/gradesFragment">
 
-
-    <com.cjj.MaterialRefreshLayout
-        android:id="@+id/material_swipe_refresh"
-        android:layout_width="match_parent"
-        android:visibility="visible"
-        app:overlay="false"
-        app:wave_show="true"
-        app:wave_color="@color/colorPrimary"
-        app:wave_height_type="normal"
-        android:layout_height="match_parent">
-
-<!--<android.support.v4.widget.SwipeRefreshLayout
+    <android.support.v4.widget.SwipeRefreshLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/swipe_refresh"
         android:visibility="visible"
-        >-->
+        >
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/marksRecyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-
             />
-
-    <!--</android.support.v4.widget.SwipeRefreshLayout>-->
-
-    </com.cjj.MaterialRefreshLayout>
-
-    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-        android:id="@+id/loadingLayout"
-        android:orientation="vertical"
-        android:background="@android:color/white"
-        android:elevation="4dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginRight="30dp"
-        android:padding="10dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:visibility="gone"
-        android:weightSum="1"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:text="#AllIsLoading"
-            android:layout_margin="10dp"
-            android:id="@+id/textView3"
-            android:textColor="@color/colorPrimary"
-            android:layout_gravity="center_horizontal" />
-
-        <ProgressBar
-            style="?android:attr/progressBarStyleLarge"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:id="@+id/progressBar"
-            android:layout_margin="10dp"
-            android:layout_gravity="center_horizontal" />
-
-    </LinearLayout>
+   </android.support.v4.widget.SwipeRefreshLayout>
 </RelativeLayout>

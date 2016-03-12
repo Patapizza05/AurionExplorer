@@ -10,7 +10,7 @@
         android:text="S'authentifier"
         android:background="@drawable/red_button_ripple_background"
         android:id="@+id/fortinetButton"
-        android:drawableLeft="@drawable/ic_wifi_lock_white_18dp"
+        android:drawableLeft="@drawable/ic_wifi_lock_red_500_18dp"
         android:drawablePadding="10dp"
         android:layout_margin="30dp"
         android:padding="10dp"

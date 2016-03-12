@@ -16,11 +16,15 @@ import android.widget.LinearLayout;
 import com.cjj.MaterialHeadView;
 import com.cjj.MaterialRefreshLayout;
 import com.cjj.MaterialRefreshListener;
+import com.yarolegovich.wellsql.SelectQuery;
+import com.yarolegovich.wellsql.WellSql;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.List;
 
 import fr.clementduployez.aurionexplorer.R;
+import fr.clementduployez.aurionexplorer.Utils.SQL.SQLUtils;
 
 /**
  * Created by cdupl on 2/12/2016.
@@ -29,51 +33,23 @@ public class GradesFragment extends Fragment implements SwipeRefreshLayout.OnRef
 
     private View rootView;
     private RecyclerView recyclerView;
-    //private SwipeRefreshLayout swipeRefreshLayout;
+    private SwipeRefreshLayout swipeRefreshLayout;
     private LoadGradesListAsync loadGradesListAsync;
     private GradesAdapter adapter;
-    private LinearLayout loadingLayout;
-
-    private boolean notLoadedYet = true;
-    private MaterialRefreshLayout materialSwipeRefreshLayout;
 
     public static GradesFragment newInstance() {
         final GradesFragment gradesFragment = new GradesFragment();
-        //final Bundle arguments = new Bundle();
-        //arguments.putParcelable(tweetKey, tweet);
-        //tweetFragment.setArguments(arguments);
         return gradesFragment;
     }
-
-    /*@Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        try {
-            tweetClickListener = (TweetClickListener) activity;
-        } catch (Exception ex) {
-            //@users and #hashtags won't be clickable
-        }
-    }*/
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         rootView = inflater.inflate(R.layout.fragment_grades, container, false);
 
-        //swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh);
-        materialSwipeRefreshLayout = (MaterialRefreshLayout) rootView.findViewById(R.id.material_swipe_refresh);
+        swipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh);
         recyclerView = (RecyclerView) rootView.findViewById(R.id.marksRecyclerView);
-        loadingLayout = (LinearLayout) rootView.findViewById(R.id.loadingLayout);
 
-        //swipeRefreshLayout.setOnRefreshListener(this);
-
-
-
-        materialSwipeRefreshLayout.setMaterialRefreshListener(new MaterialRefreshListener() {
-            @Override
-            public void onRefresh(MaterialRefreshLayout materialRefreshLayout) {
-                onRefreshGrades();
-            }
-        });
+        swipeRefreshLayout.setOnRefreshListener(this);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         if (adapter == null) {
@@ -83,10 +59,19 @@ public class GradesFragment extends Fragment implements SwipeRefreshLayout.OnRef
         adapter.updateSubtitle();
 
 
-        //swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
+        swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
 
         if (adapter.getItemCount() == 0) {
-            onRefresh();
+            WellSql.select(GradesInfo.class).getAsModelAsync(new SelectQuery.Callback<List<GradesInfo>>() {
+                @Override
+                public void onDataReady(List<GradesInfo> gradesInfos) {
+                    if (gradesInfos.size() > 0) {
+                        setAdapter(gradesInfos);
+                    } else {
+                        onRefresh();
+                    }
+                }
+            });
         }
 
         return rootView;
@@ -95,36 +80,20 @@ public class GradesFragment extends Fragment implements SwipeRefreshLayout.OnRef
     @Override
     public void onResume() {
         super.onResume();
-
-        /*Hack to change the size of the refresh head view*/
-        Field field;
-        try {
-            field = materialSwipeRefreshLayout.getClass().getDeclaredField("materialHeadView");
-            field.setAccessible(true);
-            MaterialHeadView head = (MaterialHeadView) field.get(materialSwipeRefreshLayout);
-            head.setProgressSize(35);
-            head.setProgressStokeWidth(2);
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
     }
 
     public void showProgressBar() {
         //Needs a runnable to be able to display the progress bar (in case the user launched the refreshTweets via the menu settings
-        /*swipeRefreshLayout.post(new Runnable() {
+        swipeRefreshLayout.post(new Runnable() {
             @Override
             public void run() {
                 swipeRefreshLayout.setRefreshing(true);
             }
-        });*/
-        if (notLoadedYet) loadingLayout.setVisibility(View.VISIBLE);
+        });
     }
+
     public void hideProgressBar() {
-        materialSwipeRefreshLayout.finishRefresh();
-        if (notLoadedYet){
-            loadingLayout.setVisibility(View.GONE);
-            notLoadedYet = false;
-        }
+        swipeRefreshLayout.setRefreshing(false);
     }
 
     @Override
@@ -148,7 +117,7 @@ public class GradesFragment extends Fragment implements SwipeRefreshLayout.OnRef
         setAdapter(gradesInfos);
     }
 
-    public void setAdapter(ArrayList<GradesInfo> gradesInfos) {
+    public void setAdapter(List<GradesInfo> gradesInfos) {
         if (gradesInfos != null && gradesInfos.size() > 0) {
             if (adapter == null) {
                 adapter = new GradesAdapter(gradesInfos, this);
@@ -156,6 +125,7 @@ public class GradesFragment extends Fragment implements SwipeRefreshLayout.OnRef
             }
             else {
                 adapter.setData(gradesInfos);
+                SQLUtils.removeAndSave(gradesInfos);
             }
         }
         else {

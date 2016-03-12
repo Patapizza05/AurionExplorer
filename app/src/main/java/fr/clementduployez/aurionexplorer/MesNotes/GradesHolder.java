@@ -1,7 +1,5 @@
 package fr.clementduployez.aurionexplorer.MesNotes;
 
-import android.graphics.Color;
-import android.graphics.drawable.GradientDrawable;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
@@ -29,7 +27,7 @@ public class GradesHolder extends RecyclerView.ViewHolder {
     public void bind(GradesInfo gradesInfo) {
         date.setText(gradesInfo.getDate());
         title.setText(gradesInfo.getTitle());
-        id.setText(gradesInfo.getId());
+        id.setText(gradesInfo.getGradeId());
         setValue(gradesInfo.getValue());
     }
 
