@@ -130,7 +130,7 @@ public class LoadCalendarListAsync  extends AsyncTask<String,String,ArrayList<Ca
         while (i < size) {
             Element element = document.getElementById("form:composantsInterventions:" + i + ":case");
             String date = document.getElementById("form:composantsInterventions:" + i + ":detail").child(1).getElementsByTag("td").get(1).html();
-            data.add(new CalendarInfo(date, element.html()));
+            data.add(new CalendarInfo(date, element.ownText()));
             i++;
         }
 
