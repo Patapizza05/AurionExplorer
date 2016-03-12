@@ -10,6 +10,7 @@ import com.yarolegovich.wellsql.mapper.SQLiteMapper;
 import java.util.Map;
 
 import fr.clementduployez.aurionexplorer.MesNotes.GradesInfo;
+import fr.clementduployez.aurionexplorer.MonPlanning.CalendarInfo;
 
 /**
  * Created by cdupl on 3/12/2016.
@@ -17,7 +18,7 @@ import fr.clementduployez.aurionexplorer.MesNotes.GradesInfo;
 public class MySQLWellConfig extends DefaultWellConfig {
 
     private static final String DB_NAME = "AurionDatabase";
-    private static final int DB_VERSION = 1;
+    private static final int DB_VERSION = 3;
 
     public MySQLWellConfig(Context context) {
         super(context);
@@ -26,11 +27,13 @@ public class MySQLWellConfig extends DefaultWellConfig {
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase, WellTableManager helper) {
         helper.createTable(GradesInfo.class);
+        helper.createTable(CalendarInfo.class);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase sqLiteDatabase, WellTableManager helper, int i, int i1) {
         helper.dropTable(GradesInfo.class);
+        helper.dropTable(CalendarInfo.class);
         onCreate(sqLiteDatabase, helper);
     }
 
@@ -43,4 +46,6 @@ public class MySQLWellConfig extends DefaultWellConfig {
     public String getDbName() {
         return DB_NAME;
     }
+
+
 }

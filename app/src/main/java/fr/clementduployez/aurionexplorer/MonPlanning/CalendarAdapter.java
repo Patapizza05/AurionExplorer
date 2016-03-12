@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import com.github.androflo.sectionedrecyclerviewadapter.Sectionizer;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import fr.clementduployez.aurionexplorer.R;
 
@@ -18,9 +19,9 @@ import fr.clementduployez.aurionexplorer.R;
 public class CalendarAdapter extends RecyclerView.Adapter<CalendarHolder> implements Sectionizer<CalendarInfo> {
 
     private final CalendarFragment calendarFragment;
-    private ArrayList<CalendarInfo> data;
+    private List<CalendarInfo> data;
 
-    public CalendarAdapter(ArrayList<CalendarInfo> data,CalendarFragment calendarFragment) {
+    public CalendarAdapter(List<CalendarInfo> data,CalendarFragment calendarFragment) {
         this.calendarFragment = calendarFragment;
         setData(data);
     }
@@ -42,7 +43,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarHolder> implem
         return data.size();
     }
 
-    public void setData(ArrayList<CalendarInfo> data) {
+    public void setData(List<CalendarInfo> data) {
         this.data = data;
         updateSubtitle();
         this.notifyDataSetChanged();
@@ -74,7 +75,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarHolder> implem
         return s.getDay();
     }
 
-    public ArrayList<CalendarInfo> getData() {
+    public List<CalendarInfo> getData() {
         return data;
     }
 }

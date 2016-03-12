@@ -1,20 +1,48 @@
 package fr.clementduployez.aurionexplorer.MonPlanning;
 
-import android.widget.TextView;
+import com.yarolegovich.wellsql.core.Identifiable;
+import com.yarolegovich.wellsql.core.annotation.Column;
+import com.yarolegovich.wellsql.core.annotation.PrimaryKey;
+import com.yarolegovich.wellsql.core.annotation.RawConstraints;
+import com.yarolegovich.wellsql.core.annotation.Table;
 
 /**
  * Created by cdupl on 2/17/2016.
  */
-public class CalendarInfo {
 
-    private final String beginHour;
-    private final String endHour;
-    private final String lessonType;
-    private final String lessonTitle;
-    private final String lessonRoom;
-    private final String lessonId;
-    private final String day;
-    private final String teacher;
+@Table
+@RawConstraints({"UNIQUE (DAY, BEGIN_HOUR)"})
+public class CalendarInfo implements Identifiable {
+
+    @Column
+    @PrimaryKey
+    private int id;
+
+    @Column
+    private String beginHour;
+
+    @Column
+    private String endHour;
+
+    @Column
+    private String lessonType;
+
+    @Column
+    private String lessonTitle;
+
+    @Column
+    private String lessonRoom;
+
+    @Column
+    private String lessonId;
+
+    @Column
+    private String day;
+
+    @Column
+    private String teacher;
+
+    public CalendarInfo() {}
 
     public CalendarInfo(String day, String beginHour, String endHour, String lessonType, String lessonTitle, String lessonRoom, String lessonId, String teacher) {
         this.day = day;
@@ -44,35 +72,77 @@ public class CalendarInfo {
 
     }
 
+    @Override
+    public int getId() {
+        return id;
+    }
+
+    @Override
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public String getBeginHour() {
         return beginHour;
+    }
+
+    public void setBeginHour(String beginHour) {
+        this.beginHour = beginHour;
     }
 
     public String getEndHour() {
         return endHour;
     }
 
+    public void setEndHour(String endHour) {
+        this.endHour = endHour;
+    }
+
     public String getLessonType() {
         return lessonType;
+    }
+
+    public void setLessonType(String lessonType) {
+        this.lessonType = lessonType;
     }
 
     public String getLessonTitle() {
         return lessonTitle;
     }
 
+    public void setLessonTitle(String lessonTitle) {
+        this.lessonTitle = lessonTitle;
+    }
+
     public String getLessonRoom() {
         return lessonRoom;
+    }
+
+    public void setLessonRoom(String lessonRoom) {
+        this.lessonRoom = lessonRoom;
     }
 
     public String getLessonId() {
         return lessonId;
     }
 
+    public void setLessonId(String lessonId) {
+        this.lessonId = lessonId;
+    }
+
     public String getDay() {
         return day;
     }
 
+    public void setDay(String day) {
+        this.day = day;
+    }
+
     public String getTeacher() {
         return teacher;
+    }
+
+    public void setTeacher(String teacher) {
+        this.teacher = teacher;
     }
 }

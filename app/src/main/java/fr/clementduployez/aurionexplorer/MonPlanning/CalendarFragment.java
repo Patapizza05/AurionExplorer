@@ -25,9 +25,12 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 
 import fr.clementduployez.aurionexplorer.Informer;
 import fr.clementduployez.aurionexplorer.R;
+import fr.clementduployez.aurionexplorer.Utils.SQL.SQLUtils;
+
 import android.support.v4.app.FragmentManager;
 /**
  * Created by cdupl on 2/12/2016.
@@ -50,6 +53,8 @@ public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnR
     private SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
 
     private Button currentDateButton;
+
+    private static final int DAY_OFFSET = 6;
 
     public static CalendarFragment newInstance() {
         final CalendarFragment calendarFragment= new CalendarFragment();
@@ -80,16 +85,12 @@ public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnR
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        ArrayList<CalendarInfo> emptyArray = new ArrayList<>();
-        /*testArray.add(new CalendarInfo("lun. 22/2","17:30","19:15","Cours","Nature Of Sound","B305","M1"));
-        testArray.add(new CalendarInfo("mar. 23/2","10:15","12:15","Cours","Module FHES d'Ethique et Psychologie","B802","M1"));
-        testArray.add(new CalendarInfo("mar. 23/2","13:30","15:15","Cours","Module d'ouverture GRH","B802","M1"));
-        testArray.add(new CalendarInfo("mer. 24/2","13:30","15:15","Cours","Module de Network Programming","B802","M1"));*/
+        List<CalendarInfo> data = SQLUtils.getCalendar(DAY_OFFSET);
 
         if (mAdapter == null || mSectionedAdapter == null || mAdapter.getItemCount() == 0) {
-            mAdapter = new CalendarAdapter(emptyArray,this);
+            mAdapter = new CalendarAdapter(data,this);
             mSectionedAdapter  = new SectionedRecyclerViewAdapter(this.getActivity(),R.layout.fragment_calendar_recycler_section_item,R.id.calendar_section_title, mAdapter, mAdapter);
-            mSectionedAdapter.setSections(emptyArray);
+            mSectionedAdapter.setSections(data);
             recyclerView.setAdapter(mSectionedAdapter);
         }
         else {
@@ -97,7 +98,10 @@ public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnR
             recyclerView.setAdapter(mSectionedAdapter);
         }
 
+
         mAdapter.updateSubtitle();
+
+
 
         //swipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
 
@@ -108,7 +112,7 @@ public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnR
         final Calendar calendar = Calendar.getInstance();
         SimpleDateFormat date = new SimpleDateFormat("dd/MM/yyyy");
         beginDateButton.setText(date.format(calendar.getTime()));
-        calendar.add(Calendar.DATE, 6);
+        calendar.add(Calendar.DATE, DAY_OFFSET);
         endDateButton.setText(date.format(calendar.getTime()));
     }
 
@@ -178,6 +182,7 @@ public class CalendarFragment extends Fragment implements SwipeRefreshLayout.OnR
         mSectionedAdapter.setSections(calendarData);
         mAdapter.notifyDataSetChanged();
         mSectionedAdapter.notifyDataSetChanged();
+        SQLUtils.save(calendarData);
     }
 
     private void setBeginDate(int year, int month, int day)

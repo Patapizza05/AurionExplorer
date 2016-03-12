@@ -20,6 +20,7 @@ import fr.clementduployez.aurionexplorer.MesAbsences.AbsencesFragment;
 import fr.clementduployez.aurionexplorer.MesConferences.ConferencesFragment;
 import fr.clementduployez.aurionexplorer.MesNotes.GradesFragment;
 import fr.clementduployez.aurionexplorer.MonPlanning.CalendarFragment;
+import fr.clementduployez.aurionexplorer.Utils.SQL.SQLUtils;
 import fr.clementduployez.aurionexplorer.Utils.UserData;
 
 //Drawer Builder : http://android-arsenal.com/details/1/1526
@@ -73,6 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.menu_disconnect) {
+            SQLUtils.clear();
             UserData.clear();
             Intent intent = new Intent(this, LoginActivity.class);
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
