@@ -92,9 +92,8 @@ public class CalendarFragment extends AurionPageFragment<CalendarInfo> implement
     public void initAdapter() {
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
 
-        List<CalendarInfo> data = SQLUtils.getCalendarItems(DAY_OFFSET);
-
         if (mAdapter == null || mSectionedAdapter == null || mAdapter.getItemCount() == 0) {
+            List<CalendarInfo> data = SQLUtils.getCalendarItems(DAY_OFFSET);
             mAdapter = new CalendarAdapter(data,this);
             mSectionedAdapter  = new SectionedCalendarRecyclerViewAdapter(this.getActivity(),R.layout.fragment_calendar_recycler_section_item,R.id.calendar_section_title, mAdapter, mAdapter);
             mSectionedAdapter.setSections(data);

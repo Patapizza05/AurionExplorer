@@ -1,4 +1,4 @@
-package fr.clementduployez.aurionexplorer.MesAbsences;
+package fr.clementduployez.aurionexplorer.NotImplemented;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -12,12 +12,12 @@ import fr.clementduployez.aurionexplorer.R;
 /**
  * Created by cdupl on 2/12/2016.
  */
-public class AbsencesFragment extends Fragment {
+public class NotImplementedFragment extends Fragment {
     private View rootView;
 
-    public static AbsencesFragment newInstance() {
-        final AbsencesFragment absencesFragment = new AbsencesFragment();
-        return absencesFragment;
+    public static NotImplementedFragment newInstance() {
+        final NotImplementedFragment notImplementedFragment = new NotImplementedFragment();
+        return notImplementedFragment;
     }
 
     @Override

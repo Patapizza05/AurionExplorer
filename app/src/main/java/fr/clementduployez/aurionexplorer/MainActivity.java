@@ -7,16 +7,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
+import fr.clementduployez.aurionexplorer.Anniversaires.BirthdayFragment;
 import fr.clementduployez.aurionexplorer.Annuaire.Staff.StaffDirectoryFragment;
 import fr.clementduployez.aurionexplorer.Fortinet.FortinetFragment;
 import fr.clementduployez.aurionexplorer.Login.LoginActivity;
-import fr.clementduployez.aurionexplorer.MesAbsences.AbsencesFragment;
+import fr.clementduployez.aurionexplorer.NotImplemented.NotImplementedFragment;
 import fr.clementduployez.aurionexplorer.MesConferences.ConferencesFragment;
 import fr.clementduployez.aurionexplorer.MesNotes.GradesFragment;
 import fr.clementduployez.aurionexplorer.MonPlanning.CalendarFragment;
@@ -36,9 +36,10 @@ public class MainActivity extends AppCompatActivity {
     private GradesFragment mGradesFragment;
     private CalendarFragment mCalendarFragment;
     private StaffDirectoryFragment mStaffDirectoryFragment;
-    private AbsencesFragment mNotImplementedFragment;
+    private NotImplementedFragment mNotImplementedFragment;
     private ConferencesFragment mConferencesFragment;
     private FortinetFragment mFortinetFragment;
+    private BirthdayFragment mBirthdayFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -134,15 +135,21 @@ public class MainActivity extends AppCompatActivity {
                 }
                 openFragment(mConferencesFragment);
                 break;
-            case "Fortinet":
+            /*case "Fortinet":
                 if (mFortinetFragment == null) {
                     mFortinetFragment = FortinetFragment.newInstance();
                 }
                 openFragment(mFortinetFragment);
+                break;*/
+            case "Anniversaires":
+                if (mBirthdayFragment == null) {
+                    mBirthdayFragment = BirthdayFragment.newInstance();
+                }
+                openFragment(mBirthdayFragment);
                 break;
             default:
                 if (mNotImplementedFragment == null) {
-                    mNotImplementedFragment = AbsencesFragment.newInstance();
+                    mNotImplementedFragment = NotImplementedFragment.newInstance();
                 }
                 openFragment(mNotImplementedFragment);
                 break;

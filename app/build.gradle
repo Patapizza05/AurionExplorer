@@ -39,5 +39,6 @@ dependencies {
 
     compile 'com.yarolegovich:wellsql:1.0.5'
     apt 'com.yarolegovich:wellsql-processor:1.0.5'
+    compile 'com.android.support:support-v13:23.1.1'
 
 }
