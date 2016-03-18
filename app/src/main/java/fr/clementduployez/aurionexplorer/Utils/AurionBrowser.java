@@ -1,11 +1,14 @@
 package fr.clementduployez.aurionexplorer.Utils;
 
+import android.util.Log;
+
 import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 
 import fr.clementduployez.aurionexplorer.Informer;
@@ -144,6 +147,54 @@ public class AurionBrowser {
         } catch (IOException e) {
             e.printStackTrace();
             Informer.inform("Erreur pendant la connexion à la page \""+title+"\"");
+        }
+        return null;
+    }
+
+    public static Connection.Response connectToNextPage(Connection.Response previousPage, HashMap<String, String> customData) {
+
+        Informer.inform("Chargement de la page suivante");
+
+        Log.i("Last url:",previousPage.url().toString());
+
+        Map<String,String> data = JSoupUtils.getHiddenInputData(previousPage);
+        if (customData != null) {
+            data.putAll(customData);
+        }
+
+        data.put("javax.faces.source","form:haut");
+        data.put("javax.faces.partial.event","rich:datascroller:onscroll");
+        data.put("javax.faces.partial.execute","form:haut");
+        data.put("javax.faces.partial.render","");
+        data.put("form:haut:page","next"); //Next page
+        data.put("org.richfaces.ajax.component","form:haut");
+        data.put("form:haut","form:haut");
+        data.put("rfExt","null");
+        data.put("AJAX:EVENT_COUNT","1");
+        data.put("javax.faces.partial.ajax","true");
+
+        Iterator it = data.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry pair = (Map.Entry)it.next();
+            System.out.println(pair.getKey() + " = " + pair.getValue());
+        }
+
+        try {
+            Connection.Response result = Jsoup.connect(previousPage.url().toString())
+                    .header("Content-Type", CONTENT_TYPE)
+                    .timeout(Settings.CONNECTION_TIMEOUT)
+                    .userAgent(USER_AGENT)
+                    .referrer(AURION_URL)
+                    .cookies(AurionCookies.cookies)
+                    .data(data)
+                    .method(Connection.Method.POST)
+                    .execute();
+
+            AurionCookies.cookies.putAll(result.cookies());
+            return result;
+        } catch (IOException e) {
+            e.printStackTrace();
+            Informer.inform("Erreur pendant le chargement de la page suivante");
         }
         return null;
     }

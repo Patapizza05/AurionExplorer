@@ -107,11 +107,24 @@ public class GradesFragment extends AurionPageFragment<GradesInfo> implements Sw
         }
     }
 
+    public void onAsyncProgress(ArrayList<GradesInfo>[] data, boolean isFirstValues) {
+
+    }
+
     @Override
     public void onAsyncResult(List<GradesInfo> data) {
+        onAsyncResult(data,true);
+    }
+
+    public void onAsyncResult(List<GradesInfo> data, boolean isFirstValues) {
         loadGradesListAsync = null;
         hideProgressBar();
-        setAdapter(data);
+        if (isFirstValues) {
+            setAdapter(data);
+        }
+        else {
+            addToAdapter(data);
+        }
     }
 
     @Override
@@ -130,4 +143,20 @@ public class GradesFragment extends AurionPageFragment<GradesInfo> implements Sw
             onRefresh();
         }
     }
+
+    public void addToAdapter(List<GradesInfo> data) {
+        if (data != null && data.size() > 0) {
+            if (adapter == null) {
+                adapter = new GradesAdapter(data, this);
+                recyclerView.setAdapter(adapter);
+            }
+            else {
+                adapter.getData().addAll(data);
+                adapter.notifyDataSetChanged();
+                SQLUtils.add(data);
+            }
+        }
+    }
+
+
 }

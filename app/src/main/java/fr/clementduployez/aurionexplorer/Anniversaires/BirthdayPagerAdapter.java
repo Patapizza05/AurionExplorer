@@ -27,9 +27,9 @@ public class BirthdayPagerAdapter extends FragmentPagerAdapter {
         switch(i)
         {
             case DAILY:
-                return NotImplementedFragment.newInstance();
+                return BirthdayPeriodFragment.newInstance();
             case MONTHLY:
-                return NotImplementedFragment.newInstance();
+                return BirthdayPeriodFragment.newInstance();
             default:
                 break;
         }

@@ -1,6 +1,7 @@
 package fr.clementduployez.aurionexplorer.MesNotes;
 
 import android.os.AsyncTask;
+import android.util.Log;
 
 import org.jsoup.Connection;
 import org.jsoup.nodes.Document;
@@ -16,9 +17,10 @@ import fr.clementduployez.aurionexplorer.Utils.AurionBrowser;
 /**
  * Created by cdupl on 2/14/2016.
  */
-public class LoadGradesListAsync extends AsyncTask<String,String,ArrayList<GradesInfo>> {
+public class LoadGradesListAsync extends AsyncTask<String,ArrayList<GradesInfo>,ArrayList<GradesInfo>> {
 
     private final GradesFragment gradesFragment;
+    private boolean isFirstValues = true;
 
     public LoadGradesListAsync(GradesFragment gradesFragment) {
         this.gradesFragment = gradesFragment;
@@ -26,6 +28,7 @@ public class LoadGradesListAsync extends AsyncTask<String,String,ArrayList<Grade
 
     @Override
     protected ArrayList<GradesInfo> doInBackground(String... params) {
+        isFirstValues = true;
         Connection.Response response = AurionBrowser.connectToPage("Mes notes");
         ArrayList<GradesInfo> gradesInfos = null;
         if (response != null && response.statusCode() == 200) {
@@ -36,9 +39,24 @@ public class LoadGradesListAsync extends AsyncTask<String,String,ArrayList<Grade
             }
         }
 
+
+
+        while (gradesInfos != null && gradesInfos.size() >= 20) {
+            publishProgress(gradesInfos);
+            response = AurionBrowser.connectToNextPage(response,null);
+            if (response != null && response.statusCode() == 200) {
+                try {
+                    gradesInfos = parseMarks(response);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+
         if (gradesInfos == null) {
             gradesInfos = new ArrayList<>();
         }
+
         return gradesInfos;
     }
 
@@ -62,9 +80,10 @@ public class LoadGradesListAsync extends AsyncTask<String,String,ArrayList<Grade
     }
 
     @Override
-    protected void onProgressUpdate(String... values) {
-        super.onProgressUpdate(values);
-        Informer.inform(values[0]);
+    protected void onProgressUpdate(ArrayList<GradesInfo>... data) {
+        super.onProgressUpdate(data);
+        this.gradesFragment.onAsyncProgress(data,isFirstValues);
+        isFirstValues = false;
     }
 
 
@@ -73,6 +92,18 @@ public class LoadGradesListAsync extends AsyncTask<String,String,ArrayList<Grade
     protected void onPostExecute(ArrayList<GradesInfo> gradesInfos) {
         super.onPostExecute(gradesInfos);
         Informer.inform("Récupération des notes terminée.");
-        this.gradesFragment.onAsyncResult(gradesInfos);
+        this.gradesFragment.onAsyncResult(gradesInfos,isFirstValues);
     }
 }
+
+        /*Connection.Response testResponse = AurionBrowser.connectToPage("Salles disponibles");
+        testResponse = AurionBrowser.connectToNextPage(testResponse,null);
+        try {
+            Document testDoc = testResponse.parse();
+            for (Element e : testDoc.getElementsByClass("preformatted"))
+            {
+                Log.i("Pref",e.html());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }*/

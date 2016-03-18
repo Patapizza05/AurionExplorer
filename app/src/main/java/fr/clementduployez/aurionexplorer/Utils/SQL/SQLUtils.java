@@ -32,6 +32,10 @@ public class SQLUtils {
         WellSql.insert(data).asSingleTransaction(true).execute();
     }
 
+    public static void add(List<GradesInfo> data) {
+        WellSql.insert(data).asSingleTransaction(true).execute();
+    }
+
     public static void save(List<CalendarInfo> data)
     {
         for (CalendarInfo info : data)
@@ -64,7 +68,7 @@ public class SQLUtils {
 
     public static List<CalendarInfo> getCalendarItems(final Calendar begin, int endDayOffset)
     {
-        List<CalendarInfo> data = addDayItemsToList(begin.getTime(),null);
+        List<CalendarInfo> data = addDayItemsToList(begin.getTime(), null);
 
         int day = 0;
         while (day < endDayOffset)
@@ -105,4 +109,6 @@ public class SQLUtils {
         WellSql.delete(CALENDAR_CLASS).execute();
         WellSql.delete(GRADES_CLASS).execute();
     }
+
+
 }
