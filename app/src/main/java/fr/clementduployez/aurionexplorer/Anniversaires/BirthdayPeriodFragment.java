@@ -2,6 +2,7 @@ package fr.clementduployez.aurionexplorer.Anniversaires;
 
 import android.app.Fragment;
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,6 +27,8 @@ public class BirthdayPeriodFragment extends Fragment {
     private BirthdayFragment birthdayFragment;
     private List<BirthdayInfo> data;
     private BirthdaysAdapter adapter;
+    private SwipeRefreshLayout mSwipeRefreshLayout;
+    private boolean isShowProgressBar;
 
     public static BirthdayPeriodFragment newInstance(BirthdayFragment fragment, List<BirthdayInfo> data) {
         final BirthdayPeriodFragment birthdayPeriodFragment = new BirthdayPeriodFragment();
@@ -39,10 +42,17 @@ public class BirthdayPeriodFragment extends Fragment {
         rootView = inflater.inflate(R.layout.fragment_birthday_period, container, false);
         ((AppCompatActivity) (this.getActivity())).getSupportActionBar().setSubtitle(null);
 
+        this.mSwipeRefreshLayout = (SwipeRefreshLayout) rootView.findViewById(R.id.swipe_refresh);
+        this.mSwipeRefreshLayout.setOnRefreshListener(this.birthdayFragment);
+        this.mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
+
         this.mRecyclerView = (RecyclerView) rootView.findViewById(R.id.birthdayRecyclerView);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         setAdapter(new ArrayList<BirthdayInfo>());
         setForeground();
+        if (isShowProgressBar) {
+            showProgressBar();
+        }
         return rootView;
     }
 
@@ -67,5 +77,27 @@ public class BirthdayPeriodFragment extends Fragment {
             adapter.updateSubtitle();
         }
 
+    }
+
+    public void showProgressBar() {
+        this.isShowProgressBar = true;
+
+        if (mSwipeRefreshLayout != null) {
+            //Needs a runnable to be able to display the progress bar (in case the user launched the refreshTweets via the menu settings
+            mSwipeRefreshLayout.post(new Runnable() {
+                @Override
+                public void run() {
+                    mSwipeRefreshLayout.setRefreshing(true);
+                }
+            });
+        }
+    }
+
+    public void hideProgressBar() {
+        Log.i("hide","progress bar");
+        this.isShowProgressBar = false;
+        if (mSwipeRefreshLayout != null) {
+            mSwipeRefreshLayout.setRefreshing(false);
+        }
     }
 }

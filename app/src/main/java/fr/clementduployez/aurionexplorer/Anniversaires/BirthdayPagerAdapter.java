@@ -21,6 +21,7 @@ public class BirthdayPagerAdapter extends FragmentPagerAdapter {
     private static final int MONTHLY = 1;
 
     private BirthdayFragment mBirthdayFragment;
+    private boolean isShowProgressBar = false;
 
     public BirthdayPagerAdapter(BirthdayFragment mBirthdayFragment) {
         super(mBirthdayFragment.getFragmentManager());
@@ -43,12 +44,18 @@ public class BirthdayPagerAdapter extends FragmentPagerAdapter {
                     dailyFragment = BirthdayPeriodFragment.newInstance(this.mBirthdayFragment, birthdayList.getDailyBirthdays());
                 }
                 dailyFragment.setForeground();
+                if (isShowProgressBar) {
+                    showProgressBar();
+                }
                 return dailyFragment;
             case MONTHLY:
                 if (monthlyFragment == null) {
                     monthlyFragment = BirthdayPeriodFragment.newInstance(this.mBirthdayFragment, birthdayList.getMonthlyBirthdays());
                 }
                 monthlyFragment.setForeground();
+                if (isShowProgressBar) {
+                    showProgressBar();
+                }
                 return monthlyFragment;
             default:
                 break;
@@ -70,5 +77,26 @@ public class BirthdayPagerAdapter extends FragmentPagerAdapter {
             monthlyFragment.update(birthdayList.getMonthlyBirthdays());
         }
 
+    }
+
+    public void showProgressBar() {
+        if (monthlyFragment != null) {
+            monthlyFragment.showProgressBar();
+        }
+        if (dailyFragment != null) {
+            dailyFragment.showProgressBar();
+        }
+        this.isShowProgressBar = true;
+    }
+
+    public void hideProgressBar() {
+        if (monthlyFragment != null) {
+            monthlyFragment.hideProgressBar();
+        }
+
+        if (dailyFragment != null) {
+            dailyFragment.hideProgressBar();
+        }
+        this.isShowProgressBar = false;
     }
 }

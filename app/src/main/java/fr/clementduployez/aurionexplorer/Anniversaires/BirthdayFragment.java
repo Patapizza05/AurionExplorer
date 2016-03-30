@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,7 +18,7 @@ import fr.clementduployez.aurionexplorer.R;
 /**
  * Created by cdupl on 3/15/2016.
  */
-public class BirthdayFragment extends AurionPageFragment<BirthdayList> {
+public class BirthdayFragment extends AurionPageFragment<BirthdayList> implements SwipeRefreshLayout.OnRefreshListener {
 
     private View rootView;
     private TabLayout tabLayout;
@@ -109,12 +110,12 @@ public class BirthdayFragment extends AurionPageFragment<BirthdayList> {
 
     @Override
     public void showProgressBar() {
-
+        pagerAdapter.showProgressBar();
     }
 
     @Override
     public void hideProgressBar() {
-
+        pagerAdapter.hideProgressBar();
     }
 
     @Override
@@ -130,19 +131,26 @@ public class BirthdayFragment extends AurionPageFragment<BirthdayList> {
 
     @Override
     public void onAsyncResult(List<BirthdayList> data) {
-
+        onAsyncResult(data.get(0));
     }
 
     public void onAsyncResult(BirthdayList data) {
         setAdapter(data);
+        hideProgressBar();
+        loadBirthdaysAsync = null;
     }
 
     @Override
     public void setAdapter(List<BirthdayList> data) {
-
+        setAdapter(data.get(0));
     }
 
     public void setAdapter(BirthdayList data) {
         pagerAdapter.setAdapters(data);
+    }
+
+    @Override
+    public void onRefresh() {
+        onRefreshAsync();
     }
 }
