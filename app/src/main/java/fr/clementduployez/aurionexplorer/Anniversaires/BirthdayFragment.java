@@ -9,17 +9,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import java.util.List;
+
+import fr.clementduployez.aurionexplorer.AurionPageFragment;
 import fr.clementduployez.aurionexplorer.R;
 
 /**
  * Created by cdupl on 3/15/2016.
  */
-public class BirthdayFragment extends Fragment {
+public class BirthdayFragment extends AurionPageFragment<BirthdayList> {
 
     private View rootView;
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private BirthdayPagerAdapter pagerAdapter;
+    private LoadBirthdaysAsync loadBirthdaysAsync;
 
     public static BirthdayFragment newInstance() {
         final BirthdayFragment birthdayFragment = new BirthdayFragment();
@@ -32,7 +36,23 @@ public class BirthdayFragment extends Fragment {
         tabLayout = (TabLayout)rootView.findViewById(R.id.tabLayout);
         viewPager = (ViewPager) rootView.findViewById(R.id.viewPager);
         initViewPagerAndTabs();
+        onRefreshAsync();
         return rootView;
+    }
+
+    @Override
+    public void initViews() {
+
+    }
+
+    @Override
+    public void initAdapter() {
+
+    }
+
+    @Override
+    public void initData() {
+
     }
 
 
@@ -59,6 +79,7 @@ public class BirthdayFragment extends Fragment {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
+                pagerAdapter.getItem(tab.getPosition());
             }
 
             @Override
@@ -68,7 +89,6 @@ public class BirthdayFragment extends Fragment {
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-
             }
         });
     }
@@ -85,4 +105,44 @@ public class BirthdayFragment extends Fragment {
         return viewPager;
     }
 
+
+
+    @Override
+    public void showProgressBar() {
+
+    }
+
+    @Override
+    public void hideProgressBar() {
+
+    }
+
+    @Override
+    public void onRefreshAsync() {
+        if (loadBirthdaysAsync == null) {
+            loadBirthdaysAsync = new LoadBirthdaysAsync(this);
+            loadBirthdaysAsync.execute();
+            showProgressBar();
+        } else {
+            hideProgressBar();
+        }
+    }
+
+    @Override
+    public void onAsyncResult(List<BirthdayList> data) {
+
+    }
+
+    public void onAsyncResult(BirthdayList data) {
+        setAdapter(data);
+    }
+
+    @Override
+    public void setAdapter(List<BirthdayList> data) {
+
+    }
+
+    public void setAdapter(BirthdayList data) {
+        pagerAdapter.setAdapters(data);
+    }
 }

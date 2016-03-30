@@ -77,9 +77,31 @@ public class CasBrowser {
 
     /*public static Connection.Response connectToStudentDirectory() {
 
-    }
+    }*/
 
-    public static Connection.Response connectToBirthday()*/
+    public static Connection.Response connectToBirthday() {
+        Informer.inform("Chargement des anniversaires");
+        login();
+
+
+        try {
+            Connection.Response response = Jsoup.connect("https://cas.isen.fr/home/annuaire/anniversaries.html")
+                    .userAgent(AurionBrowser.USER_AGENT)
+                    .followRedirects(true)
+                    .timeout(Settings.CONNECTION_TIMEOUT)
+                    .referrer("https://cas.isen.fr/home/annuaire/anniversaries.html")
+                    .header("Content-Type", AurionBrowser.CONTENT_TYPE)
+                    .cookies(AurionCookies.cookies)
+                    .method(Connection.Method.POST)
+                    .execute();
+            Informer.inform("Chargement effectué");
+            return response;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        Informer.inform("Erreur...");
+        return null;
+    }
 
 
 }

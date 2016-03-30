@@ -3,6 +3,8 @@ package fr.clementduployez.aurionexplorer.Anniversaires;
 import android.app.Fragment;
 import android.support.v13.app.FragmentPagerAdapter;
 
+import java.util.ArrayList;
+
 import fr.clementduployez.aurionexplorer.NotImplemented.NotImplementedFragment;
 
 /**
@@ -10,6 +12,9 @@ import fr.clementduployez.aurionexplorer.NotImplemented.NotImplementedFragment;
  */
 public class BirthdayPagerAdapter extends FragmentPagerAdapter {
 
+    private BirthdayList birthdayList = null;
+    private BirthdayPeriodFragment monthlyFragment = null;
+    private BirthdayPeriodFragment dailyFragment = null;
 
     private static final int NB_TABS = 2;
     private static final int DAILY = 0;
@@ -24,12 +29,27 @@ public class BirthdayPagerAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int i) {
+
+        if (birthdayList == null) {
+            birthdayList = new BirthdayList();
+            birthdayList.setDailyBirthdays(new ArrayList<BirthdayInfo>());
+            birthdayList.setMonthlyBirthdays(new ArrayList<BirthdayInfo>());
+        }
+
         switch(i)
         {
             case DAILY:
-                return BirthdayPeriodFragment.newInstance();
+                if (dailyFragment == null) {
+                    dailyFragment = BirthdayPeriodFragment.newInstance(this.mBirthdayFragment, birthdayList.getDailyBirthdays());
+                }
+                dailyFragment.setForeground();
+                return dailyFragment;
             case MONTHLY:
-                return BirthdayPeriodFragment.newInstance();
+                if (monthlyFragment == null) {
+                    monthlyFragment = BirthdayPeriodFragment.newInstance(this.mBirthdayFragment, birthdayList.getMonthlyBirthdays());
+                }
+                monthlyFragment.setForeground();
+                return monthlyFragment;
             default:
                 break;
         }
@@ -39,5 +59,16 @@ public class BirthdayPagerAdapter extends FragmentPagerAdapter {
     @Override
     public int getCount() {
         return NB_TABS;
+    }
+
+    public void setAdapters(BirthdayList data) {
+        birthdayList = data;
+        if (dailyFragment != null) {
+            dailyFragment.update(birthdayList.getDailyBirthdays());
+        }
+        if (monthlyFragment != null) {
+            monthlyFragment.update(birthdayList.getMonthlyBirthdays());
+        }
+
     }
 }

@@ -47,7 +47,7 @@ public class SectionedCalendarRecyclerViewAdapter extends SectionedRecyclerViewA
 
             } else {
                 view.setBackgroundResource(R.color.transparent);
-                view.setTextColor(AurionExplorerApplication.getContext().getResources().getColor(R.color.colorPrimary));
+                view.setTextColor(AurionExplorerApplication.getContext().getResources().getColor(R.color.black));
             }
         }
     }
