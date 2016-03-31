@@ -94,7 +94,6 @@ public class BirthdayPeriodFragment extends Fragment {
     }
 
     public void hideProgressBar() {
-        Log.i("hide","progress bar");
         this.isShowProgressBar = false;
         if (mSwipeRefreshLayout != null) {
             mSwipeRefreshLayout.setRefreshing(false);

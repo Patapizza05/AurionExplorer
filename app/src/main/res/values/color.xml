@@ -12,6 +12,7 @@
     <color name="black">@android:color/black</color>
     <color name="focus_red">#FFC107</color>
     <color name="transparent">@android:color/transparent</color>
+    <color name="colorRipple">#E0E0E0</color>
 
 
 

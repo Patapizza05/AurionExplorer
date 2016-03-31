@@ -64,12 +64,8 @@ public class BirthdayFragment extends AurionPageFragment<BirthdayList> implement
         tabLayout.addTab(tabLayout.newTab().setText("Ce mois-ci"));
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        //tabLayout.setTabGravity(TabLayout.GRAVITY_CENTER);
         //tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 
-
-        Log.i("Manager",""+this.getFragmentManager());
-        Log.i("CManager",""+this.getChildFragmentManager());
 
         pagerAdapter = new BirthdayPagerAdapter(this);
 
