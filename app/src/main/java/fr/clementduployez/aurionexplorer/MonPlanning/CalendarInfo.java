@@ -42,7 +42,8 @@ public class CalendarInfo implements Identifiable {
     @Column
     private String teacher;
 
-    public CalendarInfo() {}
+    public CalendarInfo() {
+    }
 
     public CalendarInfo(String day, String beginHour, String endHour, String lessonType, String lessonTitle, String lessonRoom, String lessonId, String teacher) {
         this.day = day;
@@ -55,6 +56,15 @@ public class CalendarInfo implements Identifiable {
         this.teacher = teacher;
     }
 
+    String getValueAtIndex(String[] words, int i) {
+        try {
+            return words[i].trim();
+        }
+        catch(Exception ex) {
+            return "";
+        }
+    }
+
     public CalendarInfo(String date, String sentence) {
         /*
         Sentence : 17:30 - 19:15 - Cours - - Module d'Ouverture Nature of Sound - M1 - VAN HALTEREN - B305
@@ -62,14 +72,14 @@ public class CalendarInfo implements Identifiable {
         this.day = date.substring(0, 1).toUpperCase() + date.substring(1);
 
         String words[] = sentence.split("-");
-        this.beginHour = words[0].trim();
-        this.endHour = words[1].trim();
-        this.lessonType = words[2].trim();
-        this.lessonTitle = words[4].trim();
-        this.lessonId = words[5].trim();
-        this.teacher = words[6].trim();
-        this.lessonRoom = words[7].trim();
-
+        
+        this.beginHour = getValueAtIndex(words, 0);
+        this.endHour = getValueAtIndex(words, 1);
+        this.lessonType = getValueAtIndex(words, 2);
+        this.lessonTitle = getValueAtIndex(words, 4);
+        this.lessonId = getValueAtIndex(words, 5);
+        this.teacher = getValueAtIndex(words, 6);
+        this.lessonRoom = getValueAtIndex(words, 7);
     }
 
     @Override
@@ -107,8 +117,7 @@ public class CalendarInfo implements Identifiable {
     }
 
     public String getLessonTitle() {
-        if (lessonTitle == null || lessonTitle.isEmpty())
-        {
+        if (lessonTitle == null || lessonTitle.isEmpty()) {
             return getLessonType();
         }
         return lessonTitle;
