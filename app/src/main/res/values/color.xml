@@ -13,6 +13,7 @@
     <color name="focus_red">#FFC107</color>
     <color name="transparent">@android:color/transparent</color>
     <color name="colorRipple">#E0E0E0</color>
+    <color name="light_amber">#FFE082</color>
 
 
 

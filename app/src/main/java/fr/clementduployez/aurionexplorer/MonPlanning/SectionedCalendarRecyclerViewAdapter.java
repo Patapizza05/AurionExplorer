@@ -1,7 +1,8 @@
-package fr.clementduployez.aurionexplorer.Utils;
+package fr.clementduployez.aurionexplorer.MonPlanning;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -42,12 +43,15 @@ public class SectionedCalendarRecyclerViewAdapter extends SectionedRecyclerViewA
             TextView view = ((SectionedRecyclerViewAdapter.SectionViewHolder)sectionViewHolder).title;
             if (view.getText().toString().equals(customDate))
             {
-                view.setBackgroundResource(R.color.colorPrimary);
-                view.setTextColor(Color.WHITE);
+                /*view.setBackgroundResource(R.color.colorPrimary);
+                view.setTextColor(Color.WHITE);*/
+                view.setTypeface(null, Typeface.BOLD);
+
 
             } else {
-                view.setBackgroundResource(R.color.transparent);
-                view.setTextColor(AurionExplorerApplication.getContext().getResources().getColor(R.color.black));
+                /*view.setBackgroundResource(R.color.transparent);
+                view.setTextColor(AurionExplorerApplication.getContext().getResources().getColor(R.color.black));*/
+                view.setTypeface(null, Typeface.NORMAL);
             }
         }
     }

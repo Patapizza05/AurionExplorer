@@ -26,7 +26,6 @@ import java.util.List;
 import fr.clementduployez.aurionexplorer.AurionPageFragment;
 import fr.clementduployez.aurionexplorer.R;
 import fr.clementduployez.aurionexplorer.Utils.SQL.SQLUtils;
-import fr.clementduployez.aurionexplorer.Utils.SectionedCalendarRecyclerViewAdapter;
 
 /**
  * Created by cdupl on 2/12/2016.
