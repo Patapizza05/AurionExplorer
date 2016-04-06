@@ -2,6 +2,7 @@ package fr.clementduployez.aurionexplorer.Anniversaires;
 
 import android.app.Fragment;
 import android.support.v13.app.FragmentPagerAdapter;
+import android.support.v13.app.FragmentStatePagerAdapter;
 
 import java.util.ArrayList;
 

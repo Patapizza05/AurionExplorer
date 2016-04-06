@@ -19,11 +19,11 @@ import fr.clementduployez.aurionexplorer.Utils.AurionBrowser;
  */
 public class LoadGradesListAsync extends AsyncTask<String,ArrayList<GradesInfo>,ArrayList<GradesInfo>> {
 
-    private final GradesFragment gradesFragment;
+    private final ILoadGradesListAsyncReceiver receiver;
     private boolean isFirstValues = true;
 
-    public LoadGradesListAsync(GradesFragment gradesFragment) {
-        this.gradesFragment = gradesFragment;
+    public LoadGradesListAsync(ILoadGradesListAsyncReceiver receiver) {
+        this.receiver = receiver;
     }
 
     @Override
@@ -46,7 +46,7 @@ public class LoadGradesListAsync extends AsyncTask<String,ArrayList<GradesInfo>,
             response = AurionBrowser.connectToNextPage(response,null);
             if (response != null && response.statusCode() == 200) {
                 try {
-                    gradesInfos = parseMarks(response);
+                    gradesInfos.addAll(parseMarks(response));
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -60,7 +60,7 @@ public class LoadGradesListAsync extends AsyncTask<String,ArrayList<GradesInfo>,
         return gradesInfos;
     }
 
-    private ArrayList<GradesInfo> parseMarks(Connection.Response response) throws IOException {
+    public static ArrayList<GradesInfo> parseMarks(Connection.Response response) throws IOException {
         ArrayList<GradesInfo> gradesInfos = new ArrayList<>();
         Document document = response.parse();
         Elements tableRows = document.getElementsByTag("tr");
@@ -82,7 +82,7 @@ public class LoadGradesListAsync extends AsyncTask<String,ArrayList<GradesInfo>,
     @Override
     protected void onProgressUpdate(ArrayList<GradesInfo>... data) {
         super.onProgressUpdate(data);
-        this.gradesFragment.onAsyncProgress(data,isFirstValues);
+        this.receiver.onAsyncProgress(data[0]);
         isFirstValues = false;
     }
 
@@ -92,7 +92,7 @@ public class LoadGradesListAsync extends AsyncTask<String,ArrayList<GradesInfo>,
     protected void onPostExecute(ArrayList<GradesInfo> gradesInfos) {
         super.onPostExecute(gradesInfos);
         Informer.inform("Récupération des notes terminée.");
-        this.gradesFragment.onAsyncResult(gradesInfos,isFirstValues);
+        this.receiver.onAsyncResult(gradesInfos);
     }
 }
 

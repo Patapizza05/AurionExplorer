@@ -47,13 +47,24 @@ public class BirthdayPeriodFragment extends Fragment {
         this.mSwipeRefreshLayout.setColorSchemeResources(R.color.colorPrimary);
 
         this.mRecyclerView = (RecyclerView) rootView.findViewById(R.id.birthdayRecyclerView);
+        return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         mRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        setAdapter(new ArrayList<BirthdayInfo>());
+        if (adapter == null) {
+            setAdapter(new ArrayList<BirthdayInfo>());
+        }
+        else {
+            this.mRecyclerView.setAdapter(adapter);
+        }
+
         setForeground();
         if (isShowProgressBar) {
             showProgressBar();
         }
-        return rootView;
     }
 
     public void setAdapter(List<BirthdayInfo> data) {

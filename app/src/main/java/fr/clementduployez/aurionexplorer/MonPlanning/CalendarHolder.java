@@ -43,7 +43,7 @@ public class CalendarHolder extends AurionHolder<CalendarInfo> {
         String type = calendarInfo.getLessonType();
 
         if (type != null && (type.equals("Examen") || type.equals("Partiel"))) {
-            this.itemView.setBackgroundResource(R.color.light_amber);
+            this.itemView.setBackgroundResource(R.drawable.ripple_yellow_background);
         }
         else {
             this.itemView.setBackgroundResource(R.drawable.ripple_background);

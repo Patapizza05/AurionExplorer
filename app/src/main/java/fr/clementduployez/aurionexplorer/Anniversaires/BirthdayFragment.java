@@ -25,6 +25,7 @@ public class BirthdayFragment extends AurionPageFragment<BirthdayList> implement
     private ViewPager viewPager;
     private BirthdayPagerAdapter pagerAdapter;
     private LoadBirthdaysAsync loadBirthdaysAsync;
+    private boolean isFirstTime = true;
 
     public static BirthdayFragment newInstance() {
         final BirthdayFragment birthdayFragment = new BirthdayFragment();
@@ -36,8 +37,12 @@ public class BirthdayFragment extends AurionPageFragment<BirthdayList> implement
         rootView = inflater.inflate(R.layout.fragment_birthdays, container, false);
         tabLayout = (TabLayout)rootView.findViewById(R.id.tabLayout);
         viewPager = (ViewPager) rootView.findViewById(R.id.viewPager);
+
         initViewPagerAndTabs();
-        onRefreshAsync();
+        if (isFirstTime) {
+            onRefreshAsync();
+            isFirstTime = false;
+        }
         return rootView;
     }
 
@@ -64,13 +69,20 @@ public class BirthdayFragment extends AurionPageFragment<BirthdayList> implement
         tabLayout.addTab(tabLayout.newTab().setText("Ce mois-ci"));
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        //tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
+            //tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 
 
-        pagerAdapter = new BirthdayPagerAdapter(this);
+
+
+        if (pagerAdapter == null)
+        {
+            pagerAdapter = new BirthdayPagerAdapter(this);
+        }
+
 
         viewPager.setAdapter(pagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
 
             @Override
@@ -88,6 +100,7 @@ public class BirthdayFragment extends AurionPageFragment<BirthdayList> implement
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
+
     }
 
     public BirthdayPagerAdapter getPagerAdapter() {

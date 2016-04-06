@@ -20,7 +20,7 @@ import fr.clementduployez.aurionexplorer.Utils.SQL.SQLUtils;
 /**
  * Created by cdupl on 2/12/2016.
  */
-public class GradesFragment extends AurionPageFragment<GradesInfo> implements SwipeRefreshLayout.OnRefreshListener {
+public class GradesFragment extends AurionPageFragment<GradesInfo> implements ILoadGradesListAsyncReceiver, SwipeRefreshLayout.OnRefreshListener {
 
     private View rootView;
     private RecyclerView recyclerView;
@@ -66,11 +66,11 @@ public class GradesFragment extends AurionPageFragment<GradesInfo> implements Sw
             WellSql.select(GradesInfo.class).getAsModelAsync(new SelectQuery.Callback<List<GradesInfo>>() {
                 @Override
                 public void onDataReady(List<GradesInfo> gradesInfos) {
-                    if (gradesInfos.size() > 0) {
-                        setAdapter(gradesInfos);
-                    } else {
-                        onRefresh();
-                    }
+                        if (gradesInfos.size() > 0) {
+                            setAdapter(gradesInfos);
+                        } else {
+                            onRefresh();
+                        }
                 }
             });
         }
@@ -107,24 +107,14 @@ public class GradesFragment extends AurionPageFragment<GradesInfo> implements Sw
         }
     }
 
-    public void onAsyncProgress(ArrayList<GradesInfo>[] data, boolean isFirstValues) {
-
+    public void onAsyncProgress(List<GradesInfo> data) {
+        onAsyncResult(data);
     }
 
-    @Override
     public void onAsyncResult(List<GradesInfo> data) {
-        onAsyncResult(data,true);
-    }
-
-    public void onAsyncResult(List<GradesInfo> data, boolean isFirstValues) {
         loadGradesListAsync = null;
         hideProgressBar();
-        if (isFirstValues) {
-            setAdapter(data);
-        }
-        else {
-            addToAdapter(data);
-        }
+        setAdapter(data);
     }
 
     @Override
@@ -138,9 +128,6 @@ public class GradesFragment extends AurionPageFragment<GradesInfo> implements Sw
                 adapter.setData(data);
                 SQLUtils.removeAndSave(data);
             }
-        }
-        else {
-            onRefresh();
         }
     }
 
