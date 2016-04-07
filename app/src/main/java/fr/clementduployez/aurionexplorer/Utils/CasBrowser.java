@@ -33,9 +33,9 @@ public class CasBrowser {
                     .timeout(Settings.CONNECTION_TIMEOUT)
                     .followRedirects(true)
                     .header("Content-Type", AurionBrowser.CONTENT_TYPE)
-                    .cookies(AurionCookies.cookies)
+                    .cookies(AurionCookies.get())
                     .execute();
-            AurionCookies.cookies.putAll(response.cookies());
+            AurionCookies.addAll(response.cookies());
             Informer.inform("Fin du chargement de la page de l'annuaire du staff");
             return response;
         } catch (IOException e) {
@@ -61,7 +61,7 @@ public class CasBrowser {
                         .timeout(Settings.CONNECTION_TIMEOUT)
                         .referrer("https://cas.isen.fr/home/annuaire/staff.html")
                         .header("Content-Type", AurionBrowser.CONTENT_TYPE)
-                        .cookies(AurionCookies.cookies)
+                        .cookies(AurionCookies.get())
                         .data(data)
                         .method(Connection.Method.POST)
                         .execute();
@@ -91,7 +91,7 @@ public class CasBrowser {
                     .timeout(Settings.CONNECTION_TIMEOUT)
                     .referrer("https://cas.isen.fr/home/annuaire/anniversaries.html")
                     .header("Content-Type", AurionBrowser.CONTENT_TYPE)
-                    .cookies(AurionCookies.cookies)
+                    .cookies(AurionCookies.get())
                     .method(Connection.Method.POST)
                     .execute();
             Informer.inform("Chargement effectué");

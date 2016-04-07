@@ -35,9 +35,9 @@ public class AurionBrowser {
                     .userAgent(USER_AGENT)
                     .followRedirects(true)
                     .header("Content-Type", CONTENT_TYPE)
-                    .cookies(AurionCookies.cookies)
+                    .cookies(AurionCookies.get())
                     .execute();
-            AurionCookies.cookies.putAll(result.cookies());
+            AurionCookies.addAll(result.cookies());
         } catch (IOException e) {
             Informer.inform("Erreur pendant le chargement de la page d'accueil");
             e.printStackTrace();
@@ -83,10 +83,10 @@ public class AurionBrowser {
                     .userAgent(USER_AGENT)
                     .data(data)
                     .method(Connection.Method.POST)
-                    .cookies(AurionCookies.cookies)
+                    .cookies(AurionCookies.get())
                     .execute();
 
-            AurionCookies.cookies.putAll(result.cookies());
+            AurionCookies.addAll(result.cookies());
             return result;
         } catch (IOException e) {
             e.printStackTrace();
@@ -137,12 +137,12 @@ public class AurionBrowser {
                     .timeout(Settings.CONNECTION_TIMEOUT)
                     .userAgent(USER_AGENT)
                     .referrer(AURION_URL)
-                    .cookies(AurionCookies.cookies)
+                    .cookies(AurionCookies.get())
                     .data(data)
                     .method(Connection.Method.POST)
                     .execute();
 
-            AurionCookies.cookies.putAll(result.cookies());
+            AurionCookies.addAll(result.cookies());
             return result;
         } catch (IOException e) {
             e.printStackTrace();
@@ -185,12 +185,12 @@ public class AurionBrowser {
                     .timeout(Settings.CONNECTION_TIMEOUT)
                     .userAgent(USER_AGENT)
                     .referrer(AURION_URL)
-                    .cookies(AurionCookies.cookies)
+                    .cookies(AurionCookies.get())
                     .data(data)
                     .method(Connection.Method.POST)
                     .execute();
 
-            AurionCookies.cookies.putAll(result.cookies());
+            AurionCookies.addAll(result.cookies());
             return result;
         } catch (IOException e) {
             e.printStackTrace();

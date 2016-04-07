@@ -73,7 +73,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             startActivity(new Intent(getApplicationContext(),MainActivity.class));
         }
         else {
-            AurionCookies.cookies.clear();
+            AurionCookies.clear();
         }
     }
 
@@ -137,7 +137,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void rejectLogin() {
         Informer.inform("Erreur de connexion");
         Log.i("Login","Wrong credentials");
-        AurionCookies.cookies.clear();
+        AurionCookies.clear();
         setWait(false);
     }
 

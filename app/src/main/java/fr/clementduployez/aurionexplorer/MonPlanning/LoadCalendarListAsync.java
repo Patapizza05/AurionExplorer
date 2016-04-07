@@ -104,12 +104,12 @@ public class LoadCalendarListAsync  extends AsyncTask<String,String,ArrayList<Ca
                     .header("Content-Type", AurionBrowser.CONTENT_TYPE)
                     .userAgent(AurionBrowser.USER_AGENT)
                     .referrer(AurionBrowser.AURION_URL)
-                    .cookies(AurionCookies.cookies)
+                    .cookies(AurionCookies.get())
                     .data(data)
                     .method(Connection.Method.POST)
                     .execute();
 
-            AurionCookies.cookies.putAll(result.cookies());
+            AurionCookies.addAll(result.cookies());
 
             return result;
 

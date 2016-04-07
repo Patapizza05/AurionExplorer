@@ -21,8 +21,21 @@ public class DateComparator implements Comparator<GradesInfo> {
             return f.parse(o2.getDate()).compareTo(f.parse(o1.getDate()));
         }
         catch (ParseException e) {
-            throw new IllegalArgumentException(e);
+            try {
+                f.parse(o2.getDate());
+            }
+            catch(ParseException ex) {
+                return -1;
+            }
+
+            try {
+                f.parse(o1.getDate());
+            }
+            catch(ParseException ex) {
+                return 1;
+            }
         }
+        return 0;
     }
 
 }

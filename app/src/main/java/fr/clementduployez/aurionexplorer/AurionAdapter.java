@@ -61,6 +61,7 @@ public abstract class AurionAdapter<Holder extends AurionHolder<Info>, Info exte
         }
 
         this.data = data;
+
         if (comparator != null) {
             Collections.sort(this.data, comparator);
         }

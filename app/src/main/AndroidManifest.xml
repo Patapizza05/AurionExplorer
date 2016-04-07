@@ -3,7 +3,6 @@
     package="fr.clementduployez.aurionexplorer" >
 
     <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
 
     <application
         android:allowBackup="true"
@@ -29,13 +28,14 @@
             android:label="@string/app_name" >
         </activity>
 
-        <receiver android:process=":remote" android:name=".MesNotes.GradesAlarm"/>
+        <receiver
+            android:process=":remote"
+            android:name=".MesNotes.GradesAlarmReceiver">
+        </receiver>
 
         <service
-            android:name=".MesNotes.GradesUpdaterService"
-            android:exported="false"
-            android:icon="@drawable/ic_school_red_500_18dp"
-            android:label="@string/app_name" />
+            android:name=".MesNotes.GradesService"
+            android:exported="false" />
     </application>
 
 

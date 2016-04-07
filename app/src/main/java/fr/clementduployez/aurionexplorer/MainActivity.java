@@ -16,7 +16,7 @@ import fr.clementduployez.aurionexplorer.Anniversaires.BirthdayFragment;
 import fr.clementduployez.aurionexplorer.Annuaire.Staff.StaffDirectoryFragment;
 import fr.clementduployez.aurionexplorer.Fortinet.FortinetFragment;
 import fr.clementduployez.aurionexplorer.Login.LoginActivity;
-import fr.clementduployez.aurionexplorer.MesNotes.GradesUpdaterService;
+import fr.clementduployez.aurionexplorer.MesNotes.GradesAlarmReceiver;
 import fr.clementduployez.aurionexplorer.NotImplemented.NotImplementedFragment;
 import fr.clementduployez.aurionexplorer.MesConferences.ConferencesFragment;
 import fr.clementduployez.aurionexplorer.MesNotes.GradesFragment;
@@ -57,19 +57,14 @@ public class MainActivity extends AppCompatActivity {
         this.hamburgerMenuManager = new HamburgerMenuManager(this);
 
         openFragmentWithName(this.hamburgerMenuManager.getSelectedItemTitle());
-
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        //startGradesUpdaterService();
+        startGradesUpdaterService();
     }
 
     private void startGradesUpdaterService() {
-        Intent startIntent = new Intent(MainActivity.this, GradesUpdaterService.class);
-        startService(startIntent);
+        /*Intent startIntent = new Intent(MainActivity.this, GradesUpdaterService.class);
+        startService(startIntent);*/
         //saveData("runService", true);
+        GradesAlarmReceiver.startAlarm(getApplicationContext());
     }
 
     @Override
