@@ -61,11 +61,10 @@ public class GradesService extends IntentService implements ILoadGradesListAsync
 
     private void findNewGrades(List<GradesInfo> data) {
 
-        List<String> ids = new ArrayList<>();
+        /*List<String> ids = new ArrayList<>();
         for (GradesInfo item : data) {
             ids.add(item.getGradeId());
-            Log.i("item",item.getGradeId());
-        }
+        }*/
 
         List<GradesInfo> sqlData = WellSql.select(GradesInfo.class).getAsModel();
         List<GradesInfo> newData = new LinkedList<>();

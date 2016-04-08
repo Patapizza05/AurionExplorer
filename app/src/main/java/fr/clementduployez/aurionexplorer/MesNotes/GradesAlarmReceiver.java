@@ -30,11 +30,7 @@ public class GradesAlarmReceiver extends BroadcastReceiver {
 
         // Create a PendingIntent to be triggered when the alarm goes off
         final PendingIntent pIntent = PendingIntent.getBroadcast(context, GradesAlarmReceiver.REQUEST_CODE,
-                intent, PendingIntent.FLAG_NO_CREATE); /*FLAG_UPDATE_CURRENT*/
-
-        if (pIntent == null) {
-            return;
-        }
+                intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         // Setup periodic alarm every 5 seconds
         long firstMillis = System.currentTimeMillis(); // alarm is set right away
