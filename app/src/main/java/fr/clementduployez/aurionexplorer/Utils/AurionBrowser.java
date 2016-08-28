@@ -195,7 +195,6 @@ public class AurionBrowser {
         } catch (IOException e) {
             e.printStackTrace();
             Informer.inform("Erreur pendant le chargement de la page suivante");
-        }
-        return null;
+        }        return null;
     }
 }

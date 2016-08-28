@@ -41,7 +41,7 @@ public class LoadGradesListAsync extends AsyncTask<String,ArrayList<GradesInfo>,
 
 
 
-        while (gradesInfos != null && gradesInfos.size() >= 20) {
+        while (gradesInfos != null && gradesInfos.size() != 0 && gradesInfos.size() % 20 == 0) {
             publishProgress(gradesInfos);
             response = AurionBrowser.connectToNextPage(response,null);
             if (response != null && response.statusCode() == 200) {
