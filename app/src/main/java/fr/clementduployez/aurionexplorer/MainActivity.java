@@ -150,9 +150,9 @@ public class MainActivity extends AppCompatActivity {
                 openFragment(mFortinetFragment);
                 break;*/
             case "Anniversaires":
-                if (mBirthdayFragment == null) {
+                //if (mBirthdayFragment == null) { //FIXME : Crashes on second visit
                     mBirthdayFragment = BirthdayFragment.newInstance();
-                }
+                //}
                 openFragment(mBirthdayFragment);
                 break;
             default:

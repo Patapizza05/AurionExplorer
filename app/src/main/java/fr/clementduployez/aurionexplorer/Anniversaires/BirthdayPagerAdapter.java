@@ -25,7 +25,7 @@ public class BirthdayPagerAdapter extends FragmentPagerAdapter {
     private boolean isShowProgressBar = false;
 
     public BirthdayPagerAdapter(BirthdayFragment mBirthdayFragment) {
-        super(mBirthdayFragment.getFragmentManager());
+        super(mBirthdayFragment.getChildFragmentManager());
         this.mBirthdayFragment = mBirthdayFragment;
     }
 

@@ -27,6 +27,8 @@ public class BirthdayFragment extends AurionPageFragment<BirthdayList> implement
     private LoadBirthdaysAsync loadBirthdaysAsync;
     private boolean isFirstTime = true;
 
+    private static boolean isFirstLoad = true;
+
     public static BirthdayFragment newInstance() {
         final BirthdayFragment birthdayFragment = new BirthdayFragment();
         return birthdayFragment;
