@@ -15,10 +15,13 @@ public class UserData {
     private static final String USER_KEY = "username";
     private static final String PASSWORD_KEY = "password";
     private static final String NAME_KEY = "name";
+    private static final String REFRESH_GRADES_SERVICE_KEY = "refreshGradesService";
 
     private static String username;
     private static String password;
     private static String name;
+
+    private static Boolean refreshGradesService;
 
     private static boolean stayLoggedIn = false;
 
@@ -91,6 +94,11 @@ public class UserData {
         prefs.edit().putString(key, value).apply();
     }
 
+    public static void save(String key, boolean value) {
+        SharedPreferences prefs = loadPreferences();
+        prefs.edit().putBoolean(key, value).apply();
+    }
+
     public static boolean isStayLoggedIn() {
         return stayLoggedIn;
     }
@@ -106,5 +114,17 @@ public class UserData {
         username = null;
         password = null;
         name = null;
+    }
+
+    public static boolean isRefreshGradesService() {
+        if (refreshGradesService == null) {
+            refreshGradesService = loadPreferences().getBoolean(REFRESH_GRADES_SERVICE_KEY, true);
+        }
+        return refreshGradesService;
+    }
+
+    public static void saveRefreshGradesService(boolean val) {
+        save(REFRESH_GRADES_SERVICE_KEY, val);
+        refreshGradesService = val;
     }
 }

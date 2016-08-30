@@ -3,10 +3,12 @@ package fr.clementduployez.aurionexplorer;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.FrameLayout;
@@ -57,20 +59,32 @@ public class MainActivity extends AppCompatActivity {
         this.hamburgerMenuManager = new HamburgerMenuManager(this);
 
         openFragmentWithName(this.hamburgerMenuManager.getSelectedItemTitle());
-        startGradesUpdaterService();
+
+
     }
 
-    private void startGradesUpdaterService() {
+    private void startGradesUpdaterService(boolean isChecked) {
         /*Intent startIntent = new Intent(MainActivity.this, GradesUpdaterService.class);
         startService(startIntent);*/
         //saveData("runService", true);
-        GradesAlarmReceiver.startAlarm(getApplicationContext());
+
+        if (isChecked) {
+            GradesAlarmReceiver.startAlarm(getApplicationContext());
+        }
+        else {
+            GradesAlarmReceiver.stopAlarm(getApplicationContext());
+        }
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_main, menu);
+
+        MenuItem item = menu.findItem(R.id.menu_refresh_grades_service);
+        item.setChecked(UserData.isRefreshGradesService());
+        startGradesUpdaterService(item.isChecked());
         return true;
     }
 
@@ -89,6 +103,11 @@ public class MainActivity extends AppCompatActivity {
             intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
             startActivity(intent);
             return true;
+        }
+        else if (id == R.id.menu_refresh_grades_service) {
+            item.setChecked(!item.isChecked());
+            UserData.saveRefreshGradesService(item.isChecked());
+            startGradesUpdaterService(item.isChecked());
         }
 
         return super.onOptionsItemSelected(item);
