@@ -42,18 +42,10 @@ public class CalendarInfo implements Identifiable {
     @Column
     private String teacher;
 
-    public CalendarInfo() {
-    }
+    @Column
+    private String description;
 
-    public CalendarInfo(String day, String beginHour, String endHour, String lessonType, String lessonTitle, String lessonRoom, String lessonId, String teacher) {
-        this.day = day;
-        this.beginHour = beginHour;
-        this.endHour = endHour;
-        this.lessonType = lessonType;
-        this.lessonTitle = lessonTitle;
-        this.lessonRoom = lessonRoom;
-        this.lessonId = lessonId;
-        this.teacher = teacher;
+    public CalendarInfo() {
     }
 
     String getValueAtIndex(String[] words, int i) {
@@ -76,6 +68,7 @@ public class CalendarInfo implements Identifiable {
         this.beginHour = getValueAtIndex(words, 0);
         this.endHour = getValueAtIndex(words, 1);
         this.lessonType = getValueAtIndex(words, 2);
+        this.description = getValueAtIndex(words, 3);
         this.lessonTitle = getValueAtIndex(words, 4);
         this.lessonId = getValueAtIndex(words, 5);
         this.teacher = getValueAtIndex(words, 6);
@@ -157,5 +150,13 @@ public class CalendarInfo implements Identifiable {
 
     public void setTeacher(String teacher) {
         this.teacher = teacher;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

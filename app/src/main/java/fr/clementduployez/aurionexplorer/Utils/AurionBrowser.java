@@ -67,6 +67,7 @@ public class AurionBrowser {
 
         if (!loginPageResponse.url().toString().startsWith(LOGIN_URL))
         {
+
             return null;
         }
 
@@ -117,7 +118,7 @@ public class AurionBrowser {
         Document aurionDocument;
         try {
             aurionDocument = loggedInPageResponse.parse();
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }

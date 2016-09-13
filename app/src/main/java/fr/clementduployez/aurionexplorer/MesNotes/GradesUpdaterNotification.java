@@ -121,7 +121,7 @@ public class GradesUpdaterNotification {
         int i = 0;
         // Create an InboxStyle notification
         Notification summaryNotification = new NotificationCompat.Builder(context)
-                .setContentTitle(titles.length+" nouvelles notes")
+                .setContentTitle(titles.length + " nouvelles notes")
                 .setSmallIcon(drawable)
                 //.setLargeIcon(largeIcon)
                 .setStyle(style)
@@ -134,21 +134,24 @@ public class GradesUpdaterNotification {
         return summaryNotification;
     }
 
-    public static void sendNotification(String title, String text, int drawable, int color, Service service) {
-        sendNotification(makeNotification(title, text, drawable, color), service);
+    public static void sendNotification(String title, String text, int drawable, int color, Service service, boolean vibrate) {
+        sendNotification(makeNotification(title, text, drawable, color), service, vibrate);
     }
 
-    public static void sendNotification(GradesInfo grade, int drawable, int color, Service service) {
-        sendNotification(makeNotification(grade, drawable, color), service);
+    public static void sendNotification(GradesInfo grade, int drawable, int color, Service service, boolean vibrate) {
+        sendNotification(makeNotification(grade, drawable, color), service, vibrate);
     }
 
-    public static void sendNotification(List<GradesInfo> grades, int drawable, int color, Service service) {
-        sendNotification(makeSummaryNotification(grades, drawable, color), service);
+    public static void sendNotification(List<GradesInfo> grades, int drawable, int color, Service service, boolean vibrate) {
+        sendNotification(makeSummaryNotification(grades, drawable, color), service, vibrate);
     }
 
-    private static void sendNotification(Notification notification, Service service) {
-        notification.defaults |= Notification.DEFAULT_SOUND;
-        notification.defaults |= Notification.DEFAULT_VIBRATE;
+    private static void sendNotification(Notification notification, Service service, boolean vibrate) {
+        if (vibrate) {
+            notification.defaults |= Notification.DEFAULT_SOUND;
+            notification.defaults |= Notification.DEFAULT_VIBRATE;
+        }
+
 
         Context context = AurionExplorerApplication.getContext();
         notify(context, notification, NOTIFICATION_ID);

@@ -36,7 +36,16 @@ public class CalendarHolder extends AurionHolder<CalendarInfo> {
         this.beginHour.setText(calendarInfo.getBeginHour());
         this.endHour.setText(calendarInfo.getEndHour());
         this.lessonType.setText(calendarInfo.getLessonType());
-        this.lessonTitle.setText(calendarInfo.getLessonTitle() + " - " + calendarInfo.getTeacher());
+
+        String title = calendarInfo.getLessonTitle();
+        if (calendarInfo.getDescription() != null) {
+            title += " - " + calendarInfo.getDescription();
+        }
+        if (calendarInfo.getTeacher() != null) {
+            title += " - " + calendarInfo.getTeacher();
+        }
+
+        this.lessonTitle.setText(title);
         this.lessonRoom.setText(calendarInfo.getLessonRoom());
         this.lessonId.setText(calendarInfo.getLessonId());
 

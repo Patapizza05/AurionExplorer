@@ -157,6 +157,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 this.password = params[1];
                 Connection.Response response = AurionBrowser.login(params[0],params[1]);
                 if (response == null) {
+                    AurionCookies.clear();
                     return false;
                 }
 

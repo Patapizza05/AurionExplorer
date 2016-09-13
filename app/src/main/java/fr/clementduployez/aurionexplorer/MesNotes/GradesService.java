@@ -83,17 +83,23 @@ public class GradesService extends IntentService implements ILoadGradesListAsync
                         newData.get(0),
                         R.drawable.ic_assignment_white_48dp,
                         AurionExplorerApplication.getContext().getResources().getColor(R.color.colorPrimary),
-                        this);
+                        this, true);
             }
             else if (newData.size() > 1) {
                 GradesUpdaterNotification.sendNotification(newData,
                         R.drawable.ic_assignment_white_48dp,
                         AurionExplorerApplication.getContext().getResources().getColor(R.color.colorPrimary),
-                        this);
+                        this, true);
             }
+
             SQLUtils.add(newData);
         }
-
+        /*else {
+            GradesUpdaterNotification.sendNotification(new GradesInfo("test", "test", "test", "test"),
+                    R.drawable.ic_assignment_white_48dp,
+                    AurionExplorerApplication.getContext().getResources().getColor(R.color.colorPrimary),
+                    this, false);
+        }*/
     }
 
     public static boolean containsId(List<GradesInfo> list, String id) {
