@@ -55,7 +55,7 @@ public class GradesUpdaterNotification {
     }
 
     private static String getSummaryTitle(GradesInfo grade) {
-        return grade.getTitle();
+        return grade.getShortenedTitle();
     }
 
     private static String getSummaryText(GradesInfo grade) {

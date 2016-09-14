@@ -1,6 +1,5 @@
 package fr.clementduployez.aurionexplorer.MesNotes;
 
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.TextView;
 
@@ -41,7 +40,7 @@ public class GradesHolder extends AurionHolder<GradesInfo> {
         int b = 0;
         int argb = Color.argb(255,r,g,b);
         GradientDrawable gd = new GradientDrawable();
-        gd.setColor(argb); // Changes this drawbale to use a single color instead of a gradient
+        gd.setColor(argb); // Changes this drawable to use a single color instead of a gradient
         gd.setStroke(2, argb);
         this.value.setBackground(gd);
         this.value.setTextColor(argb);*/

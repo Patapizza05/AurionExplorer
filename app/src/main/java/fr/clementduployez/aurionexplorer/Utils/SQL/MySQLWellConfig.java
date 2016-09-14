@@ -18,7 +18,7 @@ import fr.clementduployez.aurionexplorer.MonPlanning.CalendarInfo;
 public class MySQLWellConfig extends DefaultWellConfig {
 
     private static final String DB_NAME = "AurionDatabase";
-    private static final int DB_VERSION = 3;
+    private static final int DB_VERSION = 4;
 
     public MySQLWellConfig(Context context) {
         super(context);

@@ -13,12 +13,19 @@ import com.yarolegovich.wellsql.core.annotation.Unique;
 @Table
 public class GradesInfo implements Identifiable {
 
+    private static String COMMON_TITLE_SPECIAL = "evaluation du module d'";
+    private static String COMMON_TITLE_SPECIAL_ = "evaluation du module de base";
+    private static String COMMON_TITLE = "evaluation du module";
+    private static String COMMON_TITLE_SHORT = "evaluation du";
+
+
     @Column
     @PrimaryKey
     private int id;
 
     @Column
     private String title;
+    private String shortTitle = null;
 
     @Column @Unique
     private String gradeId;
@@ -78,5 +85,22 @@ public class GradesInfo implements Identifiable {
     @Override
     public int getId() {
         return id;
+    }
+
+    public String getShortenedTitle() {
+        if (shortTitle != null) return shortTitle;
+
+        shortTitle = title;
+        String lowered = title.toLowerCase();
+        if (lowered.startsWith(COMMON_TITLE_SPECIAL)) {
+            shortTitle = title.substring(COMMON_TITLE_SPECIAL.length(), title.length()).trim();
+        } else if (lowered.startsWith(COMMON_TITLE_SPECIAL_)) {
+            shortTitle = title.substring(COMMON_TITLE_SPECIAL_.length(), title.length()).trim();
+        } else if (lowered.startsWith(COMMON_TITLE)) {
+            shortTitle = title.substring(COMMON_TITLE.length(), title.length()).trim();
+        } else if (lowered.startsWith(COMMON_TITLE_SHORT)) {
+            shortTitle = title.substring(COMMON_TITLE_SHORT.length(), title.length()).trim();
+        }
+        return shortTitle;
     }
 }
