@@ -24,6 +24,7 @@ import fr.clementduployez.aurionexplorer.MesConferences.ConferencesFragment;
 import fr.clementduployez.aurionexplorer.MesNotes.GradesFragment;
 import fr.clementduployez.aurionexplorer.MonPlanning.CalendarFragment;
 import fr.clementduployez.aurionexplorer.Utils.SQL.SQLUtils;
+import fr.clementduployez.aurionexplorer.Utils.Settings;
 import fr.clementduployez.aurionexplorer.Utils.UserData;
 
 //Drawer Builder : http://android-arsenal.com/details/1/1526
@@ -68,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         startService(startIntent);*/
         //saveData("runService", true);
 
-        if (isChecked) {
+        if (!Settings.LITE && isChecked) {
             GradesAlarmReceiver.startAlarm(getApplicationContext());
         }
         else {
@@ -83,8 +84,13 @@ public class MainActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.menu_main, menu);
 
         MenuItem item = menu.findItem(R.id.menu_refresh_grades_service);
-        item.setChecked(UserData.isRefreshGradesService());
-        startGradesUpdaterService(item.isChecked());
+        if (Settings.LITE) {
+            item.setVisible(false);
+        }
+        else {
+            item.setChecked(UserData.isRefreshGradesService());
+            startGradesUpdaterService(item.isChecked());
+        }
         return true;
     }
 

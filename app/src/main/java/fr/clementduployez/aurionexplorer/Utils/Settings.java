@@ -5,4 +5,6 @@ package fr.clementduployez.aurionexplorer.Utils;
  */
 public class Settings {
     public static int CONNECTION_TIMEOUT = 100000; //ms
+
+    public static boolean LITE = true;
 }

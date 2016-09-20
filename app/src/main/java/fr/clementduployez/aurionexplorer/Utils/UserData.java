@@ -118,7 +118,7 @@ public class UserData {
 
     public static boolean isRefreshGradesService() {
         if (refreshGradesService == null) {
-            refreshGradesService = loadPreferences().getBoolean(REFRESH_GRADES_SERVICE_KEY, true);
+            refreshGradesService = loadPreferences().getBoolean(REFRESH_GRADES_SERVICE_KEY, false);
         }
         return refreshGradesService;
     }

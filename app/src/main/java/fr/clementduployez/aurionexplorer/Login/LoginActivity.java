@@ -161,7 +161,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                     return false;
                 }
 
-                boolean result = !response.url().toString().startsWith(AurionBrowser.LOGIN_URL);
+                boolean result = !response.url().toString().startsWith(AurionBrowser.LOGIN_URL) || response.url().toString().startsWith(AurionBrowser.AURION_URL);
                 if (result) {
                     Document document = null;
                     try {
