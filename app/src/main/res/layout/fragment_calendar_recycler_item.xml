@@ -1,9 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.CardView android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardElevation="2dp"
+        card_view:cardUseCompatPadding="true">
+
+<LinearLayout
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_marginTop="1dp"
-    android:elevation="2dp"
     android:clickable="true"
+    android:id="@+id/calendar_recycler_item_container"
     android:background="@drawable/ripple_background"
     android:layout_height="wrap_content">
     <!--android:stateListAnimator="@drawable/item_animation"-->
@@ -22,7 +31,7 @@
             android:text="10:15"
             android:layout_margin="5dp"
             android:padding="5dp"
-            android:background="@color/colorPrimary"
+            android:background="@drawable/rounded_red_background"
             android:textColor="@android:color/white"
             android:id="@+id/calendar_begin_hour" />
 
@@ -33,7 +42,7 @@
             android:text="12:15"
             android:layout_margin="5dp"
             android:padding="5dp"
-            android:background="@color/colorPrimary"
+            android:background="@drawable/rounded_red_background"
             android:textColor="@android:color/white"
             android:id="@+id/calendar_end_hour" />
 
@@ -111,3 +120,5 @@
 
 
 </LinearLayout>
+        </android.support.v7.widget.CardView>
+    </FrameLayout>

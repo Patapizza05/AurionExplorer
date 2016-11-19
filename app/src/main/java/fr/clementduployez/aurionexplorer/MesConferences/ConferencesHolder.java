@@ -41,8 +41,8 @@ public class ConferencesHolder extends RecyclerView.ViewHolder {
             }
             else {
                 //itemView.setBackgroundResource(R.drawable.ripple_background);
-                date.setBackgroundResource(R.color.colorPrimary);
-                date.setTextColor(Color.WHITE);
+                date.setBackgroundResource(R.color.transparent);
+                date.setTextColor(AurionExplorerApplication.getContext().getResources().getColor(R.color.colorPrimary));
             }
         } catch (ParseException e) {
             e.printStackTrace();

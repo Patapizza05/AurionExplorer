@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.util.Log;
 
+import fr.clementduployez.aurionexplorer.Utils.Settings;
+
 /**
  * Created by cdupl on 4/7/2016.
  */
@@ -40,7 +42,7 @@ public class GradesAlarmReceiver extends BroadcastReceiver {
         // First parameter is the type: ELAPSED_REALTIME, ELAPSED_REALTIME_WAKEUP, RTC_WAKEUP
         // Interval can be INTERVAL_FIFTEEN_MINUTES, INTERVAL_HALF_HOUR, INTERVAL_HOUR, INTERVAL_DAY
         alarm.setInexactRepeating(AlarmManager.RTC_WAKEUP, firstMillis,
-                AlarmManager.INTERVAL_HOUR, pIntent);
+                Settings.GRADES_UPDATE_INTERVAL, pIntent);
     }
 
     public static void stopAlarm(Context context) {

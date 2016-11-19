@@ -1,20 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<FrameLayout xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.CardView android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        card_view:cardElevation="2dp"
+        card_view:cardUseCompatPadding="true">
+<LinearLayout
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:clickable="true"
     android:background="@drawable/ripple_background"
-    android:layout_margin="5dp"
-    android:padding="5dp"
-    android:elevation="2dp">
+    android:padding="5dp">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textColor="@color/white"
+        android:textColor="@color/colorPrimary"
         android:padding="5dp"
-        android:background="@color/colorPrimary"
+        android:background="@color/transparent"
         android:id="@+id/fragment_conference_date"
+        android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="25/09/2014"/>
 
     <TextView
@@ -24,6 +32,9 @@
         android:id="@+id/fragment_conference_title"
         android:textColor="@android:color/black"
         android:gravity="center"
-        android:text='Conf. en 2 parties : " le rêve d Ishango " par Pascal NOEL, ambassadeur du projet " L os d Ishango " puis " les nouveaux enjeux de la colonisation de Mars " par Florence PORCEL'/>
+        android:layout_marginBottom="20dp"
+        android:text='Conf. en 2 parties : " le rêve d Ishango " par Pascal NOEL, ambassadeur du projet " L os d Ishango " puis " les nouveaux enjeux de la colonisation de Mars "'/>
 
 </LinearLayout>
+        </android.support.v7.widget.CardView>
+    </FrameLayout>

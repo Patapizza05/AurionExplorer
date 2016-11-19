@@ -12,7 +12,7 @@ import fr.clementduployez.aurionexplorer.R;
  */
 public class CalendarHolder extends AurionHolder<CalendarInfo> {
 
-    private View itemView;
+    private View container;
     private final TextView beginHour;
     private final TextView endHour;
     private final TextView lessonType;
@@ -22,7 +22,7 @@ public class CalendarHolder extends AurionHolder<CalendarInfo> {
 
     public CalendarHolder(View itemView) {
         super(itemView);
-        this.itemView = itemView;
+        this.container = itemView.findViewById(R.id.calendar_recycler_item_container);
         this.beginHour = (TextView) itemView.findViewById(R.id.calendar_begin_hour);
         this.endHour = (TextView) itemView.findViewById(R.id.calendar_end_hour);
         this.lessonType = (TextView) itemView.findViewById(R.id.calendar_lesson_type);
@@ -52,10 +52,10 @@ public class CalendarHolder extends AurionHolder<CalendarInfo> {
         String type = calendarInfo.getLessonType();
 
         if (type != null && (type.equals("Examen") || type.equals("Partiel"))) {
-            this.itemView.setBackgroundResource(R.drawable.ripple_yellow_background);
+            this.container.setBackgroundResource(R.drawable.ripple_yellow_background);
         }
         else {
-            this.itemView.setBackgroundResource(R.drawable.ripple_background);
+            this.container.setBackgroundResource(R.drawable.ripple_background);
         }
     }
 }
