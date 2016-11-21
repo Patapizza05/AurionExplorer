@@ -11,6 +11,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import fr.clementduployez.aurionexplorer.Api.Annotations.HttpMethod;
 import fr.clementduployez.aurionexplorer.Informer;
 
 /**

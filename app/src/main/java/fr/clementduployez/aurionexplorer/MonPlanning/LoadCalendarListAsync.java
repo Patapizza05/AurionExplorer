@@ -19,6 +19,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
+import fr.clementduployez.aurionexplorer.Api.AurionApi;
+import fr.clementduployez.aurionexplorer.Api.Responses.IndexResponse;
 import fr.clementduployez.aurionexplorer.Informer;
 import fr.clementduployez.aurionexplorer.Utils.AurionBrowser;
 import fr.clementduployez.aurionexplorer.Utils.AurionCookies;
@@ -63,7 +65,6 @@ public class LoadCalendarListAsync  extends AsyncTask<String,String,ArrayList<Ca
         form:calendarFinInputDate:29/02/16
         form:calendarFinInputCurrentDate:02/2016
          */
-
 
         ArrayList<CalendarInfo> calendarData = null;
         Connection.Response response = null;

@@ -7,6 +7,8 @@ import android.app.AlarmManager;
  */
 public class Settings {
     public static int CONNECTION_TIMEOUT = 100000; //ms
+    public static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.109 Safari/537.36";
+
 
     public static boolean LITE = true;
 

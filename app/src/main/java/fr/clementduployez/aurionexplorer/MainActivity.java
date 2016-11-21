@@ -16,6 +16,7 @@ import android.widget.RelativeLayout;
 
 import fr.clementduployez.aurionexplorer.Anniversaires.BirthdayFragment;
 import fr.clementduployez.aurionexplorer.Annuaire.Staff.StaffDirectoryFragment;
+import fr.clementduployez.aurionexplorer.Api.AurionApi;
 import fr.clementduployez.aurionexplorer.Fortinet.FortinetFragment;
 import fr.clementduployez.aurionexplorer.Login.LoginActivity;
 import fr.clementduployez.aurionexplorer.MesNotes.GradesAlarmReceiver;
@@ -60,8 +61,6 @@ public class MainActivity extends AppCompatActivity {
         this.hamburgerMenuManager = new HamburgerMenuManager(this);
 
         openFragmentWithName(this.hamburgerMenuManager.getSelectedItemTitle());
-
-
     }
 
     private void startGradesUpdaterService(boolean isChecked) {
