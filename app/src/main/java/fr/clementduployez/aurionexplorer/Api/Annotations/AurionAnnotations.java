@@ -7,6 +7,7 @@ import java.util.Dictionary;
 import java.util.HashMap;
 
 import fr.clementduployez.aurionexplorer.Api.AurionApi;
+import fr.clementduployez.aurionexplorer.Api.IAurionApi;
 
 /**
  * Created by cdupl on 11/21/2016.
@@ -21,10 +22,9 @@ public class AurionAnnotations {
     private String contentType;
     private Connection.Method httpMethod;
 
-    public static AurionAnnotations getInstance(AurionApi instance, String method) {
+    public static AurionAnnotations getInstance(String method, Class[] parameters) {
         try {
-            Class[] classes = instance.getClass().getInterfaces();
-            return getInstance(instance.getClass().getInterfaces()[0].getMethod(method));
+            return getInstance(IAurionApi.class.getMethod(method, parameters));
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
         }

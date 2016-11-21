@@ -1,0 +1,23 @@
+package fr.clementduployez.aurionexplorer.Api.Responses;
+
+import org.jsoup.Connection;
+
+import java.util.Map;
+
+import fr.clementduployez.aurionexplorer.Utils.JSoupUtils;
+
+/**
+ * Created by cdupl on 11/21/2016.
+ */
+
+public abstract class AurionResponse {
+    private Map<String, String> hiddenInputData;
+
+    public AurionResponse(Connection.Response response) {
+        this.hiddenInputData = JSoupUtils.getHiddenInputData(response);
+    }
+
+    public Map<String, String> getHiddenInputData() {
+        return hiddenInputData;
+    }
+}

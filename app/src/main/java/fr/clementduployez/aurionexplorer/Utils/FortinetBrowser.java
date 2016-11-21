@@ -31,7 +31,7 @@ public class FortinetBrowser {
             Connection.Response example = Jsoup.connect(EXAMPLE_URL)
                     .followRedirects(true)
                     .userAgent(AurionBrowser.USER_AGENT)
-                    .timeout(Settings.CONNECTION_TIMEOUT)
+                    .timeout(Settings.Api.CONNECTION_TIMEOUT)
                     .execute();
             return example;
         } catch (IOException e) {
@@ -53,7 +53,7 @@ public class FortinetBrowser {
                 Connection.Response fortinet = Jsoup.connect(example.url().toString())
                         .followRedirects(true)
                         .userAgent(AurionBrowser.USER_AGENT)
-                        .timeout(Settings.CONNECTION_TIMEOUT)
+                        .timeout(Settings.Api.CONNECTION_TIMEOUT)
                         .execute();
                 if (fortinet.statusCode() == 200) {
                     return true;

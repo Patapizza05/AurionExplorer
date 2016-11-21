@@ -23,6 +23,8 @@ import org.jsoup.nodes.Document;
 
 import java.io.IOException;
 
+import fr.clementduployez.aurionexplorer.Api.AurionApi;
+import fr.clementduployez.aurionexplorer.Api.Responses.LoginResponse;
 import fr.clementduployez.aurionexplorer.Informer;
 import fr.clementduployez.aurionexplorer.MainActivity;
 import fr.clementduployez.aurionexplorer.R;
@@ -155,23 +157,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 wait = true;
                 this.username = params[0];
                 this.password = params[1];
-                Connection.Response response = AurionBrowser.login(params[0],params[1]);
-                if (response == null) {
-                    AurionCookies.clear();
-                    return false;
-                }
 
-                boolean result = !response.url().toString().startsWith(AurionBrowser.LOGIN_URL) || response.url().toString().startsWith(AurionBrowser.AURION_URL);
-                if (result) {
-                    Document document = null;
-                    try {
-                        document = response.parse();
-                        UserData.saveName(document.getElementsByClass("login").get(0).html().replaceAll("&nbsp;", "").trim());
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-                }
-                return result;
+                LoginResponse loginResponse = new AurionApi().login(username, password);
+                if (loginResponse == null) return false;
+
+                UserData.saveName(loginResponse.getDisplayName());
+
+                return true;
             }
 
             @Override
