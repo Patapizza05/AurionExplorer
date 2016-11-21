@@ -2,13 +2,19 @@ package fr.clementduployez.aurionexplorer.Api;
 
 import org.jsoup.Connection;
 
+import java.util.Date;
+
 import fr.clementduployez.aurionexplorer.Api.Annotations.ContentType;
 import fr.clementduployez.aurionexplorer.Api.Annotations.HttpMethod;
 import fr.clementduployez.aurionexplorer.Api.Annotations.Referrer;
+import fr.clementduployez.aurionexplorer.Api.Annotations.Title;
 import fr.clementduployez.aurionexplorer.Api.Annotations.Url;
+import fr.clementduployez.aurionexplorer.Api.Responses.EmptyPlanningResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.IndexResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.LoginFormResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.LoginResponse;
+import fr.clementduployez.aurionexplorer.Api.Responses.PlanningResponse;
+import fr.clementduployez.aurionexplorer.Utils.Settings;
 
 /**
  * Created by cdupl on 11/21/2016.
@@ -29,12 +35,30 @@ public interface IAurionApi {
     @Url("https://cas.isen.fr/login")
     @HttpMethod(Connection.Method.POST)
     @ContentType
-    LoginResponse login(LoginFormResponse loginFormResponse, String username, String password);
+    LoginResponse relogin(LoginFormResponse loginFormResponse);
 
-    @Url("https://aurion-lille.isen.fr/faces/planning.xhtml")
+    @Url("https://cas.isen.fr/login")
     @HttpMethod(Connection.Method.POST)
     @ContentType
-    void planning();
+    LoginResponse login(String username, String password);
+
+    @Url("https://cas.isen.fr/login")
+    @HttpMethod(Connection.Method.POST)
+    @ContentType
+    LoginResponse login(LoginFormResponse loginFormResponse, String username, String password);
+
+    @Url(Settings.Api.MAIN_MENU_PAGE_URL)
+    @Referrer(Settings.Api.AURION_URL)
+    @Title("Mon planning")
+    @HttpMethod(Connection.Method.POST)
+    @ContentType
+    EmptyPlanningResponse planning();
+
+    @Url("https://aurion-lille.isen.fr/faces/Planning.xhtml")
+    @Referrer("https://aurion-lille.isen.fr")
+    @HttpMethod(Connection.Method.POST)
+    @ContentType
+    PlanningResponse planning(Date beginDate, Date endDate);
 
     @Url("https://aurion-lille.isen.fr/faces/LearnerNotationListPage.xhtml")
     @HttpMethod(Connection.Method.POST)

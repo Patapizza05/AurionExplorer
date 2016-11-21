@@ -133,7 +133,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         UserData.saveUsername(username);
         UserData.savePassword(password);
 
-        startActivity(new Intent(getApplicationContext(),MainActivity.class));
+        startActivity(new Intent(getApplicationContext(), MainActivity.class));
     }
 
     public void rejectLogin() {
@@ -143,22 +143,17 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         setWait(false);
     }
 
-    private void connect(String username, String password) {
+    private void connect(final String username, final String password) {
         Log.i("Login","trying to connect...");
         setWait(true);
 
         new AsyncTask<String,Void,Boolean>() {
 
-            private String password;
-            private String username;
-
             @Override
             protected Boolean doInBackground(String... params) {
                 wait = true;
-                this.username = params[0];
-                this.password = params[1];
 
-                LoginResponse loginResponse = new AurionApi().login(username, password);
+                LoginResponse loginResponse = AurionApi.getInstance().login(username, password);
                 if (loginResponse == null) return false;
 
                 UserData.saveName(loginResponse.getDisplayName());
@@ -170,7 +165,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             protected void onPostExecute(Boolean isCorrect) {
                 super.onPostExecute(isCorrect);
                 if (isCorrect) {
-                    acceptLogin(this.username, this.password);
+                    acceptLogin(username, password);
                 }
                 else {
                     rejectLogin();

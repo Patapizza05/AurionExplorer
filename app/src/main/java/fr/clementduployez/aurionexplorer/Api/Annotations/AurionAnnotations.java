@@ -21,6 +21,7 @@ public class AurionAnnotations {
     private String referrer;
     private String contentType;
     private Connection.Method httpMethod;
+    private String title;
 
     public static AurionAnnotations getInstance(String method, Class[] parameters) {
         try {
@@ -47,6 +48,7 @@ public class AurionAnnotations {
         initReferrer(method);
         initContentType(method);
         initHttpMethod(method);
+        initTitle(method);
     }
 
     private void initUrl(Method method) {
@@ -86,6 +88,15 @@ public class AurionAnnotations {
         }
     }
 
+    private void initTitle(Method method) {
+        try {
+            this.title = method.getAnnotation(Title.class).value();
+        }
+        catch(Exception ex) {
+            //
+        }
+    }
+
     public Connection.Method getHttpMethod() {
         return httpMethod;
     }
@@ -100,5 +111,9 @@ public class AurionAnnotations {
 
     public String getContentType() {
         return contentType;
+    }
+
+    public String getTitle() {
+        return title;
     }
 }

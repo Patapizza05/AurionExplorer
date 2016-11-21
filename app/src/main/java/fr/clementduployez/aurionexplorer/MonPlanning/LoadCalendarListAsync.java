@@ -17,10 +17,12 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import fr.clementduployez.aurionexplorer.Api.AurionApi;
 import fr.clementduployez.aurionexplorer.Api.Responses.IndexResponse;
+import fr.clementduployez.aurionexplorer.Api.Responses.PlanningResponse;
 import fr.clementduployez.aurionexplorer.Informer;
 import fr.clementduployez.aurionexplorer.Utils.AurionBrowser;
 import fr.clementduployez.aurionexplorer.Utils.AurionCookies;
@@ -29,7 +31,7 @@ import fr.clementduployez.aurionexplorer.Utils.JSoupUtils;
 /**
  * Created by cdupl on 2/17/2016.
  */
-public class LoadCalendarListAsync  extends AsyncTask<String,String,ArrayList<CalendarInfo>> {
+public class LoadCalendarListAsync  extends AsyncTask<String,String,List<CalendarInfo>> {
 
     private final CalendarFragment calendarFragment;
     private Date beginDate;
@@ -58,7 +60,7 @@ public class LoadCalendarListAsync  extends AsyncTask<String,String,ArrayList<Ca
     }
 
     @Override
-    protected ArrayList<CalendarInfo> doInBackground(String... params) {
+    protected List<CalendarInfo> doInBackground(String... params) {
         /*
         form:calendarDebutInputDate:22/02/16
         form:calendarDebutInputCurrentDate:02/2016
@@ -66,24 +68,27 @@ public class LoadCalendarListAsync  extends AsyncTask<String,String,ArrayList<Ca
         form:calendarFinInputCurrentDate:02/2016
          */
 
-        ArrayList<CalendarInfo> calendarData = null;
-        Connection.Response response = null;
-        try {
-            response = connectToPlanningWithDates(AurionBrowser.connectToPage("Mon planning"));
+//        ArrayList<CalendarInfo> calendarData = null;
+//        Connection.Response response = null;
+//        try {
+//            response = connectToPlanningWithDates(AurionBrowser.connectToPage("Mon planning"));
+//
+//            if (response != null && response.statusCode() == 200) {
+//                Log.i("Response","received");
+//                calendarData = parseCalendar(response);
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+//
+//        if (calendarData == null) {
+//            calendarData = new ArrayList<>();
+//        }
 
-            if (response != null && response.statusCode() == 200) {
-                Log.i("Response","received");
-                calendarData = parseCalendar(response);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        PlanningResponse planningResponse = AurionApi.getInstance().planning(beginDate, endDate);
+        if (planningResponse == null) return new ArrayList<>(0);
 
-        if (calendarData == null) {
-            calendarData = new ArrayList<>();
-        }
-
-        return calendarData;
+        return planningResponse.getCalendar();
     }
 
     private Connection.Response connectToPlanningWithDates(Connection.Response response) {
@@ -145,7 +150,7 @@ public class LoadCalendarListAsync  extends AsyncTask<String,String,ArrayList<Ca
     }
 
     @Override
-    protected void onPostExecute(ArrayList<CalendarInfo> calendarData) {
+    protected void onPostExecute(List<CalendarInfo> calendarData) {
         super.onPostExecute(calendarData);
         Informer.inform("Récupération du calendrier terminée.");
         this.calendarFragment.onAsyncResult(calendarData);

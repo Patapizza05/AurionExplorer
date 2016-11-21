@@ -16,7 +16,7 @@ public class Settings {
         public static final String LOGIN_URL = "https://cas.isen.fr/login";
         public static final String AURION_URL = "https://aurion-lille.isen.fr";
         public static final String LOGIN_REDIRECT_URL = "https://aurion-lille.isen.fr/j_spring_cas_security_check";
-
+        public static final String MAIN_MENU_PAGE_URL = "https://aurion-lille.isen.fr/faces/MainMenuPage.xhtml";
         public static final String CONTENT_TYPE_KEY = "Content-Type";
     }
 }
