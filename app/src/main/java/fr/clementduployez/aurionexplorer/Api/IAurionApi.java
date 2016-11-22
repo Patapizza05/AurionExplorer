@@ -11,6 +11,7 @@ import fr.clementduployez.aurionexplorer.Api.Annotations.Title;
 import fr.clementduployez.aurionexplorer.Api.Annotations.Url;
 import fr.clementduployez.aurionexplorer.Api.Responses.ConferencesResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.EmptyPlanningResponse;
+import fr.clementduployez.aurionexplorer.Api.Responses.GradesResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.IndexResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.LoginFormResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.LoginResponse;
@@ -62,9 +63,17 @@ public interface IAurionApi {
     PlanningResponse planning(Date beginDate, Date endDate);
 
     @Url(Settings.Api.MAIN_MENU_PAGE_URL)
+    @Title("Mes notes")
     @HttpMethod(Connection.Method.POST)
     @ContentType
-    void grades(int page);
+    GradesResponse grades();
+
+    @Url("https://aurion-lille.isen.fr/faces/LearnerNotationListPage.xhtml")
+    @Referrer(Settings.Api.AURION_URL)
+    @Title("Mes notes")
+    @HttpMethod(Connection.Method.POST)
+    @ContentType
+    GradesResponse grades(GradesResponse gradesResponse, int page);
 
     @Url(Settings.Api.MAIN_MENU_PAGE_URL)
     @Title("Mes conférences")

@@ -11,6 +11,7 @@ import java.util.Map;
 import fr.clementduployez.aurionexplorer.Api.Annotations.AurionAnnotations;
 import fr.clementduployez.aurionexplorer.Api.Responses.ConferencesResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.EmptyPlanningResponse;
+import fr.clementduployez.aurionexplorer.Api.Responses.GradesResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.IndexResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.LoginFormResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.LoginResponse;
@@ -110,7 +111,7 @@ public class AurionApi implements IAurionApi {
 
         IndexResponse indexResponse = index();
 
-        Informer.inform("Connection à la page \""+ annotations.getTitle() +"\" en cours");
+        Informer.inform("Connexion à la page \""+ annotations.getTitle() +"\" en cours");
 
         Map<String, String> data = new HashMap<>();
         data.putAll(indexResponse.getHiddenInputData());
@@ -154,8 +155,59 @@ public class AurionApi implements IAurionApi {
     }
 
     @Override
-    public void grades(int page) {
+    public GradesResponse grades() {
+        AurionAnnotations annotations = AurionAnnotations.getInstance("grades", new Class[] { });
 
+        IndexResponse indexResponse = index();
+
+        Informer.inform("Connexion à la page \""+ annotations.getTitle() +"\"");
+
+        Map<String, String> data = new HashMap<>();
+        data.putAll(indexResponse.getHiddenInputData());
+        try {
+            data.putAll(GradesResponse.prepareRequest(indexResponse, annotations.getTitle()));
+        }
+        catch(IOException ex) {
+            return null;
+        }
+
+        Connection.Response result = jsoupConnect(annotations, data);
+        if (result != null && result.statusCode() == 200) {
+            AurionCookies.addAll(result.cookies());
+
+            try {
+                return new GradesResponse(result, 0);
+            } catch(Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public GradesResponse grades(GradesResponse gradesResponse, int page) {
+
+        if (gradesResponse.getPage() == page) return gradesResponse;
+
+        AurionAnnotations annotations = AurionAnnotations.getInstance("grades", new Class[] {  GradesResponse.class, int.class });
+
+        Informer.inform("Connexion à la page \""+ annotations.getTitle() +"\" (page " + (page + 1) + ")");
+
+        Map<String, String> data = new HashMap<>();
+        data.putAll(gradesResponse.getHiddenInputData());
+        data.putAll(GradesResponse.prepareRequest(page));
+
+        Connection.Response result = jsoupConnect(annotations, data);
+        if (result != null && result.statusCode() == 200) {
+            AurionCookies.addAll(result.cookies());
+
+            try {
+                return new GradesResponse(result, page);
+            } catch(Exception ex) {
+                ex.printStackTrace();
+            }
+        }
+        return null;
     }
 
     @Override
@@ -164,9 +216,9 @@ public class AurionApi implements IAurionApi {
 
         IndexResponse indexResponse = index();
 
-        Informer.inform("Connection à la page \""+ annotations.getTitle() +"\" en cours");
+        Informer.inform("Connexion à la page \""+ annotations.getTitle() +"\" en cours");
 
-        Map<String, String> data = new HashMap<String, String>();
+        Map<String, String> data = new HashMap<>();
         data.putAll(indexResponse.getHiddenInputData());
         try {
             data.putAll(ConferencesResponse.prepareRequest(indexResponse, annotations.getTitle()));

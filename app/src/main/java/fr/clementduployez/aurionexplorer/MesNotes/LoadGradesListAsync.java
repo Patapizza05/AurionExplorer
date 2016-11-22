@@ -10,100 +10,60 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
+import fr.clementduployez.aurionexplorer.Api.AurionApi;
+import fr.clementduployez.aurionexplorer.Api.Responses.GradesResponse;
 import fr.clementduployez.aurionexplorer.Informer;
 import fr.clementduployez.aurionexplorer.Utils.AurionBrowser;
 
 /**
  * Created by cdupl on 2/14/2016.
  */
-public class LoadGradesListAsync extends AsyncTask<String,ArrayList<GradesInfo>,ArrayList<GradesInfo>> {
+public class LoadGradesListAsync extends AsyncTask<String,List<GradesInfo>,List<GradesInfo>> {
 
     private final ILoadGradesListAsyncReceiver receiver;
-    private boolean isFirstValues = true;
 
     public LoadGradesListAsync(ILoadGradesListAsyncReceiver receiver) {
         this.receiver = receiver;
     }
 
     @Override
-    protected ArrayList<GradesInfo> doInBackground(String... params) {
-        isFirstValues = true;
-        Connection.Response response = AurionBrowser.connectToPage("Mes notes");
-        ArrayList<GradesInfo> gradesInfos = null;
-        if (response != null && response.statusCode() == 200) {
-            try {
-                gradesInfos = parseMarks(response);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
+    protected List<GradesInfo> doInBackground(String... params) {
 
+        AurionApi api = AurionApi.getInstance();
+        GradesResponse response = api.grades();
 
+        List<GradesInfo> data = new ArrayList<>();
+        data.addAll(response.getData());
 
-        while (gradesInfos != null && gradesInfos.size() != 0 && gradesInfos.size() % 20 == 0) {
-            publishProgress(gradesInfos);
-            response = AurionBrowser.connectToNextPage(response,null);
-            if (response != null && response.statusCode() == 200) {
-                try {
-                    gradesInfos.addAll(parseMarks(response));
-                } catch (IOException e) {
-                    e.printStackTrace();
+        if (response.getNbPages() > 1) {
+            GradesResponse lastResponse = response;
+            for (int page = response.getPage() + 1; page < response.getNbPages(); page++) {
+                lastResponse = api.grades(lastResponse, page);
+                if (lastResponse != null) {
+                    data.addAll(lastResponse.getData());
+                    publishProgress(data);
+                }
+                else {
+                    break;
                 }
             }
         }
 
-        if (gradesInfos == null) {
-            gradesInfos = new ArrayList<>();
-        }
-
-        return gradesInfos;
-    }
-
-    public static ArrayList<GradesInfo> parseMarks(Connection.Response response) throws IOException {
-        ArrayList<GradesInfo> gradesInfos = new ArrayList<>();
-        Document document = response.parse();
-        Elements tableRows = document.getElementsByTag("tr");
-        for (Element tr : tableRows)
-        {
-            String trId = tr.attr("id");
-            if (trId != null && trId.startsWith("form:dataTableFavori") && !trId.equals("form:dataTableFavori:ch"))
-            {
-                Elements tableColumns = tr.getElementsByTag("td");
-                if (tableColumns.size() >= 6) {
-                    GradesInfo info = new GradesInfo(tableColumns.get(2).html(),tableColumns.get(1).html(),tableColumns.get(3).html(),tableColumns.get(0).html());
-                    gradesInfos.add(info);
-                }
-            }
-        }
-        return gradesInfos;
+        return data;
     }
 
     @Override
-    protected void onProgressUpdate(ArrayList<GradesInfo>... data) {
+    protected void onProgressUpdate(List<GradesInfo>... data) {
         super.onProgressUpdate(data);
         this.receiver.onAsyncProgress(data[0]);
-        isFirstValues = false;
     }
 
-
-
     @Override
-    protected void onPostExecute(ArrayList<GradesInfo> gradesInfos) {
+    protected void onPostExecute(List<GradesInfo> gradesInfos) {
         super.onPostExecute(gradesInfos);
         Informer.inform("Récupération des notes terminée.");
         this.receiver.onAsyncResult(gradesInfos);
     }
 }
-
-        /*Connection.Response testResponse = AurionBrowser.connectToPage("Salles disponibles");
-        testResponse = AurionBrowser.connectToNextPage(testResponse,null);
-        try {
-            Document testDoc = testResponse.parse();
-            for (Element e : testDoc.getElementsByClass("preformatted"))
-            {
-                Log.i("Pref",e.html());
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }*/
