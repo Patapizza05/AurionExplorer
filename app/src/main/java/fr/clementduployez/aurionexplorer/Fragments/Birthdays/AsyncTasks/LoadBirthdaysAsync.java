@@ -10,6 +10,9 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import fr.clementduployez.aurionexplorer.Api.AurionApi;
+import fr.clementduployez.aurionexplorer.Api.Responses.BirthdaysResponse;
+import fr.clementduployez.aurionexplorer.Api.Responses.StudentsResponse;
 import fr.clementduployez.aurionexplorer.Fragments.Birthdays.BirthdayFragment;
 import fr.clementduployez.aurionexplorer.Model.BirthdayList;
 import fr.clementduployez.aurionexplorer.Model.BirthdayInfo;
@@ -20,69 +23,20 @@ import fr.clementduployez.aurionexplorer.Utils.OldApi.CasBrowser;
  */
 public class LoadBirthdaysAsync extends AsyncTask<Void,BirthdayList,BirthdayList> {
 
-private final BirthdayFragment birthdayFragment;
+    private final BirthdayFragment birthdayFragment;
 
-public LoadBirthdaysAsync(BirthdayFragment birthdayFragment) {
+    public LoadBirthdaysAsync(BirthdayFragment birthdayFragment) {
         this.birthdayFragment = birthdayFragment;
-        }
-
-@Override
-protected BirthdayList doInBackground(Void... params) {
-        Connection.Response response = CasBrowser.connectToBirthday();
-
-        BirthdayList data = null;
-        if (response != null && response.statusCode() == 200) {
-            try {
-                data = parse(response);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-
-        if (data == null) {
-            data = new BirthdayList();
-        }
-
-        return data;
-
-}
-
-
-    private BirthdayList parse(Connection.Response response) throws IOException {
-        BirthdayList data = new BirthdayList();
-        List<BirthdayInfo> daily = new ArrayList<>();
-        List<BirthdayInfo> monthly = new ArrayList<>();
-        data.setDailyBirthdays(daily);
-        data.setMonthlyBirthdays(monthly);
-
-        Document document = response.parse();
-
-        Elements divs = document.getElementsByClass("text-center");
-
-        int dailyIndex = divs.size() == 2 ? 0 : -1;
-        int monthlyIndex = divs.size() == 2 ? 1 : 0;
-
-        if (dailyIndex != -1) {
-            String[] names = divs.get(dailyIndex).ownText().split(",");
-            for (String name : names) {
-                daily.add(new BirthdayInfo(name.trim()));
-            }
-        }
-
-        if (monthlyIndex != -1) {
-            String[] names = divs.get(monthlyIndex).ownText().split(",");
-            for (String name : names) {
-                monthly.add(new BirthdayInfo(name.trim()));
-            }
-        }
-
-        return data;
     }
 
+    @Override
+    protected BirthdayList doInBackground(Void... params) {
+        BirthdaysResponse response = AurionApi.getInstance().birthdays();
+        return response != null ? response.getBirthdayList() : new BirthdayList();
+    }
 
-
-@Override
-protected void onPostExecute(BirthdayList data) {
+    @Override
+    protected void onPostExecute(BirthdayList data) {
         super.onPostExecute(data);
         this.birthdayFragment.onAsyncResult(data);
     }

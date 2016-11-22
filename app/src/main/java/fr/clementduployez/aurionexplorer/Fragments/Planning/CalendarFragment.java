@@ -154,7 +154,7 @@ public class CalendarFragment extends AurionPageFragment<CalendarInfo> implement
     public void onRefreshAsync() {
         if (loadCalendarAsync == null) {
 
-            Callback<CalendarInfo> callback = new Callback<CalendarInfo>() {
+            Callback<List<CalendarInfo>> callback = new Callback<List<CalendarInfo>>() {
                 @Override
                 public void run(List<CalendarInfo> data) {
                     onAsyncResult(data);

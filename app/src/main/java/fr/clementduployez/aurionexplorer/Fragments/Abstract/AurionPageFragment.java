@@ -22,8 +22,3 @@ public abstract class AurionPageFragment<Info> extends Fragment {
     public abstract void setAdapter(List<Info> data);
 
 }
-
-/*
-AsyncTask
-Adapter
- */

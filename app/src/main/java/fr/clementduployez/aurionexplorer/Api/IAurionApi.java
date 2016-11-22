@@ -9,6 +9,7 @@ import fr.clementduployez.aurionexplorer.Api.Annotations.HttpMethod;
 import fr.clementduployez.aurionexplorer.Api.Annotations.Referrer;
 import fr.clementduployez.aurionexplorer.Api.Annotations.Title;
 import fr.clementduployez.aurionexplorer.Api.Annotations.Url;
+import fr.clementduployez.aurionexplorer.Api.Responses.BirthdaysResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.ConferencesResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.EmptyPlanningResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.GradesResponse;
@@ -16,6 +17,7 @@ import fr.clementduployez.aurionexplorer.Api.Responses.IndexResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.LoginFormResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.LoginResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.PlanningResponse;
+import fr.clementduployez.aurionexplorer.Api.Responses.StudentsResponse;
 import fr.clementduployez.aurionexplorer.Settings.Settings;
 
 /**
@@ -37,7 +39,7 @@ public interface IAurionApi {
     @Url("https://cas.isen.fr/login")
     @HttpMethod(Connection.Method.POST)
     @ContentType
-    LoginResponse relogin(LoginFormResponse loginFormResponse);
+    LoginResponse relogin(LoginFormResponse loginFormResponse, String redirectUrl);
 
     @Url("https://cas.isen.fr/login")
     @HttpMethod(Connection.Method.POST)
@@ -47,7 +49,7 @@ public interface IAurionApi {
     @Url("https://cas.isen.fr/login")
     @HttpMethod(Connection.Method.POST)
     @ContentType
-    LoginResponse login(LoginFormResponse loginFormResponse, String username, String password);
+    LoginResponse login(LoginFormResponse loginFormResponse, String username, String password, String redirectUrl);
 
     @Url(Settings.Api.MAIN_MENU_PAGE_URL)
     @Referrer(Settings.Api.AURION_URL)
@@ -82,10 +84,10 @@ public interface IAurionApi {
     ConferencesResponse conferences(int page);
 
     @Url("https://cas.isen.fr/home/annuaire/anniversaries.html")
-    @HttpMethod(Connection.Method.POST)
+    @HttpMethod(Connection.Method.GET)
     @Referrer("https://cas.isen.fr/home/annuaire/anniversaries.html")
     @ContentType
-    void birthdays();
+    BirthdaysResponse birthdays();
 
     @Url("https://cas.isen.fr/home/annuaire/staff.html")
     @HttpMethod(Connection.Method.GET)
@@ -97,5 +99,11 @@ public interface IAurionApi {
     @HttpMethod(Connection.Method.POST)
     @ContentType
     void staff(String status, String dataNom, String dataPrenom, String dataCode);
+
+    @Url("https://cas.isen.fr/home/annuaire/infos-students.html")
+    @Referrer("https://cas.isen.fr/home/annuaire/students.html")
+    @HttpMethod(Connection.Method.POST)
+    @ContentType
+    StudentsResponse students(String dataNom, String dataPrenom, String dataGroupe);
 
 }

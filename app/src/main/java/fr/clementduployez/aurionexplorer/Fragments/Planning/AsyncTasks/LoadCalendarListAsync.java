@@ -21,9 +21,9 @@ import fr.clementduployez.aurionexplorer.Model.CalendarInfo;
  */
 public class LoadCalendarListAsync  extends AsyncTask<Date,String,List<CalendarInfo>> {
 
-    private final Callback<CalendarInfo> callback;
+    private final Callback<List<CalendarInfo>> callback;
 
-    public LoadCalendarListAsync(Callback<CalendarInfo> callback) {
+    public LoadCalendarListAsync(Callback<List<CalendarInfo>> callback) {
 
         this.callback = callback;
 

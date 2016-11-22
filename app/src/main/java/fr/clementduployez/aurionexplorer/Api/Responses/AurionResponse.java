@@ -12,24 +12,19 @@ import fr.clementduployez.aurionexplorer.Api.Utils.JSoupUtils;
  * Created by cdupl on 11/21/2016.
  */
 
-public abstract class AurionResponse {
+public abstract class AurionResponse extends AbstractResponse {
     private Map<String, String> hiddenInputData;
 
-    private Connection.Response response;
 
-    private Document document;
 
     public AurionResponse(Connection.Response response) {
+        super(response);
         this.hiddenInputData = JSoupUtils.getHiddenInputData(response);
-        this.response = response;
     }
 
     public Map<String, String> getHiddenInputData() {
         return hiddenInputData;
     }
 
-    public Document getDocument() throws IOException {
-        if (document == null) document = response.parse();
-        return document;
-    }
+
 }

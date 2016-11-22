@@ -14,6 +14,7 @@
         android:layout_height="match_parent"
         android:padding="10dp"
         android:layout_weight="1"
+        android:id="@+id/birthday_item_image"
         android:src="@drawable/ic_cake_red_500_18dp"/>
 
     <TextView

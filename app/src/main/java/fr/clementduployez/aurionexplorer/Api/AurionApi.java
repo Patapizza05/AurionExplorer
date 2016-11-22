@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import fr.clementduployez.aurionexplorer.Api.Annotations.AurionAnnotations;
+import fr.clementduployez.aurionexplorer.Api.Responses.BirthdaysResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.ConferencesResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.EmptyPlanningResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.GradesResponse;
@@ -16,6 +17,7 @@ import fr.clementduployez.aurionexplorer.Api.Responses.IndexResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.LoginFormResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.LoginResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.PlanningResponse;
+import fr.clementduployez.aurionexplorer.Api.Responses.StudentsResponse;
 import fr.clementduployez.aurionexplorer.Utils.Inform.Informer;
 import fr.clementduployez.aurionexplorer.Api.Cookies.AurionCookies;
 import fr.clementduployez.aurionexplorer.Settings.Settings;
@@ -49,7 +51,7 @@ public class AurionApi implements IAurionApi {
             if (!isLoggedIn(result)) {
                 LoginFormResponse loginFormResponse = new LoginFormResponse(result);
                 if (isFirstTry) {
-                    relogin(loginFormResponse);
+                    relogin(loginFormResponse, null);
                     return index(false);
                 }
             }
@@ -75,23 +77,25 @@ public class AurionApi implements IAurionApi {
     }
 
     @Override
-    public LoginResponse relogin(LoginFormResponse loginFormResponse) {
-        return login(loginFormResponse, UserData.getUsername(), UserData.getPassword());
+    public LoginResponse relogin(LoginFormResponse loginFormResponse, String redirectUrl) {
+        return login(loginFormResponse, UserData.getUsername(), UserData.getPassword(), redirectUrl);
     }
 
     @Override
     public LoginResponse login(String username, String password) {
-        return login(loginForm(), username, password);
+        return login(loginForm(), username, password, null);
     }
 
     @Override
-    public LoginResponse login(LoginFormResponse loginFormResponse, String username, String password) {
+    public LoginResponse login(LoginFormResponse loginFormResponse, String username, String password, String redirectUrl) {
         AurionAnnotations annotations = AurionAnnotations.getInstance("login", new Class[] {LoginFormResponse.class, String.class, String.class });
 
         Map<String, String> data = loginFormResponse.getHiddenInputData();
         data.put(LoginFormResponse.USERNAME_INPUT_KEY, username);
         data.put(LoginFormResponse.PASSWORD_INPUT_KEY, password);
-        data.put(LoginFormResponse.REDIRECT_KEY, Settings.Api.LOGIN_REDIRECT_URL);
+
+        if (redirectUrl == null) redirectUrl = Settings.Api.LOGIN_REDIRECT_URL;
+        data.put(LoginFormResponse.REDIRECT_KEY, redirectUrl);
 
         Connection.Response result = jsoupConnect(annotations, data);
 
@@ -243,8 +247,37 @@ public class AurionApi implements IAurionApi {
     }
 
     @Override
-    public void birthdays() {
+    public BirthdaysResponse birthdays() {
+        return birthdays(true);
+    }
 
+    private BirthdaysResponse birthdays(boolean isFirstTry) {
+        AurionAnnotations annotations = AurionAnnotations.getInstance("birthdays", new Class[] {});
+
+        Connection.Response result = jsoupConnect(annotations);
+
+        if (result != null && result.statusCode() == 200) {
+            AurionCookies.addAll(result.cookies());
+
+            if (!isLoggedIn(result)) {
+                LoginFormResponse loginFormResponse = new LoginFormResponse(result);
+                if (isFirstTry) {
+                    LoginResponse loginResponse = relogin(loginFormResponse, annotations.getUrl());
+                    try {
+                        return new BirthdaysResponse(loginResponse.getResponse());
+                    }
+                    catch(IOException ex) {
+                        return birthdays(false);
+                    }
+                }
+            }
+            try {
+                return new BirthdaysResponse(result);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 
     @Override
@@ -255,6 +288,47 @@ public class AurionApi implements IAurionApi {
     @Override
     public void staff(String status, String dataNom, String dataPrenom, String dataCode) {
 
+    }
+
+    @Override
+    public StudentsResponse students(String dataNom, String dataPrenom, String dataGroupe) {
+        return students(dataNom, dataPrenom, dataGroupe, true);
+    }
+
+    private StudentsResponse students(String dataNom, String dataPrenom, String dataGroupe, boolean isFirstTry) {
+        if (dataPrenom == null) dataPrenom = "";
+        if (dataNom == null) dataNom = "";
+        if (dataGroupe == null) dataGroupe = "%";
+        if (dataPrenom == "" && dataNom == "" && dataGroupe == "%") return null;
+
+        //status is always 'Y'
+        AurionAnnotations annotations = AurionAnnotations.getInstance("students", new Class[] { String.class, String.class, String.class });
+
+        Map<String, String> data = new HashMap<>();
+        data.put("status", "Y");
+        data.put("dataNom", dataNom);
+        data.put("dataPrenom", dataPrenom);
+        data.put("dataGroupe", dataGroupe);
+
+        Connection.Response result = jsoupConnect(annotations, data);
+
+        if (result != null && result.statusCode() == 200) {
+            AurionCookies.addAll(result.cookies());
+
+            if (!isLoggedIn(result)) {
+                LoginFormResponse loginFormResponse = new LoginFormResponse(result);
+                if (isFirstTry) {
+                    relogin(loginFormResponse, null);
+                    return students(dataNom,dataPrenom,dataGroupe,false);
+                }
+            }
+            try {
+                return new StudentsResponse(result);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        return null;
     }
 
     private Connection.Response jsoupConnect(AurionAnnotations annotations) {

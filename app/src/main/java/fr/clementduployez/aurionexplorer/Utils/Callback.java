@@ -9,5 +9,5 @@ import fr.clementduployez.aurionexplorer.Model.CalendarInfo;
  */
 
 public interface Callback<T>  {
-    void run(List<T> data);
+    void run(T data);
 }
