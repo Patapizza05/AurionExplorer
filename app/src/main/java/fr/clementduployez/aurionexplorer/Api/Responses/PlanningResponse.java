@@ -58,6 +58,13 @@ public class PlanningResponse extends AurionResponse {
     }
 
     public static Map<String, String> prepareRequest(Date beginDate, Date endDate) {
+        /*
+        form:calendarDebutInputDate:22/02/16
+        form:calendarDebutInputCurrentDate:02/2016
+        form:calendarFinInputDate:29/02/16
+        form:calendarFinInputCurrentDate:02/2016
+         */
+
         HashMap<String, String> customData = new HashMap<>();
         customData.put("form:calendarDebutInputDate",dateFormat.format(beginDate));
         customData.put("form:calendarDebutInputCurrentDate",currentDateFormat.format(beginDate));

@@ -9,6 +9,7 @@ import fr.clementduployez.aurionexplorer.Api.Annotations.HttpMethod;
 import fr.clementduployez.aurionexplorer.Api.Annotations.Referrer;
 import fr.clementduployez.aurionexplorer.Api.Annotations.Title;
 import fr.clementduployez.aurionexplorer.Api.Annotations.Url;
+import fr.clementduployez.aurionexplorer.Api.Responses.ConferencesResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.EmptyPlanningResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.IndexResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.LoginFormResponse;
@@ -60,15 +61,16 @@ public interface IAurionApi {
     @ContentType
     PlanningResponse planning(Date beginDate, Date endDate);
 
-    @Url("https://aurion-lille.isen.fr/faces/LearnerNotationListPage.xhtml")
+    @Url(Settings.Api.MAIN_MENU_PAGE_URL)
     @HttpMethod(Connection.Method.POST)
     @ContentType
     void grades(int page);
 
-    @Url("https://aurion-lille.isen.fr/faces/ChoixDonnee.xhtml")
+    @Url(Settings.Api.MAIN_MENU_PAGE_URL)
+    @Title("Mes conférences")
     @HttpMethod(Connection.Method.POST)
     @ContentType
-    void conferences(int page);
+    ConferencesResponse conferences(int page);
 
     @Url("https://cas.isen.fr/home/annuaire/anniversaries.html")
     @HttpMethod(Connection.Method.POST)

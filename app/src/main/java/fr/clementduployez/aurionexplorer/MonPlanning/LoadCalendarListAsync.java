@@ -61,86 +61,10 @@ public class LoadCalendarListAsync  extends AsyncTask<String,String,List<Calenda
 
     @Override
     protected List<CalendarInfo> doInBackground(String... params) {
-        /*
-        form:calendarDebutInputDate:22/02/16
-        form:calendarDebutInputCurrentDate:02/2016
-        form:calendarFinInputDate:29/02/16
-        form:calendarFinInputCurrentDate:02/2016
-         */
-
-//        ArrayList<CalendarInfo> calendarData = null;
-//        Connection.Response response = null;
-//        try {
-//            response = connectToPlanningWithDates(AurionBrowser.connectToPage("Mon planning"));
-//
-//            if (response != null && response.statusCode() == 200) {
-//                Log.i("Response","received");
-//                calendarData = parseCalendar(response);
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        if (calendarData == null) {
-//            calendarData = new ArrayList<>();
-//        }
-
         PlanningResponse planningResponse = AurionApi.getInstance().planning(beginDate, endDate);
         if (planningResponse == null) return new ArrayList<>(0);
 
         return planningResponse.getCalendar();
-    }
-
-    private Connection.Response connectToPlanningWithDates(Connection.Response response) {
-
-        Map<String,String> data = JSoupUtils.getHiddenInputData(response);
-
-        HashMap<String, String> customData = new HashMap<>();
-        customData.put("form:calendarDebutInputDate",dateFormat.format(this.beginDate));
-        customData.put("form:calendarDebutInputCurrentDate",currentDateFormat.format(this.beginDate));
-        customData.put("form:calendarFinInputDate",dateFormat.format(this.endDate));
-        customData.put("form:calendarFinInputCurrentDate", currentDateFormat.format(this.endDate));
-        customData.put("form:btnOk","form:btnOk");
-        customData.put("form","form");
-        customData.put("form:largeurDivCenter","1600");
-        data.putAll(customData);
-
-        try {
-            Connection.Response result = Jsoup.connect("https://aurion-lille.isen.fr/faces/Planning.xhtml") //
-                    .header("Content-Type", AurionBrowser.CONTENT_TYPE)
-                    .userAgent(AurionBrowser.USER_AGENT)
-                    .referrer(AurionBrowser.AURION_URL)
-                    .cookies(AurionCookies.get())
-                    .data(data)
-                    .method(Connection.Method.POST)
-                    .execute();
-
-            AurionCookies.addAll(result.cookies());
-
-            return result;
-
-        } catch (IOException e) {
-            e.printStackTrace();
-            Informer.inform("Erreur pendant la connexion à la page \"Mon Planning (dates)\"");
-        }
-        return null;
-    }
-
-    private ArrayList<CalendarInfo> parseCalendar(Connection.Response response) throws IOException {
-        Log.i("URL",response.url().toString());
-        Document document = response.parse();
-        int size = document.getElementsByClass("evenement").size();
-
-        ArrayList<CalendarInfo> data = new ArrayList<>(size);
-        int i = 0;
-        while (i < size) {
-            Element element = document.getElementById("form:composantsInterventions:" + i + ":case");
-            String date = document.getElementById("form:composantsInterventions:" + i + ":detail").child(1).getElementsByTag("td").get(1).html();
-            data.add(new CalendarInfo(date, element.ownText()));
-            i++;
-        }
-
-        return data;
     }
 
     @Override

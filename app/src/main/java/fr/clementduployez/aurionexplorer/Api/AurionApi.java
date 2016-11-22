@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import fr.clementduployez.aurionexplorer.Api.Annotations.AurionAnnotations;
+import fr.clementduployez.aurionexplorer.Api.Responses.ConferencesResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.EmptyPlanningResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.IndexResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.LoginFormResponse;
@@ -109,9 +110,9 @@ public class AurionApi implements IAurionApi {
 
         IndexResponse indexResponse = index();
 
-        Informer.inform("Connection à la page \"Planning\" en cours");
+        Informer.inform("Connection à la page \""+ annotations.getTitle() +"\" en cours");
 
-        Map<String, String> data = new HashMap<String, String>();
+        Map<String, String> data = new HashMap<>();
         data.putAll(indexResponse.getHiddenInputData());
         try {
             data.putAll(PlanningResponse.prepareRequest(indexResponse, annotations.getTitle()));
@@ -158,8 +159,35 @@ public class AurionApi implements IAurionApi {
     }
 
     @Override
-    public void conferences(int page) {
+    public ConferencesResponse conferences(int page) {
+        AurionAnnotations annotations = AurionAnnotations.getInstance("conferences", new Class[] {int.class});
 
+        IndexResponse indexResponse = index();
+
+        Informer.inform("Connection à la page \""+ annotations.getTitle() +"\" en cours");
+
+        Map<String, String> data = new HashMap<String, String>();
+        data.putAll(indexResponse.getHiddenInputData());
+        try {
+            data.putAll(ConferencesResponse.prepareRequest(indexResponse, annotations.getTitle()));
+        }
+        catch(IOException ex) {
+            //Can't parse document
+            return null;
+        }
+
+        Connection.Response result = jsoupConnect(annotations, data);
+        if (result != null && result.statusCode() == 200) {
+            AurionCookies.addAll(result.cookies());
+
+            try {
+                return new ConferencesResponse(result);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        return null;
     }
 
     @Override
