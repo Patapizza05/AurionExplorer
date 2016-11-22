@@ -19,4 +19,9 @@ public class Settings {
         public static final String MAIN_MENU_PAGE_URL = "https://aurion-lille.isen.fr/faces/MainMenuPage.xhtml";
         public static final String CONTENT_TYPE_KEY = "Content-Type";
     }
+
+    public class Planning {
+        public static final int DAY_OFFSET = 14;
+        public static final int MAX_DAYS = 31;
+    }
 }

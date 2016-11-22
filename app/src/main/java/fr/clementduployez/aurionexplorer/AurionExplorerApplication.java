@@ -21,7 +21,6 @@ public class AurionExplorerApplication extends Application {
 
         // Keep a reference to the application context
         sContext = getApplicationContext();
-
         WellSql.init(new MySQLWellConfig(sContext));
     }
 
