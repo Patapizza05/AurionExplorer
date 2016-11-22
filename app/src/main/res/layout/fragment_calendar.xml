@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    tools:context=".MainActivity"
+    tools:context=".Activities.MainActivity"
     android:layout_width="match_parent" android:layout_height="match_parent"
     android:orientation="vertical"
     android:id="@+id/calendarFragment">
@@ -68,7 +68,7 @@
         android:layout_height="match_parent"
         >
 
-        <fr.clementduployez.aurionexplorer.MonPlanning.SwipeToLoadLayoutUtils.RefreshHeaderView
+        <fr.clementduployez.aurionexplorer.Fragments.Planning.Utils.SwipeToLoadLayoutUtils.RefreshHeaderView
             xmlns:android="http://schemas.android.com/apk/res/android"
             android:id="@id/swipe_refresh_header"
             android:layout_width="match_parent"
@@ -83,7 +83,7 @@
 
             />
 
-        <fr.clementduployez.aurionexplorer.MonPlanning.SwipeToLoadLayoutUtils.LoadMoreFooterView
+        <fr.clementduployez.aurionexplorer.Fragments.Planning.Utils.SwipeToLoadLayoutUtils.LoadMoreFooterView
             android:id="@id/swipe_load_more_footer"
             android:layout_width="match_parent"
             android:gravity="center"

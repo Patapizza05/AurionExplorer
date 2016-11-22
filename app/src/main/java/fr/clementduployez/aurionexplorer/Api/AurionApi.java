@@ -16,10 +16,10 @@ import fr.clementduployez.aurionexplorer.Api.Responses.IndexResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.LoginFormResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.LoginResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.PlanningResponse;
-import fr.clementduployez.aurionexplorer.Informer;
-import fr.clementduployez.aurionexplorer.Utils.AurionCookies;
-import fr.clementduployez.aurionexplorer.Utils.Settings;
-import fr.clementduployez.aurionexplorer.Utils.UserData;
+import fr.clementduployez.aurionexplorer.Utils.Inform.Informer;
+import fr.clementduployez.aurionexplorer.Api.Cookies.AurionCookies;
+import fr.clementduployez.aurionexplorer.Settings.Settings;
+import fr.clementduployez.aurionexplorer.Settings.UserData;
 
 /**
  * Created by cdupl on 11/21/2016.

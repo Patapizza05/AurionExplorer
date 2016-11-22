@@ -16,7 +16,7 @@ import fr.clementduployez.aurionexplorer.Api.Responses.IndexResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.LoginFormResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.LoginResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.PlanningResponse;
-import fr.clementduployez.aurionexplorer.Utils.Settings;
+import fr.clementduployez.aurionexplorer.Settings.Settings;
 
 /**
  * Created by cdupl on 11/21/2016.

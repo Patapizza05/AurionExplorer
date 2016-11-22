@@ -6,7 +6,7 @@ import org.jsoup.nodes.Document;
 import java.io.IOException;
 import java.util.Map;
 
-import fr.clementduployez.aurionexplorer.Utils.JSoupUtils;
+import fr.clementduployez.aurionexplorer.Api.Utils.JSoupUtils;
 
 /**
  * Created by cdupl on 11/21/2016.

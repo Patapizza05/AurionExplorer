@@ -13,8 +13,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import fr.clementduployez.aurionexplorer.MonPlanning.CalendarInfo;
-import fr.clementduployez.aurionexplorer.Utils.JSoupUtils;
+import fr.clementduployez.aurionexplorer.Model.CalendarInfo;
+import fr.clementduployez.aurionexplorer.Api.Utils.JSoupUtils;
 
 /**
  * Created by cdupl on 11/21/2016.
