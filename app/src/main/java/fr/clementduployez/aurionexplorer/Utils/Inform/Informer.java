@@ -5,6 +5,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import java.text.MessageFormat;
+
 /**
  * Created by cdupl on 2/17/2016.
  */
@@ -22,5 +24,9 @@ public class Informer {
 
             snack.show();
         }
+    }
+
+    public static void inform(String format, Object... params) {
+        inform(MessageFormat.format(format, params));
     }
 }

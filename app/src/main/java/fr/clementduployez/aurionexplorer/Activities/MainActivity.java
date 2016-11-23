@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
@@ -35,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private HamburgerMenuManager hamburgerMenuManager;
     private FrameLayout container;
     private Fragment currentFragment;
-    private RelativeLayout rootView;
+    private ViewGroup rootView;
 
     private GradesFragment mGradesFragment;
     private CalendarFragment mCalendarFragment;
@@ -50,7 +51,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        rootView = (RelativeLayout) findViewById(R.id.mainActivityContainer);
+        rootView = (ViewGroup) findViewById(R.id.mainActivityContainer);
         toolbar = (Toolbar)findViewById(R.id.toolbar);
         container = (FrameLayout)findViewById(R.id.frame_container);
 

@@ -57,7 +57,7 @@ public class LoadGradesListAsync extends AsyncTask<String,List<GradesInfo>,List<
     @Override
     protected void onPostExecute(List<GradesInfo> gradesInfos) {
         super.onPostExecute(gradesInfos);
-        Informer.inform("Récupération des notes terminée.");
+        Informer.inform(AurionApi.Messages.GRADES_SUCCESS);
         this.receiver.onAsyncResult(gradesInfos);
     }
 }

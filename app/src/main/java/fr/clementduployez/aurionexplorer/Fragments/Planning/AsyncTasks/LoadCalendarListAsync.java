@@ -57,7 +57,7 @@ public class LoadCalendarListAsync  extends AsyncTask<Date,String,List<CalendarI
     @Override
     protected void onPostExecute(List<CalendarInfo> calendarData) {
         super.onPostExecute(calendarData);
-        Informer.inform("Récupération du calendrier terminée.");
+        Informer.inform(AurionApi.Messages.PLANNING_SUCCESS);
         this.callback.run(calendarData);
     }
 }

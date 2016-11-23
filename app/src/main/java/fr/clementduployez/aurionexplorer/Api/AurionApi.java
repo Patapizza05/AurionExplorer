@@ -11,7 +11,7 @@ import java.util.Map;
 import fr.clementduployez.aurionexplorer.Api.Annotations.AurionAnnotations;
 import fr.clementduployez.aurionexplorer.Api.Responses.BirthdaysResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.ConferencesResponse;
-import fr.clementduployez.aurionexplorer.Api.Responses.EmptyPlanningResponse;
+import fr.clementduployez.aurionexplorer.Api.Responses.PlanningFormResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.GradesResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.IndexResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.LoginFormResponse;
@@ -67,6 +67,9 @@ public class AurionApi implements IAurionApi {
     public LoginFormResponse loginForm() {
 
         AurionAnnotations annotations = AurionAnnotations.getInstance("loginForm", new Class[] {});
+
+        Informer.inform(Messages.LOGIN_FORM_START);
+
         Connection.Response result = jsoupConnect(annotations);
 
         if (result != null && result.statusCode() == 200) {
@@ -90,6 +93,8 @@ public class AurionApi implements IAurionApi {
     public LoginResponse login(LoginFormResponse loginFormResponse, String username, String password, String redirectUrl) {
         AurionAnnotations annotations = AurionAnnotations.getInstance("login", new Class[] {LoginFormResponse.class, String.class, String.class, String.class });
 
+        Informer.inform(Messages.LOGIN_START);
+
         Map<String, String> data = loginFormResponse.getHiddenInputData();
         data.put(LoginFormResponse.USERNAME_INPUT_KEY, username);
         data.put(LoginFormResponse.PASSWORD_INPUT_KEY, password);
@@ -101,21 +106,25 @@ public class AurionApi implements IAurionApi {
 
         if (result != null && result.statusCode() == 200) {
             AurionCookies.addAll(result.cookies()); //Keep user logged in
-            return new LoginResponse(result);
+            try {
+                return new LoginResponse(result);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-
+        Informer.inform(Messages.LOGIN_ERROR);
         //In case of error, clear cookies to make sure user is disconnected
         AurionCookies.clear();
         return null;
     }
 
     @Override
-    public EmptyPlanningResponse planning() {
-        AurionAnnotations annotations = AurionAnnotations.getInstance("planning", new Class[] {});
+    public PlanningFormResponse planningForm() {
+        AurionAnnotations annotations = AurionAnnotations.getInstance("planningForm", new Class[] {});
 
         IndexResponse indexResponse = index();
 
-        Informer.inform("Connexion à la page \""+ annotations.getTitle() +"\" en cours");
+        Informer.inform(Messages.LOADING_PAGE_FORMAT, annotations.getTitle());
 
         Map<String, String> data = new HashMap<>();
         data.putAll(indexResponse.getHiddenInputData());
@@ -131,7 +140,7 @@ public class AurionApi implements IAurionApi {
         if (result != null && result.statusCode() == 200) {
             AurionCookies.addAll(result.cookies());
 
-            return new EmptyPlanningResponse(result);
+            return new PlanningFormResponse(result);
         }
 
         return null;
@@ -141,10 +150,10 @@ public class AurionApi implements IAurionApi {
     public PlanningResponse planning(Date beginDate, Date endDate) {
         AurionAnnotations annotations = AurionAnnotations.getInstance("planning", new Class[] { Date.class, Date.class });
 
-        EmptyPlanningResponse emptyPlanningResponse = planning(); //homePage --> planning
+        PlanningFormResponse planningFormResponse = planningForm(); //homePage --> planningForm
 
         Map<String, String> data = PlanningResponse.prepareRequest(beginDate, endDate);
-        data.putAll(emptyPlanningResponse.getHiddenInputData());
+        data.putAll(planningFormResponse.getHiddenInputData());
 
         Connection.Response result = jsoupConnect(annotations, data);
         if (result != null && result.statusCode() == 200) {
@@ -164,7 +173,7 @@ public class AurionApi implements IAurionApi {
 
         IndexResponse indexResponse = index();
 
-        Informer.inform("Connexion à la page \""+ annotations.getTitle() +"\"");
+        Informer.inform(Messages.LOADING_PAGE_FORMAT, annotations.getTitle());
 
         Map<String, String> data = new HashMap<>();
         data.putAll(indexResponse.getHiddenInputData());
@@ -195,7 +204,7 @@ public class AurionApi implements IAurionApi {
 
         AurionAnnotations annotations = AurionAnnotations.getInstance("grades", new Class[] {  GradesResponse.class, int.class });
 
-        Informer.inform("Connexion à la page \""+ annotations.getTitle() +"\" (page " + (page + 1) + ")");
+        Informer.inform(Messages.LOADING_PAGE_2_FORMAT, annotations.getTitle(), page + 1);
 
         Map<String, String> data = new HashMap<>();
         data.putAll(gradesResponse.getHiddenInputData());
@@ -220,7 +229,7 @@ public class AurionApi implements IAurionApi {
 
         IndexResponse indexResponse = index();
 
-        Informer.inform("Connexion à la page \""+ annotations.getTitle() +"\" en cours");
+        Informer.inform(Messages.LOADING_PAGE_FORMAT, annotations.getTitle());
 
         Map<String, String> data = new HashMap<>();
         data.putAll(indexResponse.getHiddenInputData());
@@ -256,6 +265,8 @@ public class AurionApi implements IAurionApi {
 
         Connection.Response result = jsoupConnect(annotations);
 
+        Informer.inform(Messages.BIRTHDAY_START);
+
         if (result != null && result.statusCode() == 200) {
             AurionCookies.addAll(result.cookies());
 
@@ -277,6 +288,7 @@ public class AurionApi implements IAurionApi {
                 e.printStackTrace();
             }
         }
+        Informer.inform(Messages.BIRTHDAY_ERROR);
         return null;
     }
 
@@ -304,6 +316,8 @@ public class AurionApi implements IAurionApi {
         //status is always 'Y'
         AurionAnnotations annotations = AurionAnnotations.getInstance("students", new Class[] { String.class, String.class, String.class });
 
+        Informer.inform(Messages.STUDENT_LOADING);
+
         Map<String, String> data = new HashMap<>();
         data.put("status", "Y");
         data.put("dataNom", dataNom);
@@ -328,6 +342,7 @@ public class AurionApi implements IAurionApi {
                 e.printStackTrace();
             }
         }
+        Informer.inform(Messages.STUDENT_ERROR);
         return null;
     }
 
@@ -366,11 +381,21 @@ public class AurionApi implements IAurionApi {
         return !response.url().toString().startsWith(Settings.Api.LOGIN_URL);
     }
 
-    private class Messages {
+    public class Messages {
         static final String INDEX_START = "Chargement de la page d'accueil en cours";
         static final String INDEX_ERROR = "Erreur pendant le chargement de la page d'accueil";
 
         static final String LOGIN_START = "Identification en cours";
+        static final String LOGIN_ERROR = "Erreur d'identification";
+        static final String LOGIN_FORM_START = "Chargement de la page d'identification";
+        static final String LOADING_PAGE_FORMAT = "Chargement de la page {0}";
+        static final String LOADING_PAGE_2_FORMAT = "Chargement de  la page {0} (Page {1})";
+        static final String BIRTHDAY_START = "Chargement de la page d'anniversaires";
+        static final String STUDENT_LOADING = "Récupération des informations sur l'étudiant(e)";
+        static final String STUDENT_ERROR = "Aucune information trouvée sur l'étudiant(e)";
+        static final String BIRTHDAY_ERROR = "Connexion échouée";
 
+        public static final String PLANNING_SUCCESS = "Récupération du calendrier terminée";
+        public static final String GRADES_SUCCESS = "Récupération des notes terminée";
     }
 }

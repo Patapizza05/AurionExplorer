@@ -11,7 +11,7 @@ import fr.clementduployez.aurionexplorer.Api.Annotations.Title;
 import fr.clementduployez.aurionexplorer.Api.Annotations.Url;
 import fr.clementduployez.aurionexplorer.Api.Responses.BirthdaysResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.ConferencesResponse;
-import fr.clementduployez.aurionexplorer.Api.Responses.EmptyPlanningResponse;
+import fr.clementduployez.aurionexplorer.Api.Responses.PlanningFormResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.GradesResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.IndexResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.LoginFormResponse;
@@ -26,82 +26,82 @@ import fr.clementduployez.aurionexplorer.Settings.Settings;
 
 public interface IAurionApi {
 
-    @Url("https://aurion-lille.isen.fr/")
+    @Url(Settings.Api.AURION_URL + "/")
     @HttpMethod(Connection.Method.GET)
     @ContentType
     IndexResponse index();
 
-    @Url("https://cas.isen.fr/login")
+    @Url(Settings.Api.LOGIN_URL)
     @HttpMethod(Connection.Method.GET)
     @ContentType
     LoginFormResponse loginForm();
 
-    @Url("https://cas.isen.fr/login")
+    @Url(Settings.Api.LOGIN_URL)
     @HttpMethod(Connection.Method.POST)
     @ContentType
     LoginResponse relogin(LoginFormResponse loginFormResponse, String redirectUrl);
 
-    @Url("https://cas.isen.fr/login")
+    @Url(Settings.Api.LOGIN_URL)
     @HttpMethod(Connection.Method.POST)
     @ContentType
     LoginResponse login(String username, String password);
 
-    @Url("https://cas.isen.fr/login")
+    @Url(Settings.Api.LOGIN_URL)
     @HttpMethod(Connection.Method.POST)
     @ContentType
     LoginResponse login(LoginFormResponse loginFormResponse, String username, String password, String redirectUrl);
 
     @Url(Settings.Api.MAIN_MENU_PAGE_URL)
     @Referrer(Settings.Api.AURION_URL)
-    @Title("Mon planning")
+    @Title(Settings.Api.TITLE_PLANNING)
     @HttpMethod(Connection.Method.POST)
     @ContentType
-    EmptyPlanningResponse planning();
+    PlanningFormResponse planningForm();
 
-    @Url("https://aurion-lille.isen.fr/faces/Planning.xhtml")
-    @Referrer("https://aurion-lille.isen.fr")
+    @Url(Settings.Api.PLANNING_URL)
+    @Referrer(Settings.Api.AURION_URL)
     @HttpMethod(Connection.Method.POST)
     @ContentType
     PlanningResponse planning(Date beginDate, Date endDate);
 
     @Url(Settings.Api.MAIN_MENU_PAGE_URL)
-    @Title("Mes notes")
+    @Title(Settings.Api.TITLE_GRADES)
     @HttpMethod(Connection.Method.POST)
     @ContentType
     GradesResponse grades();
 
-    @Url("https://aurion-lille.isen.fr/faces/LearnerNotationListPage.xhtml")
+    @Url(Settings.Api.GRADES_URL)
     @Referrer(Settings.Api.AURION_URL)
-    @Title("Mes notes")
+    @Title(Settings.Api.TITLE_GRADES)
     @HttpMethod(Connection.Method.POST)
     @ContentType
     GradesResponse grades(GradesResponse gradesResponse, int page);
 
     @Url(Settings.Api.MAIN_MENU_PAGE_URL)
-    @Title("Mes conférences")
+    @Title(Settings.Api.TITLE_CONFERENCES)
     @HttpMethod(Connection.Method.POST)
     @ContentType
     ConferencesResponse conferences(int page);
 
-    @Url("https://cas.isen.fr/home/annuaire/anniversaries.html")
+    @Url(Settings.Api.BIRTHDAY_URL)
     @HttpMethod(Connection.Method.GET)
-    @Referrer("https://cas.isen.fr/home/annuaire/anniversaries.html")
+    @Referrer(Settings.Api.BIRTHDAY_URL)
     @ContentType
     BirthdaysResponse birthdays();
 
-    @Url("https://cas.isen.fr/home/annuaire/staff.html")
+    @Url(Settings.Api.STAFF_URL)
     @HttpMethod(Connection.Method.GET)
     @ContentType
     void staffForm();
 
-    @Url("https://cas.isen.fr/home/annuaire/infos-staff.html")
-    @Referrer("https://cas.isen.fr/home/annuaire/staff.html")
+    @Url(Settings.Api.STAFF_POST_URL)
+    @Referrer(Settings.Api.STAFF_URL)
     @HttpMethod(Connection.Method.POST)
     @ContentType
     void staff(String status, String dataNom, String dataPrenom, String dataCode);
 
-    @Url("https://cas.isen.fr/home/annuaire/infos-students.html")
-    @Referrer("https://cas.isen.fr/home/annuaire/students.html")
+    @Url(Settings.Api.STUDENT_POST_URL)
+    @Referrer(Settings.Api.STUDENT_URL)
     @HttpMethod(Connection.Method.POST)
     @ContentType
     StudentsResponse students(String dataNom, String dataPrenom, String dataGroupe);

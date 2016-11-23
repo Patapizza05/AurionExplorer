@@ -19,7 +19,17 @@ public class Settings {
         public static final String CONTENT_TYPE_KEY = "Content-Type";
         public static final String CAS_URL = "https://cas.isen.fr";
         public static final String LOGIN_URL = CAS_URL + "/login";
+        public static final String PLANNING_URL = AURION_URL + "/faces/Planning.xhtml";
+        public static final String GRADES_URL = AURION_URL + "/faces/LearnerNotationListPage.xhtml";
+        public static final String BIRTHDAY_URL = CAS_URL + "/home/annuaire/anniversaries.html";
+        public static final String STAFF_URL = CAS_URL + "/home/annuaire/staff.html";
+        public static final String STAFF_POST_URL = CAS_URL + "/home/annuaire/infos-staff.html";
+        public static final String STUDENT_POST_URL = CAS_URL + "/home/annuaire/infos-students.html";
+        public static final String STUDENT_URL = CAS_URL + "/home/annuaire/students.html";
 
+        public static final String TITLE_CONFERENCES = "Mes conférences";
+        public static final String TITLE_GRADES = "Mes notes";
+        public static final String TITLE_PLANNING = "Mon planning";
     }
 
     public class Planning {
