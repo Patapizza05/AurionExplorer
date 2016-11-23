@@ -11,6 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 import fr.clementduployez.aurionexplorer.Model.StudentInfo;
+import fr.clementduployez.aurionexplorer.Settings.Settings;
 
 /**
  * Created by cdupl on 11/22/2016.
@@ -33,6 +34,9 @@ public class StudentsResponse extends AbstractResponse {
 
         for (Element studentContainer: containers) {
             String imageUrl = studentContainer.getElementsByClass("img-polaroid").get(0).attr("src");
+            if (imageUrl != null && imageUrl.startsWith("/")) {
+                imageUrl = Settings.Api.CAS_URL + imageUrl;
+            }
             String name = studentContainer.getElementsByTag("h3").get(0).ownText().trim();
             students.add(new StudentInfo(name, imageUrl));
         }

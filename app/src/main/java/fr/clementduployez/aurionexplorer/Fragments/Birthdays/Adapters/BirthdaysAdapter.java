@@ -31,12 +31,12 @@ public class BirthdaysAdapter extends RecyclerView.Adapter<BirthdayHolder> {
     @Override
     public BirthdayHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_birthday_item, parent, false);
-        return new BirthdayHolder(view, this);
+        return new BirthdayHolder(view);
     }
 
     @Override
     public void onBindViewHolder(BirthdayHolder holder, int position) {
-        holder.bind(data.get(position), position);
+        holder.bind(data.get(position));
     }
 
     @Override

@@ -18,6 +18,8 @@ public class BirthdayInfo implements Identifiable {
     @Column
     private String name;
 
+    private String imageUrl;
+
     public BirthdayInfo() {
 
     }
@@ -42,5 +44,13 @@ public class BirthdayInfo implements Identifiable {
     @Override
     public int getId() {
         return id;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
     }
 }

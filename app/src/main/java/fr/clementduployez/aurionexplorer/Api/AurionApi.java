@@ -88,7 +88,7 @@ public class AurionApi implements IAurionApi {
 
     @Override
     public LoginResponse login(LoginFormResponse loginFormResponse, String username, String password, String redirectUrl) {
-        AurionAnnotations annotations = AurionAnnotations.getInstance("login", new Class[] {LoginFormResponse.class, String.class, String.class });
+        AurionAnnotations annotations = AurionAnnotations.getInstance("login", new Class[] {LoginFormResponse.class, String.class, String.class, String.class });
 
         Map<String, String> data = loginFormResponse.getHiddenInputData();
         data.put(LoginFormResponse.USERNAME_INPUT_KEY, username);
