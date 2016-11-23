@@ -1,4 +1,4 @@
-package fr.clementduployez.aurionexplorer.Fragments.Planning;
+package fr.clementduployez.aurionexplorer.Fragments.Planning.Holders;
 
 import android.widget.Button;
 

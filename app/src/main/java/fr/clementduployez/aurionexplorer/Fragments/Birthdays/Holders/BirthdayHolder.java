@@ -1,7 +1,6 @@
 package fr.clementduployez.aurionexplorer.Fragments.Birthdays.Holders;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -10,7 +9,6 @@ import com.squareup.picasso.Picasso;
 
 import fr.clementduployez.aurionexplorer.AurionExplorerApplication;
 import fr.clementduployez.aurionexplorer.Exceptions.InvalidNameException;
-import fr.clementduployez.aurionexplorer.Fragments.Birthdays.Adapters.BirthdaysAdapter;
 import fr.clementduployez.aurionexplorer.Fragments.Birthdays.AsyncTasks.LoadStudentInfoAsync;
 import fr.clementduployez.aurionexplorer.Model.StudentInfo;
 import fr.clementduployez.aurionexplorer.Ui.Holders.AurionHolder;
@@ -23,18 +21,22 @@ import fr.clementduployez.aurionexplorer.Utils.Callback;
  */
 public class BirthdayHolder extends AurionHolder<BirthdayInfo> implements View.OnClickListener {
 
+    private final View container;
     private final TextView name;
     private final ImageView image;
     private BirthdayInfo birthdayInfo;
 
-    private static int padding = -1;
+    private static int imagePadding = -1;
+    private static int textPadding = -1;
 
     public BirthdayHolder(View itemView) {
         super(itemView);
+        this.container = itemView.findViewById(R.id.birthday_item_container);
         this.name = (TextView) itemView.findViewById(R.id.birthday_item_name);
         this.image = (ImageView) itemView.findViewById(R.id.birthday_item_image);
-        if (padding == -1) padding = this.image.getPaddingTop();
-        itemView.setOnClickListener(this);
+        if (imagePadding == -1) imagePadding = this.image.getPaddingTop();
+        if (textPadding == -1) textPadding = this.name.getPaddingTop();
+        this.container.setOnClickListener(this);
     }
 
     @Override
@@ -53,12 +55,14 @@ public class BirthdayHolder extends AurionHolder<BirthdayInfo> implements View.O
                     .load(url)
                     .into(this.image);
             this.image.setPadding(0,0,0,0);
+            this.name.setPadding(textPadding, textPadding*2, textPadding, textPadding*2);
         }
         else {
             Picasso.with(ctx)
                     .load(R.drawable.ic_cake_red_500_18dp)
                     .into(this.image);
-            this.image.setPadding(padding, padding, padding, padding);
+            this.image.setPadding(imagePadding, imagePadding, imagePadding, imagePadding);
+            this.name.setPadding(textPadding, textPadding, textPadding, textPadding);
         }
 
 

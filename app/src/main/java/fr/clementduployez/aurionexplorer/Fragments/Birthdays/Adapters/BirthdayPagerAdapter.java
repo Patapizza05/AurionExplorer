@@ -1,6 +1,7 @@
 package fr.clementduployez.aurionexplorer.Fragments.Birthdays.Adapters;
 
 import android.app.Fragment;
+import android.support.design.widget.TabLayout;
 import android.support.v13.app.FragmentPagerAdapter;
 
 import java.util.ArrayList;
@@ -26,9 +27,14 @@ public class BirthdayPagerAdapter extends FragmentPagerAdapter {
     private BirthdayFragment mBirthdayFragment;
     private boolean isShowProgressBar = false;
 
-    public BirthdayPagerAdapter(BirthdayFragment mBirthdayFragment) {
+    private TabLayout.Tab todayTab;
+    private TabLayout.Tab monthTab;
+
+    public BirthdayPagerAdapter(BirthdayFragment mBirthdayFragment, TabLayout.Tab today, TabLayout.Tab month) {
         super(mBirthdayFragment.getChildFragmentManager());
         this.mBirthdayFragment = mBirthdayFragment;
+        this.todayTab = today;
+        this.monthTab = month;
     }
 
     @Override
@@ -74,9 +80,11 @@ public class BirthdayPagerAdapter extends FragmentPagerAdapter {
     public void setAdapters(BirthdayList data) {
         birthdayList = data;
         if (dailyFragment != null) {
+            todayTab.setText(BirthdayFragment.TODAY_TITLE + " ("+birthdayList.getDailyBirthdays().size() + ")");
             dailyFragment.update(birthdayList.getDailyBirthdays());
         }
         if (monthlyFragment != null) {
+            monthTab.setText(BirthdayFragment.MONTH_TITLE + " ("+birthdayList.getMonthlyBirthdays().size() + ")");
             monthlyFragment.update(birthdayList.getMonthlyBirthdays());
         }
 

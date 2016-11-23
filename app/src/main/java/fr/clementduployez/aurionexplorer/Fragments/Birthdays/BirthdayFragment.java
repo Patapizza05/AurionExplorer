@@ -28,6 +28,9 @@ public class BirthdayFragment extends AurionPageFragment<BirthdayList> implement
     private LoadBirthdaysAsync loadBirthdaysAsync;
     private boolean isFirstTime = true;
 
+    public static final String TODAY_TITLE = "Aujourd'hui";
+    public static final String MONTH_TITLE = "Ce mois-ci";
+
     private static boolean isFirstLoad = true;
 
     public static BirthdayFragment newInstance() {
@@ -68,18 +71,17 @@ public class BirthdayFragment extends AurionPageFragment<BirthdayList> implement
 
     private void initViewPagerAndTabs() {
 
-        tabLayout.addTab(tabLayout.newTab().setText("Aujourd'hui"));
-        tabLayout.addTab(tabLayout.newTab().setText("Ce mois-ci"));
+        tabLayout.addTab(tabLayout.newTab().setText(TODAY_TITLE));
+        tabLayout.addTab(tabLayout.newTab().setText(MONTH_TITLE));
+
 
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
             //tabLayout.setTabMode(TabLayout.MODE_SCROLLABLE);
 
 
-
-
         if (pagerAdapter == null)
         {
-            pagerAdapter = new BirthdayPagerAdapter(this);
+            pagerAdapter = new BirthdayPagerAdapter(this, tabLayout.getTabAt(0), tabLayout.getTabAt(1));
         }
 
 

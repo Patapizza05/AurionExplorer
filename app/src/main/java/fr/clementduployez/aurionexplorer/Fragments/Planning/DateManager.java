@@ -6,11 +6,11 @@ import android.widget.Button;
 
 import com.fourmob.datetimepicker.date.DatePickerDialog;
 
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import fr.clementduployez.aurionexplorer.Fragments.Planning.Holders.DateHolder;
 import fr.clementduployez.aurionexplorer.Settings.Settings;
 
 /**
