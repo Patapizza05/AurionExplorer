@@ -30,7 +30,7 @@
         android:layout_height="wrap_content"
         android:padding="5dp"
         android:id="@+id/fragment_conference_title"
-        android:textColor="@android:color/black"
+        android:textColor="@color/blackText"
         android:gravity="center"
         android:layout_marginBottom="20dp"
         android:text='Conf. en 2 parties : " le rêve d Ishango " par Pascal NOEL, ambassadeur du projet " L os d Ishango " puis " les nouveaux enjeux de la colonisation de Mars "'/>

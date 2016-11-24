@@ -51,13 +51,13 @@ public class LoadCalendarListAsync  extends AsyncTask<Date,String,List<CalendarI
     @Override
     protected void onProgressUpdate(String... values) {
         super.onProgressUpdate(values);
-        Informer.inform(values[0]);
+        Informer.getInstance().inform(values[0]);
     }
 
     @Override
     protected void onPostExecute(List<CalendarInfo> calendarData) {
         super.onPostExecute(calendarData);
-        Informer.inform(AurionApi.Messages.PLANNING_SUCCESS);
+        Informer.getInstance().inform(AurionApi.Messages.PLANNING_SUCCESS);
         this.callback.run(calendarData);
     }
 }

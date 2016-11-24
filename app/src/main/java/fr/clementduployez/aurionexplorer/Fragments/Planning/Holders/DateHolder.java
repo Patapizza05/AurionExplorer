@@ -1,11 +1,16 @@
 package fr.clementduployez.aurionexplorer.Fragments.Planning.Holders;
 
+import android.content.Context;
+import android.graphics.PorterDuff;
 import android.widget.Button;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
+
+import fr.clementduployez.aurionexplorer.AurionExplorerApplication;
+import fr.clementduployez.aurionexplorer.R;
 
 /**
  * Created by cdupl on 11/22/2016.
@@ -18,6 +23,7 @@ public class DateHolder {
 
     public DateHolder(Button button, Date date, SimpleDateFormat formatter) {
         this.button = button;
+        //this.button.getBackground().setColorFilter(AurionExplorerApplication.getContext().getResources().getColor(R.color.accent), PorterDuff.Mode.MULTIPLY);
         this.formatter = formatter;
         this.setDate(date);
     }

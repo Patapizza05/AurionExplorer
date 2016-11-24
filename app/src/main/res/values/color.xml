@@ -5,7 +5,9 @@
     <color name="lightRed">#FFCDD2</color>
     <color name="textColorPrimary">@android:color/white</color>
     <color name="colorPrimaryDark">#D32F2F</color>
-
+    <color name="divider">#BDBDBD</color>
+    <color name="accent">#FFC107</color>
+    <color name="blackText">#212121</color>
     <color name="green">#804CAF50</color>
     <color name="red">#80F44336</color>
     <color name="red100">#FFCDD2</color>
@@ -16,6 +18,8 @@
     <color name="light_amber">#FFE082</color>
     <color name="yellow_highlight">#F7D633</color>
 
+    <color name="white">@android:color/white</color>
+    <color name="white_secondary">#F5F5F5</color>
 
 
 

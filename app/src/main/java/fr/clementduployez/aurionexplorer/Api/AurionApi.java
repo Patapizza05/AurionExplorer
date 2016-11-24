@@ -41,7 +41,7 @@ public class AurionApi implements IAurionApi {
     }
 
     private IndexResponse index(boolean isFirstTry) {
-        Informer.inform(Messages.INDEX_START);
+        Informer.getInstance().inform(Messages.INDEX_START);
         AurionAnnotations annotations = AurionAnnotations.getInstance("index", new Class[] {});
         Connection.Response result = jsoupConnect(annotations);
 
@@ -58,7 +58,7 @@ public class AurionApi implements IAurionApi {
             return new IndexResponse(result);
         }
         else {
-            Informer.inform(Messages.INDEX_ERROR);
+            Informer.getInstance().inform(Messages.INDEX_ERROR);
         }
         return null;
     }
@@ -68,7 +68,7 @@ public class AurionApi implements IAurionApi {
 
         AurionAnnotations annotations = AurionAnnotations.getInstance("loginForm", new Class[] {});
 
-        Informer.inform(Messages.LOGIN_FORM_START);
+        Informer.getInstance().inform(Messages.LOGIN_FORM_START);
 
         Connection.Response result = jsoupConnect(annotations);
 
@@ -93,7 +93,7 @@ public class AurionApi implements IAurionApi {
     public LoginResponse login(LoginFormResponse loginFormResponse, String username, String password, String redirectUrl) {
         AurionAnnotations annotations = AurionAnnotations.getInstance("login", new Class[] {LoginFormResponse.class, String.class, String.class, String.class });
 
-        Informer.inform(Messages.LOGIN_START);
+        Informer.getInstance().inform(Messages.LOGIN_START);
 
         Map<String, String> data = loginFormResponse.getHiddenInputData();
         data.put(LoginFormResponse.USERNAME_INPUT_KEY, username);
@@ -112,7 +112,7 @@ public class AurionApi implements IAurionApi {
                 e.printStackTrace();
             }
         }
-        Informer.inform(Messages.LOGIN_ERROR);
+        Informer.getInstance().getInstance().inform(Messages.LOGIN_ERROR);
         //In case of error, clear cookies to make sure user is disconnected
         AurionCookies.clear();
         return null;
@@ -124,7 +124,7 @@ public class AurionApi implements IAurionApi {
 
         IndexResponse indexResponse = index();
 
-        Informer.inform(Messages.LOADING_PAGE_FORMAT, annotations.getTitle());
+        Informer.getInstance().inform(Messages.LOADING_PAGE_FORMAT, annotations.getTitle());
 
         Map<String, String> data = new HashMap<>();
         data.putAll(indexResponse.getHiddenInputData());
@@ -173,7 +173,7 @@ public class AurionApi implements IAurionApi {
 
         IndexResponse indexResponse = index();
 
-        Informer.inform(Messages.LOADING_PAGE_FORMAT, annotations.getTitle());
+        Informer.getInstance().inform(Messages.LOADING_PAGE_FORMAT, annotations.getTitle());
 
         Map<String, String> data = new HashMap<>();
         data.putAll(indexResponse.getHiddenInputData());
@@ -204,7 +204,7 @@ public class AurionApi implements IAurionApi {
 
         AurionAnnotations annotations = AurionAnnotations.getInstance("grades", new Class[] {  GradesResponse.class, int.class });
 
-        Informer.inform(Messages.LOADING_PAGE_2_FORMAT, annotations.getTitle(), page + 1);
+        Informer.getInstance().inform(Messages.LOADING_PAGE_2_FORMAT, annotations.getTitle(), page + 1);
 
         Map<String, String> data = new HashMap<>();
         data.putAll(gradesResponse.getHiddenInputData());
@@ -229,7 +229,7 @@ public class AurionApi implements IAurionApi {
 
         IndexResponse indexResponse = index();
 
-        Informer.inform(Messages.LOADING_PAGE_FORMAT, annotations.getTitle());
+        Informer.getInstance().inform(Messages.LOADING_PAGE_FORMAT, annotations.getTitle());
 
         Map<String, String> data = new HashMap<>();
         data.putAll(indexResponse.getHiddenInputData());
@@ -265,7 +265,7 @@ public class AurionApi implements IAurionApi {
 
         Connection.Response result = jsoupConnect(annotations);
 
-        Informer.inform(Messages.BIRTHDAY_START);
+        Informer.getInstance().inform(Messages.BIRTHDAY_START);
 
         if (result != null && result.statusCode() == 200) {
             AurionCookies.addAll(result.cookies());
@@ -288,7 +288,7 @@ public class AurionApi implements IAurionApi {
                 e.printStackTrace();
             }
         }
-        Informer.inform(Messages.BIRTHDAY_ERROR);
+        Informer.getInstance().inform(Messages.BIRTHDAY_ERROR);
         return null;
     }
 
@@ -316,7 +316,7 @@ public class AurionApi implements IAurionApi {
         //status is always 'Y'
         AurionAnnotations annotations = AurionAnnotations.getInstance("students", new Class[] { String.class, String.class, String.class });
 
-        Informer.inform(Messages.STUDENT_LOADING);
+        Informer.getInstance().inform(Messages.STUDENT_LOADING);
 
         Map<String, String> data = new HashMap<>();
         data.put("status", "Y");
@@ -342,7 +342,7 @@ public class AurionApi implements IAurionApi {
                 e.printStackTrace();
             }
         }
-        Informer.inform(Messages.STUDENT_ERROR);
+        Informer.getInstance().inform(Messages.STUDENT_ERROR);
         return null;
     }
 

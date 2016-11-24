@@ -68,15 +68,15 @@ public class FortinetFragment extends Fragment implements View.OnClickListener {
     }
 
     public void showSuccessLayout() {
-        Informer.inform("Success");
+        Informer.getInstance().inform("Success");
     }
 
     public void showAlreadyLayout() {
-        Informer.inform("Already authenticated");
+        Informer.getInstance().inform("Already authenticated");
     }
 
     public void showErrorLayout() {
-        Informer.inform("Error");
+        Informer.getInstance().inform("Error");
     }
 
     public void showProgressBar() {

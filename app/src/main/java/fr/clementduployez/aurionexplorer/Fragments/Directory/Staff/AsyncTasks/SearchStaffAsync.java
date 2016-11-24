@@ -103,7 +103,7 @@ public class SearchStaffAsync extends AsyncTask<Void,Void,ArrayList<StaffInfo>> 
     @Override
     protected void onPostExecute(ArrayList<StaffInfo> staffData) {
         super.onPostExecute(staffData);
-        Informer.inform("Récupération des informations du staff terminée.");
+        Informer.getInstance().inform("Récupération des informations du staff terminée.");
         this.staffDirectoryFragment.onAsyncResult(staffData);
     }
 }

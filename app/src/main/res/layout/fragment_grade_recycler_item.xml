@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:text="Evaluation du module M1P1 Network and System Base"
-                android:textColor="@android:color/black"
+                android:textColor="@color/blackText"
                 android:paddingTop="5dp"
                 android:paddingBottom="5dp"
                 android:id="@+id/mark_title" />

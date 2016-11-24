@@ -28,7 +28,7 @@ public class CasBrowser {
     }
 
     private static Connection.Response connectToStaffFormPage() {
-        Informer.inform("Connexion à la page de l'annuaire du staff");
+        Informer.getInstance().inform("Connexion à la page de l'annuaire du staff");
         try {
             Connection.Response response = Jsoup.connect("https://cas.isen.fr/home/annuaire/staff.html")
                     .userAgent(AurionBrowser.USER_AGENT)
@@ -38,7 +38,7 @@ public class CasBrowser {
                     .cookies(AurionCookies.get())
                     .execute();
             AurionCookies.addAll(response.cookies());
-            Informer.inform("Fin du chargement de la page de l'annuaire du staff");
+            Informer.getInstance().inform("Fin du chargement de la page de l'annuaire du staff");
             return response;
         } catch (IOException e) {
             e.printStackTrace();
@@ -47,7 +47,7 @@ public class CasBrowser {
     }
 
     public static Connection.Response connectToStaffDirectory(String lastName, String firstName, String code) {
-        Informer.inform("Envoi du formulaire de recherche dans l'annuaire");
+        Informer.getInstance().inform("Envoi du formulaire de recherche dans l'annuaire");
         login();
         if (connectToStaffFormPage() != null)
         {
@@ -67,13 +67,13 @@ public class CasBrowser {
                         .data(data)
                         .method(Connection.Method.POST)
                         .execute();
-                Informer.inform("Fin de la recherche dans l'annuaire");
+                Informer.getInstance().inform("Fin de la recherche dans l'annuaire");
                 return response;
             } catch (IOException e) {
                 e.printStackTrace();
             }
         }
-        Informer.inform("Erreur...");
+        Informer.getInstance().inform("Erreur...");
         return null;
     }
 
@@ -82,7 +82,7 @@ public class CasBrowser {
     }*/
 
     public static Connection.Response connectToBirthday() {
-        Informer.inform("Chargement des anniversaires");
+        Informer.getInstance().inform("Chargement des anniversaires");
         login();
 
 
@@ -96,12 +96,12 @@ public class CasBrowser {
                     .cookies(AurionCookies.get())
                     .method(Connection.Method.POST)
                     .execute();
-            Informer.inform("Chargement effectué");
+            Informer.getInstance().inform("Chargement effectué");
             return response;
         } catch (IOException e) {
             e.printStackTrace();
         }
-        Informer.inform("Erreur...");
+        Informer.getInstance().inform("Erreur...");
         return null;
     }
 

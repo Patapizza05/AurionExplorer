@@ -87,9 +87,11 @@ public class HamburgerMenuManager {
                         return false;
                     }
                 })
+                .withCompactStyle(true)
+                .withHeaderBackground(R.color.colorPrimary)
+                .withTextColorRes(R.color.white)
                 .build();
 
-        headerResult.setBackgroundRes(R.color.colorPrimary);
         return headerResult;
     }
 

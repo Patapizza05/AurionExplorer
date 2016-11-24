@@ -30,4 +30,11 @@
         <item name="android:popupTheme">@style/ThemeOverlay.AppCompat.Light</item>
     </style>
 
+    <!-- ToolBar -->
+    <style name="ToolBarStyle" parent="Theme.AppCompat">
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/white_secondary</item>
+        <item name="actionMenuTextColor">@color/white</item>
+    </style>
+
 </resources>

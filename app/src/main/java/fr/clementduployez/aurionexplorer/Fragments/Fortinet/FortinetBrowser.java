@@ -20,7 +20,7 @@ public class FortinetBrowser {
     private static final String EXAMPLE_URL = "http://example.com";
 
     private static Connection.Response tryConnectToExampleSite() {
-        Informer.inform("Connexion à "+EXAMPLE_URL);
+        Informer.getInstance().inform("Connexion à "+EXAMPLE_URL);
         try {
             Connection.Response example = Jsoup.connect(EXAMPLE_URL)
                     .followRedirects(true)
@@ -41,7 +41,7 @@ public class FortinetBrowser {
             Map<String, String> data = JSoupUtils.getHiddenInputData(example);
             data.put("username", UserData.getUsername());
             data.put("password",UserData.getPassword());
-            Informer.inform("Envoi du formulaire d'authentification");
+            Informer.getInstance().inform("Envoi du formulaire d'authentification");
             try {
                 //Certificate error !
                 Connection.Response fortinet = Jsoup.connect(example.url().toString())
@@ -54,12 +54,12 @@ public class FortinetBrowser {
                 }
             } catch (IOException e) {
                 e.printStackTrace();
-                Informer.inform("L'authentification a échoué");
+                Informer.getInstance().inform("L'authentification a échoué");
                 return false;
             }
         }
         else {
-            Informer.inform("Vous êtes peut-être déjà authentifié");
+            Informer.getInstance().inform("Vous êtes peut-être déjà authentifié");
             return null;
         }
 

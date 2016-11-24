@@ -48,7 +48,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         this.password = (EditText) findViewById(R.id.password);
         this.stayLoggedIn = (CheckBox) findViewById(R.id.stayLoggedIn_checkbox);
         this.confirmButton = (Button) findViewById(R.id.confirm_button);
-        Informer.rootView = container;
+        Informer.getInstance().initInformer(container);
         loginLayout = findViewById(R.id.loginLayout);
         loadingLayout = findViewById(R.id.loadingLayout);
 
@@ -126,7 +126,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     }
 
     public void rejectLogin() {
-        Informer.inform("Erreur de connexion");
+        Informer.getInstance().inform("Erreur de connexion");
         Log.i("Login","Wrong credentials");
         AurionCookies.clear();
         setWait(false);

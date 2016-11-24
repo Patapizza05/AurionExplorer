@@ -5,11 +5,13 @@ import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.view.accessibility.AccessibilityManager;
 import android.widget.FrameLayout;
 import android.widget.RelativeLayout;
 
@@ -34,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Toolbar toolbar;
     private HamburgerMenuManager hamburgerMenuManager;
-    private FrameLayout container;
+    private ViewGroup container;
     private Fragment currentFragment;
     private ViewGroup rootView;
 
@@ -53,13 +55,16 @@ public class MainActivity extends AppCompatActivity {
 
         rootView = (ViewGroup) findViewById(R.id.mainActivityContainer);
         toolbar = (Toolbar)findViewById(R.id.toolbar);
-        container = (FrameLayout)findViewById(R.id.frame_container);
+        container = (ViewGroup)findViewById(R.id.frame_container);
 
-        Informer.rootView = this.rootView;
+        Informer.getInstance().initInformer(container);
 
         this.setSupportActionBar(toolbar);
         this.hamburgerMenuManager = new HamburgerMenuManager(this);
+    }
 
+    protected void onResume() {
+        super.onResume();
         openFragmentWithName(this.hamburgerMenuManager.getSelectedItemTitle());
     }
 

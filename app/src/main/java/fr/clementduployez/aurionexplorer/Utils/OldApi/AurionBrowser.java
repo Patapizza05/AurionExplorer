@@ -31,7 +31,7 @@ public class AurionBrowser {
     public static final String PASSWORD_INPUT_NAME = "password";
 
     protected static Connection.Response homePage() {
-        Informer.inform("Chargement de la page d'accueil en cours");
+        Informer.getInstance().inform("Chargement de la page d'accueil en cours");
         Connection.Response result = null;
         try {
             result = Jsoup.connect(AURION_URL)
@@ -43,7 +43,7 @@ public class AurionBrowser {
                     .execute();
             AurionCookies.addAll(result.cookies());
         } catch (IOException e) {
-            Informer.inform("Erreur pendant le chargement de la page d'accueil");
+            Informer.getInstance().inform("Erreur pendant le chargement de la page d'accueil");
             e.printStackTrace();
         }
 
@@ -67,7 +67,7 @@ public class AurionBrowser {
             return null;
         }
 
-        Informer.inform("Identification en cours");
+        Informer.getInstance().inform("Identification en cours");
 
         if (!loginPageResponse.url().toString().startsWith(LOGIN_URL))
         {
@@ -95,7 +95,7 @@ public class AurionBrowser {
             return result;
         } catch (IOException e) {
             e.printStackTrace();
-            Informer.inform("Erreur pendant la phase d'identification");
+            Informer.getInstance().inform("Erreur pendant la phase d'identification");
         }
         return null;
     }
@@ -127,7 +127,7 @@ public class AurionBrowser {
             return null;
         }
 
-        Informer.inform("Connexion à la page \""+title+"\" en cours");
+        Informer.getInstance().inform("Connexion à la page \""+title+"\" en cours");
 
         Map<String,String> data = JSoupUtils.getHiddenInputData(loggedInPageResponse);
         if (customData != null) {
@@ -151,14 +151,14 @@ public class AurionBrowser {
             return result;
         } catch (IOException e) {
             e.printStackTrace();
-            Informer.inform("Erreur pendant la connexion à la page \""+title+"\"");
+            Informer.getInstance().inform("Erreur pendant la connexion à la page \""+title+"\"");
         }
         return null;
     }
 
     public static Connection.Response connectToNextPage(Connection.Response previousPage, HashMap<String, String> customData) {
 
-        Informer.inform("Chargement de la page suivante");
+        Informer.getInstance().inform("Chargement de la page suivante");
 
         Log.i("Last url:",previousPage.url().toString());
 
@@ -199,7 +199,7 @@ public class AurionBrowser {
             return result;
         } catch (IOException e) {
             e.printStackTrace();
-            Informer.inform("Erreur pendant le chargement de la page suivante");
+            Informer.getInstance().inform("Erreur pendant le chargement de la page suivante");
         }        return null;
     }
 }
