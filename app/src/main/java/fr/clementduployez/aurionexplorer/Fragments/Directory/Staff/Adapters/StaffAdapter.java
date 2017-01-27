@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import fr.clementduployez.aurionexplorer.Fragments.Directory.Staff.StaffDirectoryFragment;
 import fr.clementduployez.aurionexplorer.Fragments.Directory.Staff.Holders.StaffHeader;
@@ -22,7 +23,7 @@ public class StaffAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
 
-    private ArrayList<StaffInfo> staffData;
+    private List<StaffInfo> staffData;
     private StaffDirectoryFragment staffDirectoryFragment;
     private StaffHeader mHeader;
 
@@ -55,8 +56,8 @@ public class StaffAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
     }
 
-    public void setData(ArrayList<StaffInfo> staffInfoArrayList) {
-        this.staffData = staffInfoArrayList;
+    public void setData(List<StaffInfo> staffData) {
+        this.staffData = staffData;
         notifyDataSetChanged();
     }
 

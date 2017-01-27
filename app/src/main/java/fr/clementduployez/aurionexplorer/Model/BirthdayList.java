@@ -27,4 +27,8 @@ public class BirthdayList {
     public void setMonthlyBirthdays(List<BirthdayInfo> monthlyBirthdays) {
         this.monthlyBirthdays = monthlyBirthdays;
     }
+
+    public boolean isEmpty() {
+        return dailyBirthdays == null || dailyBirthdays.isEmpty() || monthlyBirthdays == null || monthlyBirthdays.isEmpty();
+    }
 }

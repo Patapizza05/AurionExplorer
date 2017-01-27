@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import fr.clementduployez.aurionexplorer.Fragments.Directory.Staff.Adapters.StaffAdapter;
 import fr.clementduployez.aurionexplorer.Fragments.Directory.Staff.AsyncTasks.SearchStaffAsync;
@@ -56,7 +57,7 @@ public class StaffDirectoryFragment extends Fragment {
         }
     }
 
-    public void onAsyncResult(ArrayList<StaffInfo> staffData) {
+    public void onAsyncResult(List<StaffInfo> staffData) {
         searchStaffAsync = null;
         if (staffData != null) {
             mAdapter.setData(staffData);

@@ -29,6 +29,10 @@ public class LoadGradesListAsync extends AsyncTask<String,List<GradesInfo>,List<
         GradesResponse response = api.grades();
 
         List<GradesInfo> data = new ArrayList<>();
+        if (response == null) {
+            return data;
+        }
+
         data.addAll(response.getData());
 
         if (response.getNbPages() > 1) {
@@ -57,7 +61,11 @@ public class LoadGradesListAsync extends AsyncTask<String,List<GradesInfo>,List<
     @Override
     protected void onPostExecute(List<GradesInfo> gradesInfos) {
         super.onPostExecute(gradesInfos);
-        Informer.getInstance().inform(AurionApi.Messages.GRADES_SUCCESS);
+        if (gradesInfos != null && !gradesInfos.isEmpty()) {
+            Informer.getInstance().inform(AurionApi.Messages.GRADES_SUCCESS);
+        } else {
+            Informer.getInstance().inform(AurionApi.Messages.CONNECTION_FAIL);
+        }
         this.receiver.onAsyncResult(gradesInfos);
     }
 }

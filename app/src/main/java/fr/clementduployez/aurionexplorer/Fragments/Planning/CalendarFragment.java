@@ -131,11 +131,13 @@ public class CalendarFragment extends AurionPageFragment<CalendarInfo> implement
 
     @Override
     public void setAdapter(List<CalendarInfo> calendarData) {
-        mAdapter.setData(calendarData);
-        mSectionedAdapter.setSections(calendarData);
-        mAdapter.notifyDataSetChanged();
-        mSectionedAdapter.notifyDataSetChanged();
-        SQLUtils.save(calendarData);
+        if (calendarData != null && !calendarData.isEmpty()) {
+            mAdapter.setData(calendarData);
+            mSectionedAdapter.setSections(calendarData);
+            mAdapter.notifyDataSetChanged();
+            mSectionedAdapter.notifyDataSetChanged();
+            SQLUtils.save(calendarData);
+        }
     }
 
     @Override

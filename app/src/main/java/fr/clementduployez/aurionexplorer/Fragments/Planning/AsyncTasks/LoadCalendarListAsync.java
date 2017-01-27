@@ -57,7 +57,11 @@ public class LoadCalendarListAsync  extends AsyncTask<Date,String,List<CalendarI
     @Override
     protected void onPostExecute(List<CalendarInfo> calendarData) {
         super.onPostExecute(calendarData);
-        Informer.getInstance().inform(AurionApi.Messages.PLANNING_SUCCESS);
+        if (calendarData != null && !calendarData.isEmpty()) {
+            Informer.getInstance().inform(AurionApi.Messages.PLANNING_SUCCESS);
+        } else {
+            Informer.getInstance().inform(AurionApi.Messages.CONNECTION_FAIL);
+        }
         this.callback.run(calendarData);
     }
 }

@@ -17,6 +17,7 @@ import fr.clementduployez.aurionexplorer.Api.Responses.IndexResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.LoginFormResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.LoginResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.PlanningResponse;
+import fr.clementduployez.aurionexplorer.Api.Responses.StaffResponse;
 import fr.clementduployez.aurionexplorer.Api.Responses.StudentsResponse;
 import fr.clementduployez.aurionexplorer.Settings.Settings;
 
@@ -92,13 +93,13 @@ public interface IAurionApi {
     @Url(Settings.Api.STAFF_URL)
     @HttpMethod(Connection.Method.GET)
     @ContentType
-    void staffForm();
+    boolean staffForm();
 
     @Url(Settings.Api.STAFF_POST_URL)
     @Referrer(Settings.Api.STAFF_URL)
     @HttpMethod(Connection.Method.POST)
     @ContentType
-    void staff(String status, String dataNom, String dataPrenom, String dataCode);
+    StaffResponse staff(String status, String dataNom, String dataPrenom, String dataCode);
 
     @Url(Settings.Api.STUDENT_POST_URL)
     @Referrer(Settings.Api.STUDENT_URL)

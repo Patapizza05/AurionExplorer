@@ -79,7 +79,7 @@ public class BirthdayHolder extends AurionHolder<BirthdayInfo> implements View.O
                 @Override
                 public void run(StudentInfo data) {
                     if (data == null) {
-                        setImageUrl("none");
+                        setImageUrl(null);
                         return;
                     }
 

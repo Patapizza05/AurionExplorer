@@ -11,7 +11,10 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 
+import fr.clementduployez.aurionexplorer.Api.AurionApi;
+import fr.clementduployez.aurionexplorer.Api.Responses.StaffResponse;
 import fr.clementduployez.aurionexplorer.Fragments.Directory.Staff.StaffDirectoryFragment;
 import fr.clementduployez.aurionexplorer.Utils.Inform.Informer;
 import fr.clementduployez.aurionexplorer.Model.StaffInfo;
@@ -20,7 +23,7 @@ import fr.clementduployez.aurionexplorer.Utils.OldApi.CasBrowser;
 /**
  * Created by cdupl on 2/21/2016.
  */
-public class SearchStaffAsync extends AsyncTask<Void,Void,ArrayList<StaffInfo>> {
+public class SearchStaffAsync extends AsyncTask<Void,Void,List<StaffInfo>> {
     private final String lastName;
     private final String firstName;
     private final String code;
@@ -34,76 +37,24 @@ public class SearchStaffAsync extends AsyncTask<Void,Void,ArrayList<StaffInfo>> 
     }
 
     @Override
-    protected ArrayList<StaffInfo> doInBackground(Void... params) {
-        Connection.Response response = CasBrowser.connectToStaffDirectory(lastName,firstName,code);
-        ArrayList<StaffInfo> staffData = null;
-        if (response != null && response.statusCode() == 200) {
-            Log.i("Staff","OK !");
-            try {
-                staffData = parseStaffInfo(response);
-            }
-            catch (IOException ex) {
-                ex.printStackTrace();
-            }
+    protected List<StaffInfo> doInBackground(Void... params) {
+        StaffResponse response = new AurionApi().staff("Y", this.lastName, this.firstName, this.code);
+        if (response == null || response.getData() == null) {
+            return new ArrayList<>();
         }
-        if (staffData == null) {
-            staffData = new ArrayList<>();
-        }
-        return staffData;
-    }
-
-    private ArrayList<StaffInfo> parseStaffInfo(Connection.Response response) throws IOException {
-        ArrayList<StaffInfo> staffData = new ArrayList<>();
-        Document document = response.parse();
-        Elements elements = document.body().children();
-
-        if (elements == null || elements.size() <= 0) {
-            return staffData;
-        }
-
-        for (Element e : elements) {
-            try {
-            String name = e.getElementsByTag("h3").get(0).html().trim();
-            Log.i("StaffInfo","Name : "+name);
-
-            Elements p = e.getElementsByTag("p");
-            String code = p.get(0).html().split(":")[1].trim();
-            Log.i("StaffInfo","Code : "+code);
-            String email = p.get(1).getElementsByTag("a").get(0).html().trim();
-            Log.i("StaffInfo","Email : "+email);
-            String phone = p.get(2).text().split(":")[1].trim();
-            Log.i("StaffInfo","Phone : "+phone);
-            String office = p.get(3).html().split(":")[1].trim();
-            Log.i("StaffInfo", "Office : " + office);
-            ArrayList<String> lessons = new ArrayList<>();
-
-            try {
-                String lessonsString = p.get(5).html();
-                if (!lessonsString.isEmpty()) {
-                    if (lessonsString.contains("<br>")) {
-                        lessons.addAll(Arrays.asList(lessonsString.split("<br>")));
-                    }
-                    else {
-                        lessons.add(lessonsString);
-                    }
-                }
-            } catch(IndexOutOfBoundsException ex) {
-                //Nothing to add
-            }
-
-            staffData.add(new StaffInfo(name,code,email,phone,office,lessons));
-            }
-            catch (Exception ex) {
-                //Parsing error or nothing to add
-            }
-        }
-        return staffData;
+        return response.getData();
     }
 
     @Override
-    protected void onPostExecute(ArrayList<StaffInfo> staffData) {
+    protected void onPostExecute(List<StaffInfo> staffData) {
         super.onPostExecute(staffData);
-        Informer.getInstance().inform("Récupération des informations du staff terminée.");
+
+        if (staffData != null && !staffData.isEmpty()) {
+            Informer.getInstance().inform(AurionApi.Messages.STAFF_SUCCESS);
+        } else {
+            Informer.getInstance().inform(AurionApi.Messages.CONNECTION_FAIL);
+        }
+
         this.staffDirectoryFragment.onAsyncResult(staffData);
     }
 }

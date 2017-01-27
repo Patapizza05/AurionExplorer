@@ -16,6 +16,7 @@ import fr.clementduployez.aurionexplorer.Api.Responses.StudentsResponse;
 import fr.clementduployez.aurionexplorer.Fragments.Birthdays.BirthdayFragment;
 import fr.clementduployez.aurionexplorer.Model.BirthdayList;
 import fr.clementduployez.aurionexplorer.Model.BirthdayInfo;
+import fr.clementduployez.aurionexplorer.Utils.Inform.Informer;
 import fr.clementduployez.aurionexplorer.Utils.OldApi.CasBrowser;
 
 /**
@@ -38,6 +39,9 @@ public class LoadBirthdaysAsync extends AsyncTask<Void,BirthdayList,BirthdayList
     @Override
     protected void onPostExecute(BirthdayList data) {
         super.onPostExecute(data);
+        if (data == null || data.isEmpty()) {
+            Informer.getInstance().inform(AurionApi.Messages.CONNECTION_FAIL);
+        }
         this.birthdayFragment.onAsyncResult(data);
     }
 }
