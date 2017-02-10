@@ -1,4 +1,4 @@
-package fr.clementduployez.aurionexplorer.Fragments.Directory.Staff.Adapters;
+package fr.clementduployez.aurionexplorer.Fragments.Directory.Students.Adapters;
 
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -9,39 +9,40 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.clementduployez.aurionexplorer.Fragments.Directory.Staff.StaffDirectoryFragment;
 import fr.clementduployez.aurionexplorer.Fragments.Directory.Staff.Holders.StaffHeader;
-import fr.clementduployez.aurionexplorer.Fragments.Directory.Staff.Holders.StaffHolder;
-import fr.clementduployez.aurionexplorer.Model.StaffInfo;
+import fr.clementduployez.aurionexplorer.Fragments.Directory.Students.Holders.StudentHolder;
+import fr.clementduployez.aurionexplorer.Fragments.DirectoryFragment;
+import fr.clementduployez.aurionexplorer.Model.StudentInfo;
 import fr.clementduployez.aurionexplorer.R;
 
 /**
- * Created by cdupl on 2/17/2016.
+ * Created by Clement on 10/02/2017.
  */
-public class StaffAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+
+public class StudentsAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     private static final int TYPE_HEADER = 0;
     private static final int TYPE_ITEM = 1;
 
-    private List<StaffInfo> staffData;
-    private StaffDirectoryFragment staffDirectoryFragment;
+    private List<StudentInfo> studentsData;
+    private DirectoryFragment studentsDirectoryFragment;
     private StaffHeader mHeader;
 
-    public StaffAdapter(ArrayList<StaffInfo> staffInfoArrayList, StaffDirectoryFragment staffDirectoryFragment) {
-        this.staffData = staffInfoArrayList;
-        this.staffDirectoryFragment = staffDirectoryFragment;
+    public StudentsAdapter(ArrayList<StudentInfo> studentInfoArrayList, DirectoryFragment studentsDirectoryFragment) {
+        this.studentsData = studentInfoArrayList;
+        this.studentsDirectoryFragment = studentsDirectoryFragment;
     }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         if (viewType == TYPE_HEADER) {
             View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_directory_staff_form, parent, false);
-            mHeader = new StaffHeader(view, this.staffDirectoryFragment);
+            mHeader = new StaffHeader(view, this.studentsDirectoryFragment);
             return mHeader;
         }
         else {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_directory_staff_recycler_item, parent, false);
-            return new StaffHolder(view);
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.fragment_directory_student_recycler_item, parent, false);
+            return new StudentHolder(view);
         }
     }
 
@@ -49,21 +50,21 @@ public class StaffAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         if (holder instanceof StaffHeader)
         {
-            ((StaffHeader)holder).bind(true);
+            ((StaffHeader)holder).bind(false);
         }
         else {
-            ((StaffHolder)holder).bind(this.staffData.get(position-1));
+            ((StudentHolder)holder).bind(this.studentsData.get(position-1));
         }
     }
 
-    public void setData(List<StaffInfo> staffData) {
-        this.staffData = staffData;
+    public void setData(List<StudentInfo> staffData) {
+        this.studentsData = staffData;
         notifyDataSetChanged();
     }
 
     @Override
     public int getItemCount() {
-        return this.staffData.size()+1;
+        return this.studentsData.size()+1;
     }
 
     //    need to override this method
@@ -83,7 +84,7 @@ public class StaffAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         int size = getItemCount();
         if (size > 1) {
             try {
-                ((AppCompatActivity) (this.staffDirectoryFragment.getActivity())).getSupportActionBar().setSubtitle(size - 1 + " Résultats");
+                ((AppCompatActivity) (this.studentsDirectoryFragment.getActivity())).getSupportActionBar().setSubtitle(size - 1 + " Résultats");
             }
             catch (NullPointerException ex) {
                 //No Toolbar
@@ -91,7 +92,7 @@ public class StaffAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
         }
         else {
             try {
-                ((AppCompatActivity) (this.staffDirectoryFragment.getActivity())).getSupportActionBar().setSubtitle(size - 1 + " Résultat");
+                ((AppCompatActivity) (this.studentsDirectoryFragment.getActivity())).getSupportActionBar().setSubtitle(size - 1 + " Résultat");
             }
             catch (NullPointerException ex) {
                 //No Toolbar
@@ -103,4 +104,5 @@ public class StaffAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> 
     public StaffHeader getHeader() {
         return mHeader;
     }
+
 }

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 import fr.clementduployez.aurionexplorer.Api.Annotations.AurionAnnotations;
 import fr.clementduployez.aurionexplorer.Api.Responses.BirthdaysResponse;
@@ -408,7 +409,8 @@ public class AurionApi implements IAurionApi {
             if (dataPrenom == null) dataPrenom = "";
             if (dataNom == null) dataNom = "";
             if (dataGroupe == null) dataGroupe = "%";
-            if (dataPrenom == "" && dataNom == "" && dataGroupe == "%") return null;
+            if (!dataGroupe.startsWith("%")) dataGroupe = "%"+dataGroupe;
+            if (Objects.equals(dataPrenom, "") && Objects.equals(dataNom, "") && Objects.equals(dataGroupe, "%")) return null;
 
             //status is always 'Y'
             AurionAnnotations annotations = AurionAnnotations.getInstance("students", new Class[] { String.class, String.class, String.class });

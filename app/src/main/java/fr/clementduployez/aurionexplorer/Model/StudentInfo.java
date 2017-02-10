@@ -31,7 +31,47 @@ public class StudentInfo {
         return imageUrl;
     }
 
+    public String getBirthday() {
+        return birthday;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getPromo() {
+        return promo;
+    }
+
     public String getName() {
         return name;
+    }
+
+    public String getSpecialization() {
+        return specialization;
+    }
+
+    public boolean hasImageUrl() {
+        return imageUrl != null;
+    }
+
+    public boolean hasBirthday() {
+        return birthday != null;
+    }
+
+    public boolean hasEmail() {
+        return email != null;
+    }
+
+    public boolean hasPromo() {
+        return promo != null;
+    }
+
+    public boolean hasName() {
+        return name != null;
+    }
+
+    public boolean hasSpecialization() {
+        return specialization != null;
     }
 }

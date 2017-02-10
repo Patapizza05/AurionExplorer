@@ -18,6 +18,7 @@ import android.widget.RelativeLayout;
 
 import fr.clementduployez.aurionexplorer.Fragments.Birthdays.BirthdayFragment;
 import fr.clementduployez.aurionexplorer.Fragments.Directory.Staff.StaffDirectoryFragment;
+import fr.clementduployez.aurionexplorer.Fragments.Directory.Students.StudentsDirectoryFragment;
 import fr.clementduployez.aurionexplorer.Fragments.Fortinet.FortinetFragment;
 import fr.clementduployez.aurionexplorer.Ui.Menu.HamburgerMenuManager;
 import fr.clementduployez.aurionexplorer.Utils.Inform.Informer;
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private ConferencesFragment mConferencesFragment;
     private FortinetFragment mFortinetFragment;
     private BirthdayFragment mBirthdayFragment;
+    private StudentsDirectoryFragment mStudentsDirectoryFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -174,6 +176,12 @@ public class MainActivity extends AppCompatActivity {
                     mBirthdayFragment = BirthdayFragment.newInstance();
                 //}
                 openFragment(mBirthdayFragment);
+                break;
+            case Settings.Titles.STUDENTS_DIRECTORY:
+                if (mStudentsDirectoryFragment == null) {
+                    mStudentsDirectoryFragment = StudentsDirectoryFragment.newInstance();
+                }
+                openFragment(mStudentsDirectoryFragment);
                 break;
             default:
                 if (mNotImplementedFragment == null) {

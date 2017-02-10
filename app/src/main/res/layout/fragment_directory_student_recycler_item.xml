@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="5dp"
+    android:background="@drawable/ripple_background"
+    android:clickable="true"
+    android:elevation="4dp"
+    android:orientation="vertical"
+    android:paddingBottom="5dp">
+
+
+    <TextView
+        android:id="@+id/directory_student_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/colorPrimary"
+        android:gravity="center_horizontal"
+        android:padding="5dp"
+        android:text=""
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textColor="@color/white" />
+
+    <LinearLayout
+        android:id="@+id/directory_student_weight_container"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="7">
+
+        <ImageView
+            android:id="@+id/directory_student_image"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_gravity="center_vertical"
+            android:src="@mipmap/ic_launcher" />
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="6"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/directory_student_birthday_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="5dp"
+                android:weightSum="4">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:drawableLeft="@drawable/ic_cake_red_500_18dp"
+                    android:drawablePadding="10dp"
+                    android:padding="5dp"
+                    android:text="Date de naissance"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/colorPrimary" />
+
+                <TextView
+                    android:id="@+id/directory_student_birthday"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:layout_gravity="fill"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/blackText" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/directory_student_email_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="5dp"
+                android:weightSum="4">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:drawableLeft="@drawable/ic_email_red_500_18dp"
+                    android:drawablePadding="10dp"
+                    android:padding="5dp"
+                    android:text="E-mail"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/colorPrimary" />
+
+                <TextView
+                    android:id="@+id/directory_student_email"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text=""
+                    android:layout_gravity="fill"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/blackText" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/directory_student_promo_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="5dp"
+                android:weightSum="4">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:drawableLeft="@drawable/ic_school_red_500_18dp"
+                    android:drawablePadding="10dp"
+                    android:padding="5dp"
+                    android:text="Promotion"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/colorPrimary" />
+
+                <TextView
+                    android:id="@+id/directory_student_promo"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text=""
+                    android:layout_gravity="fill"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/blackText" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/directory_student_specialization_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="5dp"
+                android:weightSum="4">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:drawableLeft="@drawable/ic_code_red_500_18dp"
+                    android:drawablePadding="10dp"
+                    android:padding="5dp"
+                    android:text="Majeure"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/colorPrimary" />
+
+                <TextView
+                    android:id="@+id/directory_student_specialization"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="2"
+                    android:text=""
+                    android:layout_gravity="fill"
+                    android:textAppearance="?android:attr/textAppearanceSmall"
+                    android:textColor="@color/blackText" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+</LinearLayout>
+

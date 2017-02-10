@@ -7,6 +7,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 
 import fr.clementduployez.aurionexplorer.Fragments.Directory.Staff.StaffDirectoryFragment;
+import fr.clementduployez.aurionexplorer.Fragments.DirectoryFragment;
 import fr.clementduployez.aurionexplorer.R;
 
 /**
@@ -16,13 +17,13 @@ public class StaffHeader extends RecyclerView.ViewHolder implements View.OnClick
 
     private final LinearLayout loadingLayout;
     private final LinearLayout formLayout;
-    private StaffDirectoryFragment fragment;
+    private DirectoryFragment fragment;
     private Button button;
     private EditText lastName;
     private EditText firstName;
     private EditText code;
 
-    public StaffHeader(View itemView, StaffDirectoryFragment fragment) {
+    public StaffHeader(View itemView, DirectoryFragment fragment) {
         super(itemView);
         this.fragment = fragment;
 
@@ -36,8 +37,13 @@ public class StaffHeader extends RecyclerView.ViewHolder implements View.OnClick
         button.setOnClickListener(this);
     }
 
-    public void bind() {
-
+    public void bind(boolean isStaff) {
+        if (isStaff) {
+            this.code.setHint("Code");
+        }
+        else {
+            this.code.setHint("Groupe");
+        }
     }
 
     @Override

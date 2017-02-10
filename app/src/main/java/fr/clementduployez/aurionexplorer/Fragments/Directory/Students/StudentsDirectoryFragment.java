@@ -1,6 +1,5 @@
-package fr.clementduployez.aurionexplorer.Fragments.Directory.Staff;
+package fr.clementduployez.aurionexplorer.Fragments.Directory.Students;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,24 +11,25 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.List;
 
-import fr.clementduployez.aurionexplorer.Fragments.Directory.Staff.Adapters.StaffAdapter;
-import fr.clementduployez.aurionexplorer.Fragments.Directory.Staff.AsyncTasks.SearchStaffAsync;
+import fr.clementduployez.aurionexplorer.Fragments.Directory.Students.Adapters.StudentsAdapter;
+import fr.clementduployez.aurionexplorer.Fragments.Directory.Students.AsyncTasks.SearchStudentsAsync;
 import fr.clementduployez.aurionexplorer.Fragments.DirectoryFragment;
-import fr.clementduployez.aurionexplorer.Model.StaffInfo;
+import fr.clementduployez.aurionexplorer.Model.StudentInfo;
 import fr.clementduployez.aurionexplorer.R;
 
 /**
- * Created by cdupl on 2/17/2016.
+ * Created by Clement on 10/02/2017.
  */
-public class StaffDirectoryFragment extends DirectoryFragment {
+
+public class StudentsDirectoryFragment extends DirectoryFragment {
     private View rootView;
     private RecyclerView recyclerView;
-    private StaffAdapter mAdapter;
-    private SearchStaffAsync searchStaffAsync;
+    private StudentsAdapter mAdapter;
+    private SearchStudentsAsync searchStudentsAsync;
 
-    public static StaffDirectoryFragment newInstance() {
-        final StaffDirectoryFragment staffDirectoryFragment = new StaffDirectoryFragment();
-        return staffDirectoryFragment;
+    public static StudentsDirectoryFragment newInstance() {
+        final StudentsDirectoryFragment studentsDirectoryFragment = new StudentsDirectoryFragment();
+        return studentsDirectoryFragment;
     }
 
     @Override
@@ -41,7 +41,7 @@ public class StaffDirectoryFragment extends DirectoryFragment {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         if (mAdapter == null) {
-            mAdapter = new StaffAdapter(new ArrayList<StaffInfo>(), this);
+            mAdapter = new StudentsAdapter(new ArrayList<StudentInfo>(), this);
         }
 
         recyclerView.setAdapter(mAdapter);
@@ -50,17 +50,8 @@ public class StaffDirectoryFragment extends DirectoryFragment {
         return rootView;
     }
 
-    @Override
-    public void sendForm(String lastName, String firstName, String code) {
-        if (searchStaffAsync == null) {
-            mAdapter.getHeader().showProgressBar();
-            searchStaffAsync = new SearchStaffAsync(this, lastName, firstName, code);
-            searchStaffAsync.execute();
-        }
-    }
-
-    public void onAsyncResult(List<StaffInfo> staffData) {
-        searchStaffAsync = null;
+    public void onAsyncResult(List<StudentInfo> staffData) {
+        searchStudentsAsync = null;
         if (staffData != null) {
             mAdapter.setData(staffData);
             ((AppCompatActivity) (this.getActivity())).getSupportActionBar().setSubtitle(mAdapter.getItemCount()-1+" Résultats");
@@ -68,5 +59,13 @@ public class StaffDirectoryFragment extends DirectoryFragment {
         }
     }
 
+    @Override
+    public void sendForm(String lastName, String firstName, String code) {
+        if (searchStudentsAsync == null) {
+            mAdapter.getHeader().showProgressBar();
+            searchStudentsAsync = new SearchStudentsAsync(this, lastName, firstName, code);
+            searchStudentsAsync.execute();
+        }
+    }
 
 }
