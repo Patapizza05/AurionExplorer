@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import fr.clementduployez.aurionexplorer.Activities.MainActivity;
 import fr.clementduployez.aurionexplorer.R;
+import fr.clementduployez.aurionexplorer.Settings.Settings;
 import fr.clementduployez.aurionexplorer.Settings.UserData;
 
 /**
@@ -30,18 +31,30 @@ public class HamburgerMenuManager {
     private String name = UserData.getName();
     private String id = UserData.getUsername();
 
-    private String[] titles = {"Mes Notes", "Mes Absences", "Mon Planning",null,"Mes Conférences", null,"Annuaire des Étudiants","Annuaire du Staff","Anniversaires"};
+    private String[] titles =
+            {
+                    Settings.Titles.MY_GRADES,
+                    Settings.Titles.MY_ABSENCES,
+                    Settings.Titles.MY_PLANNING,
+                    Settings.Titles.DELIMITER, // ---
+                    Settings.Titles.MY_CONFERENCES,
+                    Settings.Titles.DELIMITER, // ---
+                    Settings.Titles.STUDENTS_DIRECTORY,
+                    Settings.Titles.STAFF_DIRECTORY,
+                    Settings.Titles.BIRTHDAYS
+            };
+
     private Integer[] titlesImages =
             {R.drawable.ic_school_red_500_18dp,
-            R.drawable.ic_alarm_off_red_500_18dp,
-            R.drawable.ic_today_red_500_18dp,
-            null,
-            R.drawable.ic_record_voice_over_red_500_18dp,
-            null,
-            R.drawable.ic_group_red_500_18dp,
-            R.drawable.ic_work_red_500_18dp,
-            R.drawable.ic_cake_red_500_18dp,
-    };
+                    R.drawable.ic_alarm_off_red_500_18dp,
+                    R.drawable.ic_today_red_500_18dp,
+                    null,
+                    R.drawable.ic_record_voice_over_red_500_18dp,
+                    null,
+                    R.drawable.ic_group_red_500_18dp,
+                    R.drawable.ic_work_red_500_18dp,
+                    R.drawable.ic_cake_red_500_18dp,
+            };
 
     private ArrayList<IDrawerItem> items = new ArrayList<>(3);
 
@@ -55,15 +68,15 @@ public class HamburgerMenuManager {
     private void initDrawerItems() {
         for (int i = 0; i < titles.length; i++) {
             if (titles[i] != null) {
-                if (titlesImages[i] != null) {
-                    items.add(new PrimaryDrawerItem().withName(titles[i]).withIcon(titlesImages[i]));
+                if (!Settings.Titles.DELIMITER.equals(titles[i])) {
+                    if (titlesImages[i] != null) {
+                        items.add(new PrimaryDrawerItem().withName(titles[i]).withIcon(titlesImages[i]));
+                    } else {
+                        items.add(new PrimaryDrawerItem().withName(titles[i]));
+                    }
+                } else {
+                    items.add(new DividerDrawerItem());
                 }
-                else {
-                    items.add(new PrimaryDrawerItem().withName(titles[i]));
-                }
-            }
-            else {
-                items.add(new DividerDrawerItem());
             }
         }
     }
@@ -72,7 +85,7 @@ public class HamburgerMenuManager {
         // Create the AccountHeader
         AccountHeader headerResult = new AccountHeaderBuilder()
                 .withActivity(this.activity)
-                        //.withHeaderBackground(R.drawable.header)
+                //.withHeaderBackground(R.drawable.header)
                 .addProfiles(
                         new ProfileDrawerItem()
                                 .withName(name)
@@ -125,6 +138,6 @@ public class HamburgerMenuManager {
     }
 
     public String getSelectedItemTitle() {
-        return this.titles[this.drawer.getCurrentSelectedPosition()-1];
+        return this.titles[this.drawer.getCurrentSelectedPosition() - 1];
     }
 }

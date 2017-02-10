@@ -139,25 +139,25 @@ public class MainActivity extends AppCompatActivity {
 
     public void openFragmentWithName(String selectedItemTitle) {
         switch(selectedItemTitle) {
-            case "Mes Notes":
+            case Settings.Titles.MY_GRADES:
                 if (mGradesFragment == null) {
                     mGradesFragment = GradesFragment.newInstance();
                 }
                 openFragment(mGradesFragment);
                 break;
-            case "Mon Planning":
+            case Settings.Titles.MY_PLANNING:
                 if (mCalendarFragment == null) {
                     mCalendarFragment = CalendarFragment.newInstance();
                 }
                 openFragment(mCalendarFragment);
                 break;
-            case "Annuaire du Staff":
+            case Settings.Titles.STAFF_DIRECTORY:
                 if (mStaffDirectoryFragment == null) {
                     mStaffDirectoryFragment = StaffDirectoryFragment.newInstance();
                 }
                 openFragment(mStaffDirectoryFragment);
                 break;
-            case "Mes Conférences":
+            case Settings.Titles.MY_CONFERENCES:
                 if (mConferencesFragment == null) {
                     mConferencesFragment = ConferencesFragment.newInstance();
                 }
@@ -169,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
                 }
                 openFragment(mFortinetFragment);
                 break;*/
-            case "Anniversaires":
+            case Settings.Titles.BIRTHDAYS:
                 //if (mBirthdayFragment == null) { //FIXME : Crashes on second visit
                     mBirthdayFragment = BirthdayFragment.newInstance();
                 //}

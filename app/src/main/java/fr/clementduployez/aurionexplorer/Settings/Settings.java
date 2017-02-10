@@ -10,7 +10,7 @@ public class Settings {
     public static boolean LITE = false;
     public static final long GRADES_UPDATE_INTERVAL = AlarmManager.INTERVAL_HOUR;
 
-    public class Api {
+    public static class Api {
         public static final int CONNECTION_TIMEOUT = 100000; //ms
         public static final String USER_AGENT = "Mozilla/5.0 (Windows NT 10.0; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.109 Safari/537.36";
         public static final String AURION_URL = "https://aurion-lille.isen.fr";
@@ -32,8 +32,21 @@ public class Settings {
         public static final String TITLE_PLANNING = "Mon planning";
     }
 
-    public class Planning {
+    public static class Planning {
         public static final int DAY_OFFSET = 14;
         public static final int MAX_DAYS = 31;
     }
+
+    public static class Titles {
+        public static final String DELIMITER = "---";
+        public static final String MY_GRADES = "Mes Notes";
+        public static final String MY_ABSENCES = "Mes Absences";
+        public static final String MY_PLANNING = "Mon Planning";
+        public static final String STAFF_DIRECTORY = "Annuaire du Staff";
+        public static final String STUDENTS_DIRECTORY = "Annuaire des Étudiants";
+        public static final String MY_CONFERENCES = "Mes Conférences";
+        public static final String BIRTHDAYS = "Anniversaires";
+    }
+
+
 }
