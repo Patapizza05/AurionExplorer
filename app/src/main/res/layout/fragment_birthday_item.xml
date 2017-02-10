@@ -1,27 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="horizontal" android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:clickable="true"
-    android:background="@drawable/ripple_background"
-    android:layout_marginTop="1dp"
-    android:padding="5dp"
-    android:weightSum="7"
-    android:elevation="2dp">
+<FrameLayout xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content">
 
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:padding="10dp"
-        android:layout_weight="1"
-        android:src="@drawable/ic_cake_red_500_18dp"/>
-
-    <TextView
-        android:layout_width="0dp"
+    <android.support.v7.widget.CardView android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="20dp"
-        android:layout_weight="6"
-        android:textColor="@android:color/black"
-        android:id="@+id/birthday_item_name"
-        android:text="Pierre Dupont"/>
-</LinearLayout>
+        card_view:cardElevation="2dp"
+        card_view:cardUseCompatPadding="true">
+
+            <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="horizontal" android:layout_width="match_parent"
+                android:id="@+id/birthday_item_container"
+                android:layout_height="wrap_content"
+                android:clickable="true"
+                android:background="@drawable/ripple_background"
+                android:weightSum="7">
+
+                <ImageView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:padding="15dp"
+                    android:layout_weight="1"
+                    android:id="@+id/birthday_item_image"
+                    android:src="@drawable/ic_cake_red_500_18dp"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:padding="20dp"
+                    android:layout_weight="6"
+                    android:textColor="@android:color/black"
+                    android:id="@+id/birthday_item_name"
+                    android:text="Pierre Dupont"/>
+            </LinearLayout>
+        </android.support.v7.widget.CardView>
+    </FrameLayout>

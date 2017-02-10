@@ -5,12 +5,9 @@ import android.database.sqlite.SQLiteDatabase;
 
 import com.yarolegovich.wellsql.DefaultWellConfig;
 import com.yarolegovich.wellsql.WellTableManager;
-import com.yarolegovich.wellsql.mapper.SQLiteMapper;
 
-import java.util.Map;
-
-import fr.clementduployez.aurionexplorer.MesNotes.GradesInfo;
-import fr.clementduployez.aurionexplorer.MonPlanning.CalendarInfo;
+import fr.clementduployez.aurionexplorer.Model.GradesInfo;
+import fr.clementduployez.aurionexplorer.Model.CalendarInfo;
 
 /**
  * Created by cdupl on 3/12/2016.

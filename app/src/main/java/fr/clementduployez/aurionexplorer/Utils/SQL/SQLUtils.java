@@ -6,16 +6,14 @@ import com.wellsql.generated.CalendarInfoTable;
 import com.yarolegovich.wellsql.WellSql;
 import com.yarolegovich.wellsql.core.Identifiable;
 
-import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import fr.clementduployez.aurionexplorer.MesNotes.GradesInfo;
-import fr.clementduployez.aurionexplorer.MonPlanning.CalendarInfo;
+import fr.clementduployez.aurionexplorer.Model.GradesInfo;
+import fr.clementduployez.aurionexplorer.Model.CalendarInfo;
 
 /**
  * Created by cdupl on 3/12/2016.

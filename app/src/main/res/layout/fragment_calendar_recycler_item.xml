@@ -73,7 +73,7 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:text="Module de Base Développement Applicatif Sécurisé"
             android:padding="5dp"
-            android:textColor="@android:color/black"
+            android:textColor="@color/blackText"
             android:gravity="center_horizontal"
             android:id="@+id/calendar_lesson_title" />
     </LinearLayout>
