@@ -2,22 +2,11 @@ package fr.clementduployez.aurionexplorer.Fragments.Birthdays.AsyncTasks;
 
 import android.os.AsyncTask;
 
-import org.jsoup.Connection;
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 import fr.clementduployez.aurionexplorer.Api.AurionApi;
 import fr.clementduployez.aurionexplorer.Api.Responses.BirthdaysResponse;
-import fr.clementduployez.aurionexplorer.Api.Responses.StudentsResponse;
 import fr.clementduployez.aurionexplorer.Fragments.Birthdays.BirthdayFragment;
 import fr.clementduployez.aurionexplorer.Model.BirthdayList;
-import fr.clementduployez.aurionexplorer.Model.BirthdayInfo;
 import fr.clementduployez.aurionexplorer.Utils.Inform.Informer;
-import fr.clementduployez.aurionexplorer.Utils.OldApi.CasBrowser;
 
 /**
  * Created by cdupl on 3/22/2016.

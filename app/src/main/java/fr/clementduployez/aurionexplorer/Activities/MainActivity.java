@@ -10,6 +10,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.ViewGroup;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.FrameLayout;
@@ -33,6 +34,8 @@ import fr.clementduployez.aurionexplorer.Settings.UserData;
 //Drawer Builder : http://android-arsenal.com/details/1/1526
 
 public class MainActivity extends AppCompatActivity {
+
+    private static final String FRAGMENT_TAG = "FRAGMENT_TAG";
 
     private Toolbar toolbar;
     private HamburgerMenuManager hamburgerMenuManager;
@@ -128,21 +131,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void openFragment(Fragment fragment) {
-        if (this.currentFragment == fragment)
-        {
-            return;
-        }
-
-        FragmentManager manager = getFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        if (fragment != null) {
-            if (this.currentFragment != null) {
-                transaction.remove(this.currentFragment);
-            }
-            transaction.add(R.id.frame_container, fragment);
-            this.currentFragment = fragment;
-            transaction.commit();
-        }
+        if (getCurrentFragment() == fragment) return;
+        final FragmentTransaction transaction = this.getFragmentManager().beginTransaction();
+        transaction.replace(R.id.frame_container, fragment, FRAGMENT_TAG);
+        transaction.commit();
     }
 
 
@@ -191,5 +183,9 @@ public class MainActivity extends AppCompatActivity {
                 openFragment(mNotImplementedFragment);
                 break;
         }
+    }
+
+    private Fragment getCurrentFragment() {
+        return getFragmentManager().findFragmentByTag(FRAGMENT_TAG);
     }
 }
