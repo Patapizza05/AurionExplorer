@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private HamburgerMenuManager hamburgerMenuManager;
     private ViewGroup container;
-    private Fragment currentFragment;
     private ViewGroup rootView;
 
     private GradesFragment mGradesFragment;
