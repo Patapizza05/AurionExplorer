@@ -348,6 +348,7 @@ public class AurionApi implements IAurionApi {
         return false;
     }
 
+
     @Override
     public StaffResponse staff(String status, String dataNom, String dataPrenom, String dataCode) {
         return staff(status, dataNom, dataPrenom, dataCode, true);
@@ -398,6 +399,22 @@ public class AurionApi implements IAurionApi {
     }
 
 
+    @Override
+    public boolean studentsForm() {
+        try {
+            AurionAnnotations annotations = AurionAnnotations.getInstance("studentsForm", new Class[] {});
+            Connection.Response result = jsoupConnect(annotations);
+
+            if (result != null && result.statusCode() == 200) {
+                AurionCookies.addAll(result.cookies());
+                return true;
+            }
+        }
+        catch(Exception ex) {
+            ex.printStackTrace();
+        }
+        return false;
+    }
 
     @Override
     public StudentsResponse students(String dataNom, String dataPrenom, String dataGroupe) {
@@ -406,6 +423,10 @@ public class AurionApi implements IAurionApi {
 
     private StudentsResponse students(String dataNom, String dataPrenom, String dataGroupe, boolean isFirstTry) {
         try {
+            if (!studentsForm()) {
+                return null;
+            }
+
             if (dataPrenom == null) dataPrenom = "";
             if (dataNom == null) dataNom = "";
             if (dataGroupe == null) dataGroupe = "%";

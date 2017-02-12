@@ -101,6 +101,11 @@ public interface IAurionApi {
     @ContentType
     StaffResponse staff(String status, String dataNom, String dataPrenom, String dataCode);
 
+    @Url(Settings.Api.STUDENT_URL)
+    @HttpMethod(Connection.Method.GET)
+    @ContentType
+    boolean studentsForm();
+
     @Url(Settings.Api.STUDENT_POST_URL)
     @Referrer(Settings.Api.STUDENT_URL)
     @HttpMethod(Connection.Method.POST)
