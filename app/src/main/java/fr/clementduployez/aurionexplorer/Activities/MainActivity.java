@@ -37,15 +37,6 @@ public class MainActivity extends AppCompatActivity {
     private ViewGroup container;
     private ViewGroup rootView;
 
-    private GradesFragment mGradesFragment;
-    private CalendarFragment mCalendarFragment;
-    private StaffDirectoryFragment mStaffDirectoryFragment;
-    private NotImplementedFragment mNotImplementedFragment;
-    private ConferencesFragment mConferencesFragment;
-    private FortinetFragment mFortinetFragment;
-    private BirthdayFragment mBirthdayFragment;
-    private StudentsDirectoryFragment mStudentsDirectoryFragment;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -59,40 +50,17 @@ public class MainActivity extends AppCompatActivity {
 
         this.setSupportActionBar(toolbar);
 
-        Integer selectItem = getItemToSelect(this.getIntent());
-
-        this.hamburgerMenuManager = new HamburgerMenuManager(this, selectItem);
+        this.hamburgerMenuManager = new HamburgerMenuManager(this, getIntent());
     }
 
-    private Integer getItemToSelect(Intent intent) {
-        if (intent != null && intent.getAction() != null) {
-            String action = intent.getAction();
-            switch(action) {
-                case Settings.IntentActions.GRADES:
-                    return HamburgerMenuManager.MY_GRADES_INDEX;
-                case Settings.IntentActions.PLANNING:
-                    return HamburgerMenuManager.MY_PLANNING_INDEX;
-                case Settings.IntentActions.STAFF_DIRECTORY:
-                    return HamburgerMenuManager.STAFF_DIRECTORY_INDEX;
-                case Settings.IntentActions.STUDENTS_DIRECTORY:
-                    return HamburgerMenuManager.STUDENTS_DIRECTORY_INDEX;
-                default:
-                    break;
-            }
-        }
-        return null;
-    }
+
 
     protected void onResume() {
         super.onResume();
-        openFragmentWithName(this.hamburgerMenuManager.getSelectedItemTitle());
+        openFragment(this.hamburgerMenuManager.getSelectedFragment());
     }
 
     private void startGradesUpdaterService(boolean isChecked) {
-        /*Intent startIntent = new Intent(MainActivity.this, GradesUpdaterService.class);
-        startService(startIntent);*/
-        //saveData("runService", true);
-
         if (!Settings.LITE && isChecked) {
             GradesAlarmReceiver.startAlarm(getApplicationContext());
         }
@@ -154,56 +122,12 @@ public class MainActivity extends AppCompatActivity {
         transaction.commit();
     }
 
-    public void openFragmentWithName(String selectedItemTitle) {
-        switch(selectedItemTitle) {
-            case Settings.Titles.MY_GRADES:
-                if (mGradesFragment == null) {
-                    mGradesFragment = GradesFragment.newInstance();
-                }
-                openFragment(mGradesFragment);
-                break;
-            case Settings.Titles.MY_PLANNING:
-                if (mCalendarFragment == null) {
-                    mCalendarFragment = CalendarFragment.newInstance();
-                }
-                openFragment(mCalendarFragment);
-                break;
-            case Settings.Titles.STAFF_DIRECTORY:
-                if (mStaffDirectoryFragment == null) {
-                    mStaffDirectoryFragment = StaffDirectoryFragment.newInstance();
-                }
-                openFragment(mStaffDirectoryFragment);
-                break;
-            case Settings.Titles.MY_CONFERENCES:
-                if (mConferencesFragment == null) {
-                    mConferencesFragment = ConferencesFragment.newInstance();
-                }
-                openFragment(mConferencesFragment);
-                break;
-            /*case "Fortinet":
-                if (mFortinetFragment == null) {
-                    mFortinetFragment = FortinetFragment.newInstance();
-                }
-                openFragment(mFortinetFragment);
-                break;*/
-            case Settings.Titles.BIRTHDAYS:
-                //if (mBirthdayFragment == null) { //FIXME : Crashes on second visit
-                    mBirthdayFragment = BirthdayFragment.newInstance();
-                //}
-                openFragment(mBirthdayFragment);
-                break;
-            case Settings.Titles.STUDENTS_DIRECTORY:
-                if (mStudentsDirectoryFragment == null) {
-                    mStudentsDirectoryFragment = StudentsDirectoryFragment.newInstance();
-                }
-                openFragment(mStudentsDirectoryFragment);
-                break;
-            default:
-                if (mNotImplementedFragment == null) {
-                    mNotImplementedFragment = NotImplementedFragment.newInstance();
-                }
-                openFragment(mNotImplementedFragment);
-                break;
+    public void onSelectedFragment(Fragment fragment) {
+        if (fragment != null) {
+            openFragment(fragment);
+        }
+        else {
+            openFragment(NotImplementedFragment.newInstance());
         }
     }
 

@@ -1,13 +1,13 @@
 package fr.clementduployez.aurionexplorer.Ui.Menu;
 
+import android.app.Fragment;
+import android.content.Intent;
 import android.view.View;
 
 import com.mikepenz.materialdrawer.AccountHeader;
 import com.mikepenz.materialdrawer.AccountHeaderBuilder;
 import com.mikepenz.materialdrawer.Drawer;
 import com.mikepenz.materialdrawer.DrawerBuilder;
-import com.mikepenz.materialdrawer.model.DividerDrawerItem;
-import com.mikepenz.materialdrawer.model.PrimaryDrawerItem;
 import com.mikepenz.materialdrawer.model.ProfileDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IDrawerItem;
 import com.mikepenz.materialdrawer.model.interfaces.IProfile;
@@ -15,6 +15,15 @@ import com.mikepenz.materialdrawer.model.interfaces.IProfile;
 import java.util.ArrayList;
 
 import fr.clementduployez.aurionexplorer.Activities.MainActivity;
+import fr.clementduployez.aurionexplorer.Model.Titles.BirthdayTitle;
+import fr.clementduployez.aurionexplorer.Model.Titles.Delimiter;
+import fr.clementduployez.aurionexplorer.Model.Titles.MyAbsencesTitle;
+import fr.clementduployez.aurionexplorer.Model.Titles.MyConferencesTitle;
+import fr.clementduployez.aurionexplorer.Model.Titles.MyGradesTitle;
+import fr.clementduployez.aurionexplorer.Model.Titles.MyPlanningTitle;
+import fr.clementduployez.aurionexplorer.Model.Titles.StaffDirectoryTitle;
+import fr.clementduployez.aurionexplorer.Model.Titles.StudentsDirectoryTitle;
+import fr.clementduployez.aurionexplorer.Model.Titles.Title;
 import fr.clementduployez.aurionexplorer.R;
 import fr.clementduployez.aurionexplorer.Settings.Settings;
 import fr.clementduployez.aurionexplorer.Settings.UserData;
@@ -40,52 +49,51 @@ public class HamburgerMenuManager {
     public static final int STAFF_DIRECTORY_INDEX = 8;
     public static final int BIRTHDAYS_INDEX = 9;
 
-    private String[] titles =
-            {
-                    Settings.Titles.MY_GRADES,
-                    Settings.Titles.MY_ABSENCES,
-                    Settings.Titles.MY_PLANNING,
-                    Settings.Titles.DELIMITER, // ---
-                    Settings.Titles.MY_CONFERENCES,
-                    Settings.Titles.DELIMITER, // ---
-                    Settings.Titles.STUDENTS_DIRECTORY,
-                    Settings.Titles.STAFF_DIRECTORY,
-                    Settings.Titles.BIRTHDAYS
-            };
-
-    private Integer[] titlesImages =
-            {R.drawable.ic_school_red_500_18dp,
-                    R.drawable.ic_alarm_off_red_500_18dp,
-                    R.drawable.ic_today_red_500_18dp,
-                    null,
-                    R.drawable.ic_record_voice_over_red_500_18dp,
-                    null,
-                    R.drawable.ic_group_red_500_18dp,
-                    R.drawable.ic_work_red_500_18dp,
-                    R.drawable.ic_cake_red_500_18dp,
-            };
+    private Title[] titles = {
+            new MyGradesTitle(), //1
+            new MyAbsencesTitle(), //2
+            new MyPlanningTitle(), //3
+            new Delimiter(), //4
+            new MyConferencesTitle(), //5
+            new Delimiter(), //6
+            new StudentsDirectoryTitle(), //7
+            new StaffDirectoryTitle(), //8
+            new BirthdayTitle() //9
+    };
 
     private ArrayList<IDrawerItem> items = new ArrayList<>(3);
 
-    public HamburgerMenuManager(MainActivity activity, Integer selectItem) {
+    public HamburgerMenuManager(MainActivity activity, Intent intent) {
         this.activity = activity;
         initDrawerItems();
         this.header = initAccountHeader();
-        this.drawer = initDrawer(this.header, selectItem);
+        this.drawer = initDrawer(this.header, getItemToSelect(intent));
+    }
+
+    // Nougat shortcuts
+    private Integer getItemToSelect(Intent intent) {
+        if (intent != null && intent.getAction() != null) {
+            String action = intent.getAction();
+            switch(action) {
+                case Settings.IntentActions.GRADES:
+                    return HamburgerMenuManager.MY_GRADES_INDEX;
+                case Settings.IntentActions.PLANNING:
+                    return HamburgerMenuManager.MY_PLANNING_INDEX;
+                case Settings.IntentActions.STAFF_DIRECTORY:
+                    return HamburgerMenuManager.STAFF_DIRECTORY_INDEX;
+                case Settings.IntentActions.STUDENTS_DIRECTORY:
+                    return HamburgerMenuManager.STUDENTS_DIRECTORY_INDEX;
+                default:
+                    break;
+            }
+        }
+        return null;
     }
 
     private void initDrawerItems() {
-        for (int i = 0; i < titles.length; i++) {
-            if (titles[i] != null) {
-                if (!Settings.Titles.DELIMITER.equals(titles[i])) {
-                    if (titlesImages[i] != null) {
-                        items.add(new PrimaryDrawerItem().withName(titles[i]).withIcon(titlesImages[i]));
-                    } else {
-                        items.add(new PrimaryDrawerItem().withName(titles[i]));
-                    }
-                } else {
-                    items.add(new DividerDrawerItem());
-                }
+        for (Title title : titles) {
+            if (title != null) {
+                items.add(title.createItem());
             }
         }
     }
@@ -134,8 +142,7 @@ public class HamburgerMenuManager {
                     @Override
                     public boolean onItemClick(View view, int i, IDrawerItem item) {
                         drawer.closeDrawer();
-                        activity.openFragmentWithName(getSelectedItemTitle());
-                        //Do something
+                        activity.onSelectedFragment(getSelectedFragment());
                         return true;
                     }
                 })
@@ -146,7 +153,8 @@ public class HamburgerMenuManager {
         return result;
     }
 
-    public String getSelectedItemTitle() {
-        return this.titles[this.drawer.getCurrentSelectedPosition() - 1];
+
+    public Fragment getSelectedFragment() {
+        return this.titles[this.drawer.getCurrentSelectedPosition() - 1].getFragment();
     }
 }
