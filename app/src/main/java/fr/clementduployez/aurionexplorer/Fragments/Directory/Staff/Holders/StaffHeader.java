@@ -1,7 +1,9 @@
 package fr.clementduployez.aurionexplorer.Fragments.Directory.Staff.Holders;
 
+import android.content.Context;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -48,7 +50,17 @@ public class StaffHeader extends RecyclerView.ViewHolder implements View.OnClick
 
     @Override
     public void onClick(View v) {
+        closeKeyboard();
         fragment.sendForm(this.lastName.getText().toString(), this.firstName.getText().toString(), this.code.getText().toString());
+    }
+
+    private void closeKeyboard() {
+        // Check if no view has focus:
+        View view = this.fragment.getActivity().getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)this.fragment.getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 
     public void showProgressBar() {
