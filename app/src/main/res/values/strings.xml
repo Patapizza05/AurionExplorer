@@ -4,4 +4,10 @@
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
     <string name="menu_disconnect">Déconnexion</string>
+
+    <string name="shortcut_grades">Notes</string>
+    <string name="shortcut_planning">Planning</string>
+    <string name="shortcut_staff">Staff</string>
+    <string name="shortcut_students">Etudiants</string>
+
 </resources>

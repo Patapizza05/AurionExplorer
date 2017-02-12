@@ -24,12 +24,21 @@ import fr.clementduployez.aurionexplorer.Settings.UserData;
  */
 public class HamburgerMenuManager {
 
+    private static final int DEFAULT_SELECTED_ITEM = 3; //My planning
+
     private final MainActivity activity;
     private final AccountHeader header;
     private final Drawer drawer;
 
     private String name = UserData.getName();
     private String id = UserData.getUsername();
+
+    public static final int MY_GRADES_INDEX = 1;
+    public static final int MY_PLANNING_INDEX = 3;
+    public static final int MY_CONFERENCES_INDEX = 5;
+    public static final int STUDENTS_DIRECTORY_INDEX = 7;
+    public static final int STAFF_DIRECTORY_INDEX = 8;
+    public static final int BIRTHDAYS_INDEX = 9;
 
     private String[] titles =
             {
@@ -58,11 +67,11 @@ public class HamburgerMenuManager {
 
     private ArrayList<IDrawerItem> items = new ArrayList<>(3);
 
-    public HamburgerMenuManager(MainActivity activity) {
+    public HamburgerMenuManager(MainActivity activity, Integer selectItem) {
         this.activity = activity;
         initDrawerItems();
         this.header = initAccountHeader();
-        this.drawer = initDrawer(this.header);
+        this.drawer = initDrawer(this.header, selectItem);
     }
 
     private void initDrawerItems() {
@@ -108,7 +117,7 @@ public class HamburgerMenuManager {
         return headerResult;
     }
 
-    private Drawer initDrawer(AccountHeader header) {
+    private Drawer initDrawer(AccountHeader header, Integer selectItem) {
         //create the drawer and remember the `Drawer` result object
         Drawer result = new DrawerBuilder()
                 .withActivity(this.activity)
@@ -120,7 +129,7 @@ public class HamburgerMenuManager {
                 .withAccountHeader(header)
                 .withCloseOnClick(true)
                 .addDrawerItems(items.toArray(new IDrawerItem[items.size()]))
-                .withSelectedItemByPosition(3)
+                .withSelectedItemByPosition(selectItem != null ? selectItem : DEFAULT_SELECTED_ITEM)
                 .withOnDrawerItemClickListener(new Drawer.OnDrawerItemClickListener() {
                     @Override
                     public boolean onItemClick(View view, int i, IDrawerItem item) {

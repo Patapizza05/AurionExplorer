@@ -49,4 +49,12 @@ public class Settings {
     }
 
 
+    public class IntentActions {
+        public static final String GRADES = "intent_launch_grades";
+        public static final String PLANNING = "intent_launch_planning";
+        public static final String STAFF_DIRECTORY = "intent_launch_staff_form";
+        public static final String STUDENTS_DIRECTORY = "intent_launch_students_form";
+
+    }
+
 }

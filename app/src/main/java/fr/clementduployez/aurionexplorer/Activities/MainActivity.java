@@ -1,20 +1,14 @@
 package fr.clementduployez.aurionexplorer.Activities;
 
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
 import android.view.ViewGroup;
-import android.view.accessibility.AccessibilityManager;
-import android.widget.FrameLayout;
-import android.widget.RelativeLayout;
 
 import fr.clementduployez.aurionexplorer.Fragments.Birthdays.BirthdayFragment;
 import fr.clementduployez.aurionexplorer.Fragments.Directory.Staff.StaffDirectoryFragment;
@@ -64,7 +58,29 @@ public class MainActivity extends AppCompatActivity {
         Informer.getInstance().initInformer(container);
 
         this.setSupportActionBar(toolbar);
-        this.hamburgerMenuManager = new HamburgerMenuManager(this);
+
+        Integer selectItem = getItemToSelect(this.getIntent());
+
+        this.hamburgerMenuManager = new HamburgerMenuManager(this, selectItem);
+    }
+
+    private Integer getItemToSelect(Intent intent) {
+        if (intent != null && intent.getAction() != null) {
+            String action = intent.getAction();
+            switch(action) {
+                case Settings.IntentActions.GRADES:
+                    return HamburgerMenuManager.MY_GRADES_INDEX;
+                case Settings.IntentActions.PLANNING:
+                    return HamburgerMenuManager.MY_PLANNING_INDEX;
+                case Settings.IntentActions.STAFF_DIRECTORY:
+                    return HamburgerMenuManager.STAFF_DIRECTORY_INDEX;
+                case Settings.IntentActions.STUDENTS_DIRECTORY:
+                    return HamburgerMenuManager.STUDENTS_DIRECTORY_INDEX;
+                default:
+                    break;
+            }
+        }
+        return null;
     }
 
     protected void onResume() {
@@ -137,7 +153,6 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.frame_container, fragment, FRAGMENT_TAG);
         transaction.commit();
     }
-
 
     public void openFragmentWithName(String selectedItemTitle) {
         switch(selectedItemTitle) {

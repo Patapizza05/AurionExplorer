@@ -36,6 +36,8 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     private View loadingLayout;
     private LinearLayout container;
 
+    private String intentAction;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -54,14 +56,23 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         this.confirmButton.setOnClickListener(this);
 
-        checkStoredCredentials();
+        Intent intent = getIntent();
+        if (intent != null) {
+            intentAction = intent.getAction();
+        }
+
+        checkStoredCredentials(intentAction);
     }
 
-    private void checkStoredCredentials() {
+    private void checkStoredCredentials(String intentAction) {
         String username = UserData.getUsername();
         String password = UserData.getPassword();
         if (username != null && password != null) {
-            startActivity(new Intent(getApplicationContext(),MainActivity.class));
+            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+            if (intentAction != null) {
+                intent.setAction(intentAction);
+            }
+            startActivity(intent);
         }
         else {
             AurionCookies.clear();

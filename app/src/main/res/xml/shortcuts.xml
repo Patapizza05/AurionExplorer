@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <shortcut
+        android:shortcutId="launch_staff_form"
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_work"
+        android:shortcutLongLabel="@string/shortcut_staff"
+        android:shortcutShortLabel="@string/shortcut_staff"
+        android:shortcutDisabledMessage="@string/shortcut_staff" >
+        <intent
+            android:action="intent_launch_staff_form"
+            android:targetClass="fr.clementduployez.aurionexplorer.Activities.MainActivity"
+            android:targetPackage="fr.clementduployez.aurionexplorer" />
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="launch_students_form"
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_group"
+        android:shortcutLongLabel="@string/shortcut_students"
+        android:shortcutShortLabel="@string/shortcut_students"
+        android:shortcutDisabledMessage="@string/shortcut_students" >
+        <intent
+            android:action="intent_launch_students_form"
+            android:targetClass="fr.clementduployez.aurionexplorer.Activities.MainActivity"
+            android:targetPackage="fr.clementduployez.aurionexplorer" />
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="launch_planning"
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_today"
+        android:shortcutLongLabel="@string/shortcut_planning"
+        android:shortcutShortLabel="@string/shortcut_planning"
+        android:shortcutDisabledMessage="@string/shortcut_planning" >
+        <intent
+            android:action="intent_launch_planning"
+            android:targetClass="fr.clementduployez.aurionexplorer.Activities.MainActivity"
+            android:targetPackage="fr.clementduployez.aurionexplorer" />
+    </shortcut>
+
+    <shortcut
+        android:shortcutId="launch_grades"
+        android:enabled="true"
+        android:icon="@drawable/ic_shortcut_school"
+        android:shortcutLongLabel="@string/shortcut_grades"
+        android:shortcutShortLabel="@string/shortcut_grades"
+        android:shortcutDisabledMessage="@string/shortcut_grades" >
+        <intent
+            android:action="intent_launch_grades"
+            android:targetClass="fr.clementduployez.aurionexplorer.Activities.MainActivity"
+            android:targetPackage="fr.clementduployez.aurionexplorer" />
+    </shortcut>
+
+</shortcuts>
